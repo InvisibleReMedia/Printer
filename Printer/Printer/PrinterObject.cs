@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Xsl;
 
 namespace Printer
 {
@@ -167,6 +167,70 @@ namespace Printer
                     fs.Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// Generates the source code
+        /// of this PrinterObject
+        /// </summary>
+        /// <returns>the string representation</returns>
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+            using (MemoryStream stream = new MemoryStream())
+            {
+                XmlWriter xml = XmlWriter.Create(stream);
+
+                xml.WriteStartDocument();
+                xml.WriteStartElement("Program");
+                xml.WriteStartElement("vars");
+                foreach (KeyValuePair<string, string> kv in this.variables)
+                {
+                    xml.WriteStartElement("set");
+                    xml.WriteAttributeString("name", kv.Key);
+                    string v;
+                    v = kv.Value.Replace(":", ":dbdot;");
+                    v = v.Replace("\"", ":dbquot;");
+                    xml.WriteString(v);
+                    xml.WriteEndElement();
+                }
+                xml.WriteEndElement();
+                xml.WriteStartElement("text");
+                foreach (string s in this.datas)
+                {
+                    if (s.StartsWith("[") && s.EndsWith("]"))
+                    {
+                        xml.WriteElementString("var", s.Substring(1, s.Length - 2));
+                    }
+                    else
+                    {
+                        string r;
+                        r = s.Replace(":", ":dbdot;");
+                        r = r.Replace("[", ":sqBracketOpen;");
+                        r = r.Replace("]", ":sqBracketClose;");
+                        xml.WriteElementString("const", r);
+                    }
+                }
+                xml.WriteEndElement();
+                xml.WriteEndElement();
+                xml.WriteEndDocument();
+                xml.Flush();
+
+                stream.Seek(0, SeekOrigin.Begin);
+
+                XslCompiledTransform xsl = new XslCompiledTransform();
+                xsl.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "printer.xsl"));
+                using (XmlReader reader = XmlReader.Create(stream))
+                using (TextWriter writer = new StringWriter(output))
+                {
+                    xsl.Transform(reader, new XsltArgumentList(), writer);
+                    reader.Close();
+                    writer.Close();
+                }
+                stream.Close();
+            }
+
+            return output.ToString();
         }
 
         #endregion

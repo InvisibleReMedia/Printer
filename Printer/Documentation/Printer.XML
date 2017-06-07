@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Printer</name>
+    </assembly>
+    <members>
+        <member name="T:Printer.PrinterObject">
+            <summary>
+            Printer class
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.variables">
+            <summary>
+            Data variable
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.datas">
+            <summary>
+            List of data to prints
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.unique">
+            <summary>
+            Generates unique strings
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterObject.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Values">
+            <summary>
+            Gets all values
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterObject.AddVariable(System.String,System.String)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="val">string value</param>
+        </member>
+        <member name="M:Printer.PrinterObject.AddData(System.String)">
+            <summary>
+            Add data into list
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:Printer.PrinterObject.Execute(System.Text.StringBuilder)">
+            <summary>
+            Write the data into an output
+            </summary>
+            <param name="sb">output</param>
+        </member>
+        <member name="M:Printer.PrinterObject.Load(System.String)">
+            <summary>
+            Load a file from disk
+            </summary>
+            <param name="fileName">full path of fileName</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:Printer.PrinterObject.Save(Printer.PrinterObject,System.String)">
+            <summary>
+            Save a PrinterObject to disk
+            </summary>
+            <param name="obj">object to save</param>
+            <param name="fileName">full path of fileName to save</param>
+        </member>
+        <member name="M:Printer.PrinterObject.ToString">
+            <summary>
+            Generates the source code
+            of this PrinterObject
+            </summary>
+            <returns>the string representation</returns>
+        </member>
+        <member name="T:Printer.UniqueStrings">
+            <summary>
+            Class to stand unique strings
+            </summary>
+        </member>
+        <member name="F:Printer.UniqueStrings.list">
+            <summary>
+             list of admitted chars
+            </summary>
+        </member>
+        <member name="F:Printer.UniqueStrings.maxDepth">
+            <summary>
+            maximum size of the string length
+            threshold of possibilites (length list)^6
+            </summary>
+        </member>
+        <member name="F:Printer.UniqueStrings.counter">
+            <summary>
+            Counter
+            </summary>
+        </member>
+        <member name="M:Printer.UniqueStrings.#ctor">
+            <summary>
+            Constructs a new instance
+            </summary>
+        </member>
+        <member name="P:Printer.UniqueStrings.Counter">
+            <summary>
+            Gets or sets the counter position
+            </summary>
+        </member>
+        <member name="M:Printer.UniqueStrings.ComputeNewString">
+            <summary>
+            Create a new unique name and increment pointer
+            </summary>
+            <returns>new unique name</returns>
+        </member>
+    </members>
+</doc>

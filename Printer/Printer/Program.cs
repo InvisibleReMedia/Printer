@@ -51,6 +51,9 @@ namespace ");
                 po.Execute(sb);
                 Console.WriteLine(sb.ToString());
 
+                Console.WriteLine("code:");
+                Console.WriteLine(po.ToString());
+
                 PrinterObject.Save(po, args[0]);
             }
             catch(Exception ex)
