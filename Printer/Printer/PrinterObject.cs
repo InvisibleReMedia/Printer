@@ -13,7 +13,7 @@ namespace Printer
     /// Printer class
     /// </summary>
     [Serializable]
-    class PrinterObject
+    public class PrinterObject
     {
         #region Fields
 
@@ -56,6 +56,14 @@ namespace Printer
         public IEnumerable<PrinterVariable> Values
         {
             get { return this.variables.Values; }
+        }
+
+        /// <summary>
+        /// Gets all data sequence
+        /// </summary>
+        public IEnumerable<string> Data
+        {
+            get { return this.datas; }
         }
 
         #endregion

@@ -10,7 +10,7 @@ namespace Printer
     /// A printer variable
     /// </summary>
     [Serializable]
-    class PrinterVariable
+    public class PrinterVariable
     {
 
         #region Fields

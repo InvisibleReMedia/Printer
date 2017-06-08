@@ -34,6 +34,11 @@
             Gets all values
             </summary>
         </member>
+        <member name="P:Printer.PrinterObject.Data">
+            <summary>
+            Gets all data sequence
+            </summary>
+        </member>
         <member name="M:Printer.PrinterObject.AddVariable(System.String,System.String)">
             <summary>
             Add a variable
