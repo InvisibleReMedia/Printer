@@ -74,6 +74,47 @@
             </summary>
             <returns>the string representation</returns>
         </member>
+        <member name="T:Printer.PrinterVariable">
+            <summary>
+            A printer variable
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVariable.shouldIndent">
+            <summary>
+            Indent switch
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVariable.name">
+            <summary>
+            Name of the variable
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVariable.value">
+            <summary>
+            Value of the variable
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterVariable.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Name">
+            <summary>
+            Gets or sets the name
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Value">
+            <summary>
+            Gets or sets the value
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterVariable.Execute(System.Text.StringBuilder)">
+            <summary>
+            Execute the variable
+            </summary>
+            <param name="sb">string builder</param>
+        </member>
         <member name="T:Printer.UniqueStrings">
             <summary>
             Class to stand unique strings

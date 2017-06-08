@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Xsl;
 
@@ -19,7 +20,7 @@ namespace Printer
         /// <summary>
         /// Data variable
         /// </summary>
-        private Dictionary<string, string> variables;
+        private Dictionary<string, PrinterVariable> variables;
 
         /// <summary>
         /// List of data to prints
@@ -40,7 +41,7 @@ namespace Printer
         /// </summary>
         public PrinterObject()
         {
-            this.variables = new Dictionary<string, string>();
+            this.variables = new Dictionary<string, PrinterVariable>();
             this.datas = new List<string>();
             this.unique = new UniqueStrings();
         }
@@ -52,7 +53,7 @@ namespace Printer
         /// <summary>
         /// Gets all values
         /// </summary>
-        public IEnumerable<string> Values
+        public IEnumerable<PrinterVariable> Values
         {
             get { return this.variables.Values; }
         }
@@ -70,11 +71,14 @@ namespace Printer
         {
             if (this.variables.ContainsKey(key))
             {
-                this.variables[key] = val;
+                this.variables[key].Value = val;
             }
             else
             {
-                this.variables.Add(key, val);
+                PrinterVariable p = new PrinterVariable();
+                p.Name = key;
+                p.Value = val;
+                this.variables.Add(key, p);
             }
         }
 
@@ -88,7 +92,7 @@ namespace Printer
             {
                 string name = this.unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
-                this.variables.Add(name, p);
+                this.AddVariable(name, p);
                 this.datas.Add("[" + name + "]");
             }
             else
@@ -107,8 +111,10 @@ namespace Printer
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
-                    sb.Append(this.variables[e.Substring(1, e.Length - 2)]);
-                } else
+                    string r = e.Substring(1, e.Length - 2);
+                    this.variables[r].Execute(sb);
+                }
+                else
                 {
                     sb.Append(e);
                 }
@@ -184,12 +190,12 @@ namespace Printer
                 xml.WriteStartDocument();
                 xml.WriteStartElement("Program");
                 xml.WriteStartElement("vars");
-                foreach (KeyValuePair<string, string> kv in this.variables)
+                foreach (KeyValuePair<string, PrinterVariable> kv in this.variables)
                 {
                     xml.WriteStartElement("set");
                     xml.WriteAttributeString("name", kv.Key);
                     string v;
-                    v = kv.Value.Replace(":", ":dbdot;");
+                    v = kv.Value.Value.Replace(":", ":dbdot;");
                     v = v.Replace("\"", ":dbquot;");
                     xml.WriteString(v);
                     xml.WriteEndElement();
