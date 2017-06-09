@@ -13,7 +13,7 @@ namespace Printer
     /// Printer class
     /// </summary>
     [Serializable]
-    public class PrinterObject
+    public class PrinterObject : ICloneable
     {
         #region Fields
 
@@ -152,6 +152,29 @@ namespace Printer
         }
 
         /// <summary>
+        /// Insert the use of a variable before
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <param name="name">variable name</param>
+        public void InsertUseVariableBefore(int index, string name)
+        {
+            this.datas.Insert(index, "[" + name + "]");
+        }
+
+        /// <summary>
+        /// Insert the use of a variable after
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <param name="name">variable name</param>
+        public void InsertUseVariableAfter(int index, string name)
+        {
+            if (index + 1 < this.datas.Count)
+                this.InsertUseVariableBefore(index + 1, name);
+            else
+                this.UseVariable(name);
+        }
+
+        /// <summary>
         /// Add data into list
         /// </summary>
         /// <param name="s"></param>
@@ -187,6 +210,52 @@ namespace Printer
             else
             {
                 this.datas[index] = s;
+            }
+        }
+
+        /// <summary>
+        /// Insert data at index before
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <param name="s">value</param>
+        public void InsertDataBefore(int index, string s)
+        {
+            if (s.StartsWith("[") && s.EndsWith("]"))
+            {
+                string name = this.unique.ComputeNewString();
+                string p = s.Substring(1, s.Length - 2);
+                this.AddVariable(name, p);
+                this.datas.Insert(index, "[" + name + "]");
+            }
+            else
+            {
+                this.datas.Insert(index, s);
+            }
+        }
+
+        /// <summary>
+        /// Insert data at index after
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <param name="s">value</param>
+        public void InsertDataAfter(int index, string s)
+        {
+            if (s.StartsWith("[") && s.EndsWith("]"))
+            {
+                string name = this.unique.ComputeNewString();
+                string p = s.Substring(1, s.Length - 2);
+                this.AddVariable(name, p);
+                if (index + 1 < this.datas.Count)
+                    this.datas.Insert(index + 1, "[" + name + "]");
+                else
+                    this.datas.Add("[" + name + "]");
+            }
+            else
+            {
+                if (index + 1 < this.datas.Count)
+                    this.datas.Insert(index + 1, s);
+                else
+                    this.datas.Add(s);
             }
         }
 
@@ -274,6 +343,46 @@ namespace Printer
         }
 
         /// <summary>
+        /// Load a file from memory
+        /// </summary>
+        /// <param name="stream">stream buffer</param>
+        /// <returns>object</returns>
+        public static PrinterObject Load(MemoryStream stream)
+        {
+            PrinterObject po = null;
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                po = bf.Deserialize(stream) as PrinterObject;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return po;
+        }
+
+
+        /// <summary>
+        /// Save a PrinterObject to memory
+        /// </summary>
+        /// <param name="obj">object to save</param>
+        /// <param name="stream">stream buffer</param>
+        public static void Save(PrinterObject obj, MemoryStream stream)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                bf.Serialize(stream, obj);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Generates the source code
         /// of this PrinterObject
         /// </summary>
@@ -335,6 +444,25 @@ namespace Printer
             }
 
             return output.ToString();
+        }
+
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>new object</returns>
+        public object Clone()
+        {
+            PrinterObject newPo = new PrinterObject();
+            foreach(string s in this.datas)
+            {
+                newPo.datas.Add(s.Clone() as string);
+            }
+            newPo.unique = new UniqueStrings(this.unique.Counter);
+            foreach(PrinterVariable pv in this.Values)
+            {
+                newPo.variables.Add(pv.Name, pv.Clone() as PrinterVariable);
+            }
+            return newPo;
         }
 
         #endregion

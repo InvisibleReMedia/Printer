@@ -107,6 +107,10 @@ namespace Editor
             {
                 return hasModified;
             }
+            set
+            {
+                hasModified = value;
+            }
         }
 
         /// <summary>
@@ -202,6 +206,46 @@ namespace Editor
         }
 
         /// <summary>
+        /// Copy variables
+        /// </summary>
+        /// <param name="list">variable list</param>
+        /// <param name="po">printer object</param>
+        /// <returns>if at least one item removed</returns>
+        public static bool CopyVariables(ListBox list, PrinterObject po)
+        {
+            bool atLeastOne = false;
+            for(int index = 0; index < list.SelectedIndices.Count; ++index)
+            {
+                PrinterVariable pv = list.SelectedItems[index] as PrinterVariable;
+                PrinterVariable copied = new PrinterVariable();
+                copied.Name = "Copy of " + pv.Name;
+                copied.Value = pv.Value;
+                if (po.ExistTestVariable(copied.Name))
+                {
+                    po.EditVariable(copied.Name, copied.Value);
+                    for (int counter = 0; counter < list.Items.Count; ++counter)
+                    {
+                        if ((list.Items[counter] as PrinterVariable).Name == copied.Name)
+                        {
+                            list.Items.RemoveAt(counter);
+                            list.Items.Insert(counter, copied);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    po.AddVariable(copied.Name, copied.Value);
+                    list.Items.Add(copied);
+                }
+                hasModified = true;
+                atLeastOne = true;
+            }
+            list.Refresh();
+            return atLeastOne;
+        }
+
+        /// <summary>
         /// Delete variables
         /// </summary>
         /// <param name="list">variable list</param>
@@ -210,7 +254,7 @@ namespace Editor
         public static bool DeleteVariables(ListBox list, PrinterObject po)
         {
             bool atLeastOne = false;
-            for(int index = list.SelectedIndices.Count - 1; index >= 0; --index)
+            for (int index = list.SelectedIndices.Count - 1; index >= 0; --index)
             {
                 PrinterVariable pv = list.SelectedItems[index] as PrinterVariable;
                 int pos = list.SelectedIndices[index];
@@ -285,18 +329,90 @@ namespace Editor
                     if (byVar)
                     {
                         po.UseChangeVariable(pos, d.Controls["vars"].Text);
-                        list.Items[pos] = d.Controls["vars"].Text;
                     }
                     else
                     {
                         po.EditData(pos, d.Controls["txtConst"].Text);
-                        list.Items[pos] = d.Controls["txtConst"].Text;
                     }
+                    list.Items[pos] = po.Data.ElementAt(pos);
                     list.Refresh();
                     hasModified = true;
                     return true;
                 }
                 return false;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Insert a new data before a given position
+        /// </summary>
+        /// <param name="list">data list</param>
+        /// <param name="po">printer object</param>
+        /// <returns>added variable</returns>
+        public static bool InsertBefore(ListBox list, PrinterObject po)
+        {
+            if (list.SelectedIndices.Count == 1)
+            {
+                int pos = list.SelectedIndices[0];
+                string s = string.Empty;
+                Data d = new Data();
+                FillVars(d.Controls["vars"] as ListBox, po);
+                DialogResult dr = d.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    bool byVar = (d.Controls["rbVariable"] as RadioButton).Checked;
+                    if (byVar)
+                    {
+                        po.InsertUseVariableBefore(pos, d.Controls["vars"].Text);
+                    }
+                    else
+                    {
+                        po.InsertDataBefore(pos, d.Controls["txtConst"].Text);
+                    }
+                    list.Items.Insert(pos, po.Data.ElementAt(pos));
+                    list.Refresh();
+                    hasModified = true;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Insert a new data after a given position
+        /// </summary>
+        /// <param name="list">data list</param>
+        /// <param name="po">printer object</param>
+        /// <returns>added variable</returns>
+        public static bool InsertAfter(ListBox list, PrinterObject po)
+        {
+            if (list.SelectedIndices.Count == 1)
+            {
+                int pos = list.SelectedIndices[0];
+                string s = string.Empty;
+                Data d = new Data();
+                FillVars(d.Controls["vars"] as ListBox, po);
+                DialogResult dr = d.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    bool byVar = (d.Controls["rbVariable"] as RadioButton).Checked;
+                    if (byVar)
+                    {
+                        po.InsertUseVariableAfter(pos, d.Controls["vars"].Text);
+                    }
+                    else
+                    {
+                        po.InsertDataAfter(pos, d.Controls["txtConst"].Text);
+                    }
+                    if (pos + 1 < list.Items.Count)
+                        list.Items.Insert(pos + 1, po.Data.ElementAt(pos + 1));
+                    else
+                        list.Items.Add(po.Data.ElementAt(pos + 1));
+                    list.Refresh();
+                    hasModified = true;
+                    return true;
+                }
             }
             return false;
         }
@@ -315,6 +431,34 @@ namespace Editor
                 int pos = list.SelectedIndices[index];
                 po.DeleteData(pos);
                 list.Items.RemoveAt(pos);
+                hasModified = true;
+                atLeastOne = true;
+            }
+            list.Refresh();
+            return atLeastOne;
+        }
+
+        /// <summary>
+        /// Copy data
+        /// </summary>
+        /// <param name="list">data list</param>
+        /// <param name="po">printer object</param>
+        /// <returns>if at least one item removed</returns>
+        public static bool CopyData(ListBox list, PrinterObject po)
+        {
+            bool atLeastOne = false;
+            for (int index = 0; index < list.SelectedIndices.Count; ++index)
+            {
+                int pos = list.SelectedIndices[index];
+                string s = po.Data.ElementAt(pos);
+                if (s.StartsWith("[") && s.EndsWith("]"))
+                {
+                    po.UseVariable(s.Substring(1, s.Length - 2));
+                } else
+                {
+                    po.AddData(s);
+                }
+                list.Items.Add(po.Data.Last());
                 hasModified = true;
                 atLeastOne = true;
             }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ToolStripSeparator editSeparatorItem;
             this.menu = new System.Windows.Forms.MenuStrip();
             this.appItem = new System.Windows.Forms.ToolStripMenuItem();
             this.appNewItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,9 +37,7 @@
             this.appSaveAsItem = new System.Windows.Forms.ToolStripMenuItem();
             this.appQuitItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editCopyItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editCutItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editPasteItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopyVarItem = new System.Windows.Forms.ToolStripMenuItem();
             this.varsItem = new System.Windows.Forms.ToolStripMenuItem();
             this.varsAddItem = new System.Windows.Forms.ToolStripMenuItem();
             this.varsModifyItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +54,10 @@
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.txtSource = new System.Windows.Forms.TextBox();
+            this.editCopyDataItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editRedoItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editUndoItem = new System.Windows.Forms.ToolStripMenuItem();
+            editSeparatorItem = new System.Windows.Forms.ToolStripSeparator();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,65 +89,56 @@
             // appNewItem
             // 
             this.appNewItem.Name = "appNewItem";
-            this.appNewItem.Size = new System.Drawing.Size(114, 22);
+            this.appNewItem.Size = new System.Drawing.Size(152, 22);
             this.appNewItem.Text = "New";
             this.appNewItem.Click += new System.EventHandler(this.appNewItem_Click);
             // 
             // appLoadItem
             // 
             this.appLoadItem.Name = "appLoadItem";
-            this.appLoadItem.Size = new System.Drawing.Size(114, 22);
+            this.appLoadItem.Size = new System.Drawing.Size(152, 22);
             this.appLoadItem.Text = "Load";
             this.appLoadItem.Click += new System.EventHandler(this.appLoadItem_Click);
             // 
             // appSaveItem
             // 
             this.appSaveItem.Name = "appSaveItem";
-            this.appSaveItem.Size = new System.Drawing.Size(114, 22);
+            this.appSaveItem.Size = new System.Drawing.Size(152, 22);
             this.appSaveItem.Text = "Save";
             this.appSaveItem.Click += new System.EventHandler(this.appSaveItem_Click);
             // 
             // appSaveAsItem
             // 
             this.appSaveAsItem.Name = "appSaveAsItem";
-            this.appSaveAsItem.Size = new System.Drawing.Size(114, 22);
+            this.appSaveAsItem.Size = new System.Drawing.Size(152, 22);
             this.appSaveAsItem.Text = "Save As";
             this.appSaveAsItem.Click += new System.EventHandler(this.appSaveAsItem_Click);
             // 
             // appQuitItem
             // 
             this.appQuitItem.Name = "appQuitItem";
-            this.appQuitItem.Size = new System.Drawing.Size(114, 22);
+            this.appQuitItem.Size = new System.Drawing.Size(152, 22);
             this.appQuitItem.Text = "Quit";
             this.appQuitItem.Click += new System.EventHandler(this.appQuitItem_Click);
             // 
             // editItem
             // 
             this.editItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editCopyItem,
-            this.editCutItem,
-            this.editPasteItem});
+            this.editUndoItem,
+            this.editRedoItem,
+            editSeparatorItem,
+            this.editCopyVarItem,
+            this.editCopyDataItem});
             this.editItem.Name = "editItem";
             this.editItem.Size = new System.Drawing.Size(39, 20);
             this.editItem.Text = "Edit";
             // 
-            // editCopyItem
+            // editCopyVarItem
             // 
-            this.editCopyItem.Name = "editCopyItem";
-            this.editCopyItem.Size = new System.Drawing.Size(102, 22);
-            this.editCopyItem.Text = "Copy";
-            // 
-            // editCutItem
-            // 
-            this.editCutItem.Name = "editCutItem";
-            this.editCutItem.Size = new System.Drawing.Size(102, 22);
-            this.editCutItem.Text = "Cut";
-            // 
-            // editPasteItem
-            // 
-            this.editPasteItem.Name = "editPasteItem";
-            this.editPasteItem.Size = new System.Drawing.Size(102, 22);
-            this.editPasteItem.Text = "Paste";
+            this.editCopyVarItem.Name = "editCopyVarItem";
+            this.editCopyVarItem.Size = new System.Drawing.Size(152, 22);
+            this.editCopyVarItem.Text = "Copy Variable";
+            this.editCopyVarItem.Click += new System.EventHandler(this.editCopyVarItem_Click);
             // 
             // varsItem
             // 
@@ -159,21 +153,21 @@
             // varsAddItem
             // 
             this.varsAddItem.Name = "varsAddItem";
-            this.varsAddItem.Size = new System.Drawing.Size(117, 22);
+            this.varsAddItem.Size = new System.Drawing.Size(152, 22);
             this.varsAddItem.Text = "Add";
             this.varsAddItem.Click += new System.EventHandler(this.varsAddItem_Click);
             // 
             // varsModifyItem
             // 
             this.varsModifyItem.Name = "varsModifyItem";
-            this.varsModifyItem.Size = new System.Drawing.Size(117, 22);
+            this.varsModifyItem.Size = new System.Drawing.Size(152, 22);
             this.varsModifyItem.Text = "Modify";
             this.varsModifyItem.Click += new System.EventHandler(this.varsModifyItem_Click);
             // 
             // varsRemoveItem
             // 
             this.varsRemoveItem.Name = "varsRemoveItem";
-            this.varsRemoveItem.Size = new System.Drawing.Size(117, 22);
+            this.varsRemoveItem.Size = new System.Drawing.Size(152, 22);
             this.varsRemoveItem.Text = "Remove";
             this.varsRemoveItem.Click += new System.EventHandler(this.varsRemoveItem_Click);
             // 
@@ -191,7 +185,7 @@
             // datasAddItem
             // 
             this.datasAddItem.Name = "datasAddItem";
-            this.datasAddItem.Size = new System.Drawing.Size(117, 22);
+            this.datasAddItem.Size = new System.Drawing.Size(152, 22);
             this.datasAddItem.Text = "Add";
             this.datasAddItem.Click += new System.EventHandler(this.datasAddItem_Click);
             // 
@@ -208,20 +202,22 @@
             this.datasInsertBeforeItem,
             this.datasInsertAfterItem});
             this.datasInsertItem.Name = "datasInsertItem";
-            this.datasInsertItem.Size = new System.Drawing.Size(117, 22);
+            this.datasInsertItem.Size = new System.Drawing.Size(152, 22);
             this.datasInsertItem.Text = "Insert";
             // 
             // datasInsertBeforeItem
             // 
             this.datasInsertBeforeItem.Name = "datasInsertBeforeItem";
-            this.datasInsertBeforeItem.Size = new System.Drawing.Size(108, 22);
+            this.datasInsertBeforeItem.Size = new System.Drawing.Size(152, 22);
             this.datasInsertBeforeItem.Text = "Before";
+            this.datasInsertBeforeItem.Click += new System.EventHandler(this.datasInsertBeforeItem_Click);
             // 
             // datasInsertAfterItem
             // 
             this.datasInsertAfterItem.Name = "datasInsertAfterItem";
-            this.datasInsertAfterItem.Size = new System.Drawing.Size(108, 22);
+            this.datasInsertAfterItem.Size = new System.Drawing.Size(152, 22);
             this.datasInsertAfterItem.Text = "After";
+            this.datasInsertAfterItem.Click += new System.EventHandler(this.datasInsertAfterItem_Click);
             // 
             // datasRemoveItem
             // 
@@ -284,9 +280,36 @@
             this.txtSource.Location = new System.Drawing.Point(123, 24);
             this.txtSource.Multiline = true;
             this.txtSource.Name = "txtSource";
+            this.txtSource.ReadOnly = true;
             this.txtSource.Size = new System.Drawing.Size(382, 381);
             this.txtSource.TabIndex = 8;
             this.txtSource.TabStop = false;
+            // 
+            // editCopyDataItem
+            // 
+            this.editCopyDataItem.Name = "editCopyDataItem";
+            this.editCopyDataItem.Size = new System.Drawing.Size(152, 22);
+            this.editCopyDataItem.Text = "Copy Data";
+            this.editCopyDataItem.Click += new System.EventHandler(this.editCopyDataItem_Click);
+            // 
+            // editSeparatorItem
+            // 
+            editSeparatorItem.Name = "editSeparatorItem";
+            editSeparatorItem.Size = new System.Drawing.Size(149, 6);
+            // 
+            // editRedoItem
+            // 
+            this.editRedoItem.Name = "editRedoItem";
+            this.editRedoItem.Size = new System.Drawing.Size(152, 22);
+            this.editRedoItem.Text = "Redo";
+            this.editRedoItem.Click += new System.EventHandler(this.editRedoItem_Click);
+            // 
+            // editUndoItem
+            // 
+            this.editUndoItem.Name = "editUndoItem";
+            this.editUndoItem.Size = new System.Drawing.Size(152, 22);
+            this.editUndoItem.Text = "Undo";
+            this.editUndoItem.Click += new System.EventHandler(this.editUndoItem_Click);
             // 
             // Editor
             // 
@@ -321,9 +344,7 @@
         private System.Windows.Forms.ToolStripMenuItem appSaveAsItem;
         private System.Windows.Forms.ToolStripMenuItem appQuitItem;
         private System.Windows.Forms.ToolStripMenuItem editItem;
-        private System.Windows.Forms.ToolStripMenuItem editCopyItem;
-        private System.Windows.Forms.ToolStripMenuItem editCutItem;
-        private System.Windows.Forms.ToolStripMenuItem editPasteItem;
+        private System.Windows.Forms.ToolStripMenuItem editCopyVarItem;
         private System.Windows.Forms.ToolStripMenuItem varsItem;
         private System.Windows.Forms.ToolStripMenuItem varsAddItem;
         private System.Windows.Forms.ToolStripMenuItem varsModifyItem;
@@ -340,6 +361,9 @@
         private System.Windows.Forms.Splitter splitterLeft;
         private System.Windows.Forms.Splitter splitterRight;
         private System.Windows.Forms.TextBox txtSource;
+        private System.Windows.Forms.ToolStripMenuItem editCopyDataItem;
+        private System.Windows.Forms.ToolStripMenuItem editUndoItem;
+        private System.Windows.Forms.ToolStripMenuItem editRedoItem;
     }
 }
 

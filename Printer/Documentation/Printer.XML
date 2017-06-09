@@ -79,6 +79,20 @@
             <param name="index">position</param>
             <param name="name">variable name</param>
         </member>
+        <member name="M:Printer.PrinterObject.InsertUseVariableBefore(System.Int32,System.String)">
+            <summary>
+            Insert the use of a variable before
+            </summary>
+            <param name="index">position</param>
+            <param name="name">variable name</param>
+        </member>
+        <member name="M:Printer.PrinterObject.InsertUseVariableAfter(System.Int32,System.String)">
+            <summary>
+            Insert the use of a variable after
+            </summary>
+            <param name="index">position</param>
+            <param name="name">variable name</param>
+        </member>
         <member name="M:Printer.PrinterObject.AddData(System.String)">
             <summary>
             Add data into list
@@ -91,6 +105,20 @@
             </summary>
             <param name="index">position</param>
             <param name="s">change</param>
+        </member>
+        <member name="M:Printer.PrinterObject.InsertDataBefore(System.Int32,System.String)">
+            <summary>
+            Insert data at index before
+            </summary>
+            <param name="index">position</param>
+            <param name="s">value</param>
+        </member>
+        <member name="M:Printer.PrinterObject.InsertDataAfter(System.Int32,System.String)">
+            <summary>
+            Insert data at index after
+            </summary>
+            <param name="index">position</param>
+            <param name="s">value</param>
         </member>
         <member name="M:Printer.PrinterObject.DeleteData(System.Int32)">
             <summary>
@@ -118,12 +146,32 @@
             <param name="obj">object to save</param>
             <param name="fileName">full path of fileName to save</param>
         </member>
+        <member name="M:Printer.PrinterObject.Load(System.IO.MemoryStream)">
+            <summary>
+            Load a file from memory
+            </summary>
+            <param name="stream">stream buffer</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:Printer.PrinterObject.Save(Printer.PrinterObject,System.IO.MemoryStream)">
+            <summary>
+            Save a PrinterObject to memory
+            </summary>
+            <param name="obj">object to save</param>
+            <param name="stream">stream buffer</param>
+        </member>
         <member name="M:Printer.PrinterObject.ToString">
             <summary>
             Generates the source code
             of this PrinterObject
             </summary>
             <returns>the string representation</returns>
+        </member>
+        <member name="M:Printer.PrinterObject.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>new object</returns>
         </member>
         <member name="T:Printer.PrinterVariable">
             <summary>
@@ -166,6 +214,12 @@
             </summary>
             <param name="sb">string builder</param>
         </member>
+        <member name="M:Printer.PrinterVariable.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>new object</returns>
+        </member>
         <member name="T:Printer.UniqueStrings">
             <summary>
             Class to stand unique strings
@@ -190,6 +244,11 @@
         <member name="M:Printer.UniqueStrings.#ctor">
             <summary>
             Constructs a new instance
+            </summary>
+        </member>
+        <member name="M:Printer.UniqueStrings.#ctor(System.Int32)">
+            <summary>
+            Copy constructor
             </summary>
         </member>
         <member name="P:Printer.UniqueStrings.Counter">

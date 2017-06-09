@@ -30,15 +30,53 @@ namespace Editor
         private PrinterObject po;
 
         /// <summary>
+        /// Undo/redo memory
+        /// </summary>
+        private List<MemoryStream> stored;
+
+        /// <summary>
+        /// undo position to redo
+        /// </summary>
+        private int undoPos;
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public Editor()
         {
             InitializeComponent();
+            this.stored = new List<MemoryStream>();
             this.sfd = new SaveFileDialog();
             this.ofd = new OpenFileDialog();
             ofd.InitialDirectory = sfd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             this.appNewItem_Click(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Add for undo feature
+        /// </summary>
+        private void AddUndo()
+        {
+            MemoryStream stream = new MemoryStream();
+            PrinterObject.Save(po, stream);
+            this.AddUndo(stream);
+        }
+
+        /// <summary>
+        /// Add to undo feature
+        /// </summary>
+        /// <param name="stream">stream to keep</param>
+        private void AddUndo(MemoryStream stream)
+        {
+            if (this.undoPos < this.stored.Count)
+            {
+                this.stored[this.undoPos] = stream;
+            }
+            else
+            {
+                this.stored.Add(stream);
+            }
+            ++this.undoPos;
         }
 
         /// <summary>
@@ -59,11 +97,19 @@ namespace Editor
             FunLab.New(ref po);
             ofd.FileName = sfd.FileName = "code.prt";
             this.Text = "Editor - " + ofd.SafeFileName;
+            this.stored.ForEach(x => { x.Close(); x.Dispose(); });
+            this.stored.Clear();
+            this.undoPos = 0;
+            vars.BeginUpdate();
             vars.Items.Clear();
-            datas.Items.Clear();
             FunLab.FillVars(vars, po);
+            vars.EndUpdate();
+            datas.BeginUpdate();
+            datas.Items.Clear();
             FunLab.FillData(datas, po);
+            datas.EndUpdate();
             txtSource.Text = po.ToString();
+            this.AddUndo();
         }
 
         /// <summary>
@@ -87,15 +133,19 @@ namespace Editor
                 {
                     this.Text = "Editor - " + ofd.SafeFileName;
                     sfd.FileName = ofd.SafeFileName;
-                    vars.Items.Clear();
-                    datas.Items.Clear();
+                    this.stored.ForEach(x => { x.Close(); x.Dispose(); });
+                    this.stored.Clear();
+                    this.undoPos = 0;
                     vars.BeginUpdate();
+                    vars.Items.Clear();
                     FunLab.FillVars(vars, po);
                     vars.EndUpdate();
                     datas.BeginUpdate();
+                    datas.Items.Clear();
                     FunLab.FillData(datas, po);
                     datas.EndUpdate();
                     txtSource.Text = po.ToString();
+                    this.AddUndo();
                 }
             } catch(Exception ex)
             {
@@ -138,14 +188,6 @@ namespace Editor
         /// <param name="e">arg</param>
         private void appQuitItem_Click(object sender, EventArgs e)
         {
-            if (FunLab.IsDirty)
-            {
-                DialogResult dr = MessageBox.Show("Save current ?", "Not saved", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dr == DialogResult.Yes)
-                {
-                    FunLab.Save(sfd, po);
-                }
-            }
             this.Close();
         }
 
@@ -158,6 +200,7 @@ namespace Editor
         {
             if (FunLab.AddNewVariable(vars, po))
             {
+                this.AddUndo();
                 txtSource.Text = po.ToString();
                 this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
             }
@@ -172,6 +215,7 @@ namespace Editor
         {
             if (FunLab.AddNewData(datas, po))
             {
+                this.AddUndo();
                 txtSource.Text = po.ToString();
                 this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
             }
@@ -181,6 +225,7 @@ namespace Editor
         {
             if (FunLab.EditVariable(vars, po))
             {
+                this.AddUndo();
                 txtSource.Text = po.ToString();
                 this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
             }
@@ -190,6 +235,7 @@ namespace Editor
         {
             if (FunLab.DeleteVariables(vars, po))
             {
+                this.AddUndo();
                 txtSource.Text = po.ToString();
                 this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
             }
@@ -211,6 +257,7 @@ namespace Editor
         {
             if (FunLab.EditData(datas, po))
             {
+                this.AddUndo();
                 txtSource.Text = po.ToString();
                 this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
             }
@@ -220,6 +267,7 @@ namespace Editor
         {
             if (FunLab.DeleteData(datas, po))
             {
+                this.AddUndo();
                 txtSource.Text = po.ToString();
                 this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
             }
@@ -233,6 +281,95 @@ namespace Editor
         private void datas_DoubleClick(object sender, EventArgs e)
         {
             this.datasModifyItem_Click(sender, e);
+        }
+
+        private void datasInsertBeforeItem_Click(object sender, EventArgs e)
+        {
+            if (FunLab.InsertBefore(datas, po))
+            {
+                this.AddUndo();
+                txtSource.Text = po.ToString();
+                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+            }
+        }
+
+        private void datasInsertAfterItem_Click(object sender, EventArgs e)
+        {
+            if (FunLab.InsertAfter(datas, po))
+            {
+                this.AddUndo();
+                txtSource.Text = po.ToString();
+                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+            }
+        }
+
+        private void editCopyVarItem_Click(object sender, EventArgs e)
+        {
+            if (FunLab.CopyVariables(vars, po))
+            {
+                this.AddUndo();
+                txtSource.Text = po.ToString();
+                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+            }
+        }
+
+        private void editCopyDataItem_Click(object sender, EventArgs e)
+        {
+            if (FunLab.CopyData(datas, po))
+            {
+                this.AddUndo();
+                txtSource.Text = po.ToString();
+                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+            }
+        }
+
+        private void editUndoItem_Click(object sender, EventArgs e)
+        {
+            if (this.undoPos > 1)
+            {
+                --this.undoPos;
+                MemoryStream mem = this.stored[this.undoPos - 1];
+                mem.Seek(0, SeekOrigin.Begin);
+
+                PrinterObject previous = PrinterObject.Load(mem);
+
+                po = previous as PrinterObject;
+                vars.BeginUpdate();
+                vars.Items.Clear();
+                FunLab.FillVars(vars, po);
+                vars.EndUpdate();
+                datas.BeginUpdate();
+                datas.Items.Clear();
+                FunLab.FillData(datas, po);
+                datas.EndUpdate();
+                txtSource.Text = po.ToString();
+                FunLab.IsDirty = true;
+                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+            }
+        }
+
+        private void editRedoItem_Click(object sender, EventArgs e)
+        {
+            if (this.undoPos < this.stored.Count)
+            {
+                MemoryStream mem = this.stored[this.undoPos];
+                ++this.undoPos;
+                mem.Seek(0, SeekOrigin.Begin);
+                PrinterObject previous = PrinterObject.Load(mem);
+
+                po = previous as PrinterObject;
+                vars.BeginUpdate();
+                vars.Items.Clear();
+                FunLab.FillVars(vars, po);
+                vars.EndUpdate();
+                datas.BeginUpdate();
+                datas.Items.Clear();
+                FunLab.FillData(datas, po);
+                datas.EndUpdate();
+                txtSource.Text = po.ToString();
+                FunLab.IsDirty = true;
+                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+            }
         }
     }
 }

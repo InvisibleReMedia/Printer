@@ -10,7 +10,7 @@ namespace Printer
     /// A printer variable
     /// </summary>
     [Serializable]
-    public class PrinterVariable
+    public class PrinterVariable : ICloneable
     {
 
         #region Fields
@@ -73,6 +73,18 @@ namespace Printer
         public void Execute(StringBuilder sb)
         {
             sb.Append(this.value);
+        }
+
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>new object</returns>
+        public object Clone()
+        {
+            PrinterVariable pv = new PrinterVariable();
+            pv.Name = this.Name.Clone() as string;
+            pv.Value = this.Value.Clone() as string;
+            return pv;
         }
 
         #endregion

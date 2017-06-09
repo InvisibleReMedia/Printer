@@ -40,6 +40,15 @@ namespace Printer
         {
             this.counter = 1;
         }
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        public UniqueStrings(int counter)
+        {
+            this.counter = counter;
+        }
+        
         #endregion
 
         #region Public Properties
