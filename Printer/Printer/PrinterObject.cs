@@ -71,6 +71,36 @@ namespace Printer
         #region Methods
 
         /// <summary>
+        /// Test if existing variable
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <returns>true if exist</returns>
+        public bool ExistTestVariable(string key)
+        {
+            return this.variables.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Add a variable
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <param name="val">string value</param>
+        public void EditVariable(string key, string val)
+        {
+            if (this.variables.ContainsKey(key))
+            {
+                this.variables[key].Value = val;
+            }
+            else
+            {
+                PrinterVariable p = new PrinterVariable();
+                p.Name = key;
+                p.Value = val;
+                this.variables.Add(key, p);
+            }
+        }
+
+        /// <summary>
         /// Add a variable
         /// </summary>
         /// <param name="key">key name</param>
@@ -91,6 +121,37 @@ namespace Printer
         }
 
         /// <summary>
+        /// Delete a variable
+        /// </summary>
+        /// <param name="key">key name</param>
+        public void DeleteVariable(string key)
+        {
+            if (this.variables.ContainsKey(key))
+            {
+                this.variables.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// Use a variable
+        /// </summary>
+        /// <param name="name">variable name</param>
+        public void UseVariable(string name)
+        {
+            this.datas.Add("[" + name +"]");
+        }
+
+        /// <summary>
+        /// Change the use of a variable
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <param name="name">variable name</param>
+        public void UseChangeVariable(int index, string name)
+        {
+            this.datas[index] = "[" + name + "]";
+        }
+
+        /// <summary>
         /// Add data into list
         /// </summary>
         /// <param name="s"></param>
@@ -107,6 +168,35 @@ namespace Printer
             {
                 this.datas.Add(s);
             }
+        }
+
+        /// <summary>
+        /// Edit data at index
+        /// </summary>
+        /// <param name="index">position</param>
+        /// <param name="s">change</param>
+        public void EditData(int index, string s)
+        {
+            if (s.StartsWith("[") && s.EndsWith("]"))
+            {
+                string name = this.unique.ComputeNewString();
+                string p = s.Substring(1, s.Length - 2);
+                this.AddVariable(name, p);
+                this.datas[index] = "[" + name + "]";
+            }
+            else
+            {
+                this.datas[index] = s;
+            }
+        }
+
+        /// <summary>
+        /// Delete data at index
+        /// </summary>
+        /// <param name="index">position</param>
+        public void DeleteData(int index)
+        {
+            this.datas.RemoveAt(index);
         }
 
         /// <summary>

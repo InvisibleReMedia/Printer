@@ -39,6 +39,20 @@
             Gets all data sequence
             </summary>
         </member>
+        <member name="M:Printer.PrinterObject.ExistTestVariable(System.String)">
+            <summary>
+            Test if existing variable
+            </summary>
+            <param name="key">key name</param>
+            <returns>true if exist</returns>
+        </member>
+        <member name="M:Printer.PrinterObject.EditVariable(System.String,System.String)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="val">string value</param>
+        </member>
         <member name="M:Printer.PrinterObject.AddVariable(System.String,System.String)">
             <summary>
             Add a variable
@@ -46,11 +60,43 @@
             <param name="key">key name</param>
             <param name="val">string value</param>
         </member>
+        <member name="M:Printer.PrinterObject.DeleteVariable(System.String)">
+            <summary>
+            Delete a variable
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Printer.PrinterObject.UseVariable(System.String)">
+            <summary>
+            Use a variable
+            </summary>
+            <param name="name">variable name</param>
+        </member>
+        <member name="M:Printer.PrinterObject.UseChangeVariable(System.Int32,System.String)">
+            <summary>
+            Change the use of a variable
+            </summary>
+            <param name="index">position</param>
+            <param name="name">variable name</param>
+        </member>
         <member name="M:Printer.PrinterObject.AddData(System.String)">
             <summary>
             Add data into list
             </summary>
             <param name="s"></param>
+        </member>
+        <member name="M:Printer.PrinterObject.EditData(System.Int32,System.String)">
+            <summary>
+            Edit data at index
+            </summary>
+            <param name="index">position</param>
+            <param name="s">change</param>
+        </member>
+        <member name="M:Printer.PrinterObject.DeleteData(System.Int32)">
+            <summary>
+            Delete data at index
+            </summary>
+            <param name="index">position</param>
         </member>
         <member name="M:Printer.PrinterObject.Execute(System.Text.StringBuilder)">
             <summary>

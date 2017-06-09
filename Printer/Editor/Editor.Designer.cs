@@ -86,36 +86,37 @@
             // appNewItem
             // 
             this.appNewItem.Name = "appNewItem";
-            this.appNewItem.Size = new System.Drawing.Size(152, 22);
+            this.appNewItem.Size = new System.Drawing.Size(114, 22);
             this.appNewItem.Text = "New";
             this.appNewItem.Click += new System.EventHandler(this.appNewItem_Click);
             // 
             // appLoadItem
             // 
             this.appLoadItem.Name = "appLoadItem";
-            this.appLoadItem.Size = new System.Drawing.Size(152, 22);
+            this.appLoadItem.Size = new System.Drawing.Size(114, 22);
             this.appLoadItem.Text = "Load";
             this.appLoadItem.Click += new System.EventHandler(this.appLoadItem_Click);
             // 
             // appSaveItem
             // 
             this.appSaveItem.Name = "appSaveItem";
-            this.appSaveItem.Size = new System.Drawing.Size(152, 22);
+            this.appSaveItem.Size = new System.Drawing.Size(114, 22);
             this.appSaveItem.Text = "Save";
             this.appSaveItem.Click += new System.EventHandler(this.appSaveItem_Click);
             // 
             // appSaveAsItem
             // 
             this.appSaveAsItem.Name = "appSaveAsItem";
-            this.appSaveAsItem.Size = new System.Drawing.Size(152, 22);
+            this.appSaveAsItem.Size = new System.Drawing.Size(114, 22);
             this.appSaveAsItem.Text = "Save As";
             this.appSaveAsItem.Click += new System.EventHandler(this.appSaveAsItem_Click);
             // 
             // appQuitItem
             // 
             this.appQuitItem.Name = "appQuitItem";
-            this.appQuitItem.Size = new System.Drawing.Size(152, 22);
+            this.appQuitItem.Size = new System.Drawing.Size(114, 22);
             this.appQuitItem.Text = "Quit";
+            this.appQuitItem.Click += new System.EventHandler(this.appQuitItem_Click);
             // 
             // editItem
             // 
@@ -160,18 +161,21 @@
             this.varsAddItem.Name = "varsAddItem";
             this.varsAddItem.Size = new System.Drawing.Size(117, 22);
             this.varsAddItem.Text = "Add";
+            this.varsAddItem.Click += new System.EventHandler(this.varsAddItem_Click);
             // 
             // varsModifyItem
             // 
             this.varsModifyItem.Name = "varsModifyItem";
             this.varsModifyItem.Size = new System.Drawing.Size(117, 22);
             this.varsModifyItem.Text = "Modify";
+            this.varsModifyItem.Click += new System.EventHandler(this.varsModifyItem_Click);
             // 
             // varsRemoveItem
             // 
             this.varsRemoveItem.Name = "varsRemoveItem";
             this.varsRemoveItem.Size = new System.Drawing.Size(117, 22);
             this.varsRemoveItem.Text = "Remove";
+            this.varsRemoveItem.Click += new System.EventHandler(this.varsRemoveItem_Click);
             // 
             // datasItem
             // 
@@ -189,12 +193,14 @@
             this.datasAddItem.Name = "datasAddItem";
             this.datasAddItem.Size = new System.Drawing.Size(117, 22);
             this.datasAddItem.Text = "Add";
+            this.datasAddItem.Click += new System.EventHandler(this.datasAddItem_Click);
             // 
             // datasModifyItem
             // 
             this.datasModifyItem.Name = "datasModifyItem";
-            this.datasModifyItem.Size = new System.Drawing.Size(117, 22);
+            this.datasModifyItem.Size = new System.Drawing.Size(152, 22);
             this.datasModifyItem.Text = "Modify";
+            this.datasModifyItem.Click += new System.EventHandler(this.datasModifyItem_Click);
             // 
             // datasInsertItem
             // 
@@ -220,8 +226,9 @@
             // datasRemoveItem
             // 
             this.datasRemoveItem.Name = "datasRemoveItem";
-            this.datasRemoveItem.Size = new System.Drawing.Size(117, 22);
+            this.datasRemoveItem.Size = new System.Drawing.Size(152, 22);
             this.datasRemoveItem.Text = "Remove";
+            this.datasRemoveItem.Click += new System.EventHandler(this.datasRemoveItem_Click);
             // 
             // vars
             // 
@@ -232,8 +239,11 @@
             this.vars.FormattingEnabled = true;
             this.vars.Location = new System.Drawing.Point(0, 24);
             this.vars.Name = "vars";
+            this.vars.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.vars.Size = new System.Drawing.Size(120, 381);
             this.vars.TabIndex = 4;
+            this.vars.TabStop = false;
+            this.vars.DoubleClick += new System.EventHandler(this.vars_DoubleClick);
             // 
             // datas
             // 
@@ -242,10 +252,14 @@
             this.datas.Dock = System.Windows.Forms.DockStyle.Right;
             this.datas.ForeColor = System.Drawing.Color.White;
             this.datas.FormattingEnabled = true;
+            this.datas.IntegralHeight = false;
             this.datas.Location = new System.Drawing.Point(508, 24);
             this.datas.Name = "datas";
+            this.datas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.datas.Size = new System.Drawing.Size(120, 381);
             this.datas.TabIndex = 5;
+            this.datas.TabStop = false;
+            this.datas.DoubleClick += new System.EventHandler(this.datas_DoubleClick);
             // 
             // splitterLeft
             // 
@@ -272,6 +286,7 @@
             this.txtSource.Name = "txtSource";
             this.txtSource.Size = new System.Drawing.Size(382, 381);
             this.txtSource.TabIndex = 8;
+            this.txtSource.TabStop = false;
             // 
             // Editor
             // 
@@ -289,6 +304,7 @@
             this.Name = "Editor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Editor_FormClosing);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             this.ResumeLayout(false);

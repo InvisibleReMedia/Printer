@@ -10,11 +10,23 @@ using System.Windows.Forms;
 
 namespace Editor
 {
-    public partial class Variable : Form
+    public partial class Data : Form
     {
-        public Variable()
+        public Data()
         {
             InitializeComponent();
+        }
+
+        private void rbVariable_CheckedChanged(object sender, EventArgs e)
+        {
+            this.vars.Enabled = true;
+            this.txtConst.Enabled = false;
+        }
+
+        private void rbConst_CheckedChanged(object sender, EventArgs e)
+        {
+            this.vars.Enabled = false;
+            this.txtConst.Enabled = true;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -29,10 +41,10 @@ namespace Editor
             this.Close();
         }
 
-        private void Variable_FormClosing(object sender, FormClosingEventArgs e)
+        private void Data_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.OK)
-                e.Cancel = String.IsNullOrEmpty(this.txtName.Text) || String.IsNullOrEmpty(this.txtValue.Text);
+                e.Cancel = !((this.rbVariable.Checked && !String.IsNullOrEmpty(this.vars.Text)) || (this.rbConst.Checked && !String.IsNullOrEmpty(this.txtConst.Text)));
             else
                 e.Cancel = false;
         }

@@ -98,6 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(264, 262);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
@@ -105,6 +106,7 @@
             this.Controls.Add(this.lblValue);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblName);
+            this.ForeColor = System.Drawing.Color.White;
             this.Location = new System.Drawing.Point(100, 100);
             this.MinimumSize = new System.Drawing.Size(280, 300);
             this.Name = "Variable";
