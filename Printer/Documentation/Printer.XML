@@ -24,6 +24,11 @@
             Generates unique strings
             </summary>
         </member>
+        <member name="F:Printer.PrinterObject.IndentSize">
+            <summary>
+            Size indent space char
+            </summary>
+        </member>
         <member name="M:Printer.PrinterObject.#ctor">
             <summary>
             Default constructor
@@ -48,10 +53,24 @@
         </member>
         <member name="M:Printer.PrinterObject.EditVariable(System.String,System.String)">
             <summary>
-            Add a variable
+            Edit a variable
             </summary>
             <param name="key">key name</param>
             <param name="val">string value</param>
+        </member>
+        <member name="M:Printer.PrinterObject.EditVariable(System.String,Printer.PrinterVariable)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Printer.PrinterObject.AddVariable(System.String,Printer.PrinterVariable)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
         </member>
         <member name="M:Printer.PrinterObject.AddVariable(System.String,System.String)">
             <summary>
@@ -126,11 +145,17 @@
             </summary>
             <param name="index">position</param>
         </member>
-        <member name="M:Printer.PrinterObject.Execute(System.Text.StringBuilder)">
+        <member name="M:Printer.PrinterObject.Execute(System.CodeDom.Compiler.IndentedTextWriter)">
             <summary>
-            Write the data into an output
+            Write output as interpretation result
             </summary>
-            <param name="sb">output</param>
+            <param name="w">writer</param>
+        </member>
+        <member name="M:Printer.PrinterObject.Execute">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <returns>output</returns>
         </member>
         <member name="M:Printer.PrinterObject.Load(System.String)">
             <summary>
@@ -146,16 +171,18 @@
             <param name="obj">object to save</param>
             <param name="fileName">full path of fileName to save</param>
         </member>
-        <member name="M:Printer.PrinterObject.Load(System.IO.MemoryStream)">
+        <member name="M:Printer.PrinterObject.Load(System.IO.Stream)">
             <summary>
             Load a file from memory
+            You must close the stream after this method
             </summary>
             <param name="stream">stream buffer</param>
             <returns>object</returns>
         </member>
-        <member name="M:Printer.PrinterObject.Save(Printer.PrinterObject,System.IO.MemoryStream)">
+        <member name="M:Printer.PrinterObject.Save(Printer.PrinterObject,System.IO.Stream)">
             <summary>
             Save a PrinterObject to memory
+            You must close the stream after this method
             </summary>
             <param name="obj">object to save</param>
             <param name="stream">stream buffer</param>
@@ -178,6 +205,11 @@
             A printer variable
             </summary>
         </member>
+        <member name="F:Printer.PrinterVariable.include">
+            <summary>
+            include switch
+            </summary>
+        </member>
         <member name="F:Printer.PrinterVariable.shouldIndent">
             <summary>
             Indent switch
@@ -193,9 +225,24 @@
             Value of the variable
             </summary>
         </member>
+        <member name="F:Printer.PrinterVariable.includedVars">
+            <summary>
+            Included variables
+            </summary>
+        </member>
         <member name="M:Printer.PrinterVariable.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Indent">
+            <summary>
+            Indent switch
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Include">
+            <summary>
+            Include switch
             </summary>
         </member>
         <member name="P:Printer.PrinterVariable.Name">
@@ -208,11 +255,69 @@
             Gets or sets the value
             </summary>
         </member>
-        <member name="M:Printer.PrinterVariable.Execute(System.Text.StringBuilder)">
+        <member name="P:Printer.PrinterVariable.Values">
+            <summary>
+            Gets all values
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterVariable.ExistTestVariable(System.String)">
+            <summary>
+            Test if existing variable
+            </summary>
+            <param name="key">key name</param>
+            <returns>true if exist</returns>
+        </member>
+        <member name="M:Printer.PrinterVariable.EditVariable(System.String,Printer.PrinterVariable)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.EditVariable(System.String,System.String)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="val">string value</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.AddVariable(System.String,Printer.PrinterVariable)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.AddVariable(System.String,System.String)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="val">string value</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.DeleteVariable(System.String)">
+            <summary>
+            Delete a variable
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.Execute(System.CodeDom.Compiler.IndentedTextWriter)">
             <summary>
             Execute the variable
             </summary>
-            <param name="sb">string builder</param>
+            <param name="w">writer</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.ToString(System.Xml.XmlWriter)">
+            <summary>
+            Converts the source into a string representation
+            </summary>
+            <param name="xml">xml document</param>
+        </member>
+        <member name="M:Printer.PrinterVariable.ToString">
+            <summary>
+            Print the string representation of a variable
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Printer.PrinterVariable.Clone">
             <summary>

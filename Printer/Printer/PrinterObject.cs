@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -31,6 +32,11 @@ namespace Printer
         /// Generates unique strings
         /// </summary>
         private UniqueStrings unique;
+
+        /// <summary>
+        /// Size indent space char
+        /// </summary>
+        public static readonly int IndentSize = 2;
 
         #endregion
 
@@ -81,7 +87,7 @@ namespace Printer
         }
 
         /// <summary>
-        /// Add a variable
+        /// Edit a variable
         /// </summary>
         /// <param name="key">key name</param>
         /// <param name="val">string value</param>
@@ -97,6 +103,40 @@ namespace Printer
                 p.Name = key;
                 p.Value = val;
                 this.variables.Add(key, p);
+            }
+        }
+
+        /// <summary>
+        /// Edit a variable
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <param name="obj">object value</param>
+        public void EditVariable(string key, PrinterVariable obj)
+        {
+            if (this.variables.ContainsKey(key))
+            {
+                this.variables[key] = obj.Clone() as PrinterVariable;
+            }
+            else
+            {
+                this.variables.Add(key, obj.Clone() as PrinterVariable);
+            }
+        }
+
+        /// <summary>
+        /// Add a variable
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <param name="obj">object value</param>
+        public void AddVariable(string key, PrinterVariable obj)
+        {
+            if (this.variables.ContainsKey(key))
+            {
+                this.variables[key] = obj.Clone() as PrinterVariable;
+            }
+            else
+            {
+                this.variables.Add(key, obj.Clone() as PrinterVariable);
             }
         }
 
@@ -269,23 +309,41 @@ namespace Printer
         }
 
         /// <summary>
-        /// Write the data into an output
+        /// Write output as interpretation result
         /// </summary>
-        /// <param name="sb">output</param>
-        public void Execute(StringBuilder sb)
+        /// <param name="w">writer</param>
+        private void Execute(IndentedTextWriter w)
         {
-            foreach(string e in this.datas)
+            foreach (string e in this.datas)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
-                    this.variables[r].Execute(sb);
+                    this.variables[r].Execute(w);
                 }
                 else
                 {
-                    sb.Append(e);
+                    w.Write(e);
                 }
             }
+        }
+
+        /// <summary>
+        /// Write output as interpretation result
+        /// </summary>
+        /// <returns>output</returns>
+        public string Execute()
+        {
+            StringBuilder sb = new StringBuilder();
+            using (TextWriter tw = new StringWriter(sb))
+            using (IndentedTextWriter itw = new IndentedTextWriter(tw))
+            {
+                this.Execute(itw);
+                itw.WriteLine();
+                itw.Close();
+                tw.Close();
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -344,10 +402,11 @@ namespace Printer
 
         /// <summary>
         /// Load a file from memory
+        /// You must close the stream after this method
         /// </summary>
         /// <param name="stream">stream buffer</param>
         /// <returns>object</returns>
-        public static PrinterObject Load(MemoryStream stream)
+        public static PrinterObject Load(Stream stream)
         {
             PrinterObject po = null;
             BinaryFormatter bf = new BinaryFormatter();
@@ -366,10 +425,11 @@ namespace Printer
 
         /// <summary>
         /// Save a PrinterObject to memory
+        /// You must close the stream after this method
         /// </summary>
         /// <param name="obj">object to save</param>
         /// <param name="stream">stream buffer</param>
-        public static void Save(PrinterObject obj, MemoryStream stream)
+        public static void Save(PrinterObject obj, Stream stream)
         {
             BinaryFormatter bf = new BinaryFormatter();
             try
@@ -399,13 +459,7 @@ namespace Printer
                 xml.WriteStartElement("vars");
                 foreach (KeyValuePair<string, PrinterVariable> kv in this.variables)
                 {
-                    xml.WriteStartElement("set");
-                    xml.WriteAttributeString("name", kv.Key);
-                    string v;
-                    v = kv.Value.Value.Replace(":", ":dbdot;");
-                    v = v.Replace("\"", ":dbquot;");
-                    xml.WriteString(v);
-                    xml.WriteEndElement();
+                    kv.Value.ToString(xml);
                 }
                 xml.WriteEndElement();
                 xml.WriteStartElement("text");
@@ -430,6 +484,14 @@ namespace Printer
                 xml.Flush();
 
                 stream.Seek(0, SeekOrigin.Begin);
+#if DEBUG
+                using (FileStream fs = new FileStream("printer-output.xml", FileMode.Create))
+                {
+                    stream.CopyTo(fs);
+                    fs.Close();
+                }
+                stream.Seek(0, SeekOrigin.Begin);
+#endif
 
                 XslCompiledTransform xsl = new XslCompiledTransform();
                 xsl.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "printer.xsl"));

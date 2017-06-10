@@ -39,7 +39,19 @@ namespace ");
         static void Main(string[] args)
         {
             //");
-                    po.AddData("[code]");
+
+                    PrinterVariable pv = new PrinterVariable();
+                    pv.Name = "condition";
+                    pv.Include = true;
+                    pv.Indent = true;
+                    pv.AddVariable("expression", "true");
+                    pv.AddVariable("then", "code");
+                    pv.AddVariable("else", "code");
+                    pv.Value = "C#.NET/if.prt";
+
+                    po.AddVariable("condition", pv);
+
+                    po.UseVariable("condition");
                     po.AddData(@"
         }
     }
@@ -47,9 +59,8 @@ namespace ");
 ");
                 }
 
-                StringBuilder sb = new StringBuilder();
-                po.Execute(sb);
-                Console.WriteLine(sb.ToString());
+                
+                Console.WriteLine(po.Execute());
 
                 Console.WriteLine("code:");
                 Console.WriteLine(po.ToString());
@@ -60,7 +71,11 @@ namespace ");
             {
                 Console.WriteLine(ex.Message);
             }
-
+            finally
+            {
+                Console.WriteLine("Touch your keyboard");
+                Console.ReadKey();
+            }
         }
     }
 }

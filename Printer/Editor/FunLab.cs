@@ -119,18 +119,40 @@ namespace Editor
         /// <param name="list">variable list</param>
         /// <param name="po">printer object</param>
         /// <returns>added variable</returns>
-        public static bool AddNewVariable(ListBox list, PrinterObject po)
+        public static bool AddNewVariable(ListBox list, PrinterVariable po)
         {
             PrinterVariable pv = new PrinterVariable();
             Variable var = new Variable();
+            var.IsIndented = pv.Indent;
             var.Controls["txtName"].DataBindings.Add("Text", pv, "Name");
-            var.Controls["txtValue"].DataBindings.Add("Text", pv, "Value");
+            if (pv.Include)
+            {
+                (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked = true;
+                var.IncludePage.Controls["txtFile"].Text = pv.Value;
+                FillVars(var.IncludePage.Controls["vars"] as ListBox, pv);
+                var.IncludePage.Controls["txtSource"].Text = pv.ToString();
+            }
+            else
+            {
+                (var.ValuePage.Controls["rbValue"] as RadioButton).Checked = true;
+                var.ValuePage.Controls["txtValue"].Text = pv.Value;
+            }
             DialogResult dr = var.ShowDialog();
             if (dr == DialogResult.OK)
             {
+                pv.Indent = var.IsIndented;
+                pv.Include = (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked;
+                if (pv.Include)
+                {
+                    pv.Value = var.ValuePage.Controls["txtValue"].Text;
+                }
+                else
+                {
+                    pv.Value = var.IncludePage.Controls["txtFile"].Text;
+                }
                 if (po.ExistTestVariable(pv.Name))
                 {
-                    po.EditVariable(pv.Name, pv.Value);
+                    po.EditVariable(pv.Name, pv);
                     for (int index = 0; index < list.Items.Count; ++index)
                     {
                         if ((list.Items[index] as PrinterVariable).Name == pv.Name)
@@ -143,7 +165,69 @@ namespace Editor
                 }
                 else
                 {
-                    po.AddVariable(pv.Name, pv.Value);
+                    po.AddVariable(pv.Name, pv);
+                    list.Items.Add(pv);
+                }
+                list.Refresh();
+                hasModified = true;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Add a new variable
+        /// </summary>
+        /// <param name="list">variable list</param>
+        /// <param name="po">printer object</param>
+        /// <returns>added variable</returns>
+        public static bool AddNewVariable(ListBox list, PrinterObject po)
+        {
+            PrinterVariable pv = new PrinterVariable();
+            Variable var = new Variable();
+            var.IsIndented = pv.Indent;
+            var.Controls["txtName"].DataBindings.Add("Text", pv, "Name");
+            if (pv.Include)
+            {
+                (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked = true;
+                var.IncludePage.Controls["txtFile"].Text = pv.Value;
+                FillVars(var.IncludePage.Controls["vars"] as ListBox, pv);
+                var.IncludePage.Controls["txtSource"].Text = pv.ToString();
+            }
+            else
+            {
+                (var.ValuePage.Controls["rbValue"] as RadioButton).Checked = true;
+                var.ValuePage.Controls["txtValue"].Text = pv.Value;
+            }
+            DialogResult dr = var.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                pv.Indent = var.IsIndented;
+                pv.Include = (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked;
+                if (pv.Include)
+                {
+                    pv.Value = var.ValuePage.Controls["txtValue"].Text;
+                }
+                else
+                {
+                    pv.Value = var.IncludePage.Controls["txtFile"].Text;
+                }
+                if (po.ExistTestVariable(pv.Name))
+                {
+                    po.EditVariable(pv.Name, pv);
+                    for (int index = 0; index < list.Items.Count; ++index)
+                    {
+                        if ((list.Items[index] as PrinterVariable).Name == pv.Name)
+                        {
+                            list.Items.RemoveAt(index);
+                            list.Items.Insert(index, pv);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    po.AddVariable(pv.Name, pv);
                     list.Items.Add(pv);
                 }
                 list.Refresh();
@@ -165,17 +249,17 @@ namespace Editor
             {
                 PrinterVariable pv = list.SelectedItems[0] as PrinterVariable;
                 Variable var = new Variable();
-                var.Controls["txtName"].Text = pv.Name;
-                var.Controls["txtValue"].DataBindings.Add("Text", pv, "Value");
+                var.ValuePage.Controls["txtName"].Text = pv.Name;
+                var.ValuePage.Controls["txtValue"].DataBindings.Add("Text", pv, "Value");
                 DialogResult dr = var.ShowDialog();
                 if (dr == DialogResult.OK)
                 {
-                    if (pv.Name != var.Controls["txtName"].Text)
+                    if (pv.Name != var.ValuePage.Controls["txtName"].Text)
                     {
                         po.DeleteVariable(pv.Name);
                         list.Items.RemoveAt(list.SelectedIndices[0]);
                     }
-                    pv.Name = var.Controls["txtName"].Text;
+                    pv.Name = var.ValuePage.Controls["txtName"].Text;
                     if (po.ExistTestVariable(pv.Name))
                     {
                         po.EditVariable(pv.Name, pv.Value);
@@ -480,6 +564,25 @@ namespace Editor
             list.DisplayMember = "Name";
             list.ValueMember = "Value";
             if (po.Values.Count() > 0)
+            {
+                list.SetSelected(0, true);
+            }
+        }
+
+        /// <summary>
+        /// Fill all variable in list box
+        /// </summary>
+        /// <param name="list">variable list</param>
+        /// <param name="po">printer variable</param>
+        public static void FillVars(ListBox list, PrinterVariable pv)
+        {
+            foreach (PrinterVariable inpv in pv.Values)
+            {
+                list.Items.Add(inpv);
+            }
+            list.DisplayMember = "Name";
+            list.ValueMember = "Value";
+            if (pv.Values.Count() > 0)
             {
                 list.SetSelected(0, true);
             }
