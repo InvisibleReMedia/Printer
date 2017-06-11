@@ -19,6 +19,11 @@
             Constructor
             </summary>
         </member>
+        <member name="P:Editor.Config.Defines">
+            <summary>
+            Gets configuration object
+            </summary>
+        </member>
         <member name="M:Editor.Config.btnOK_Click(System.Object,System.EventArgs)">
             <summary>
             When Ok clicked
@@ -48,11 +53,6 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="P:Editor.Config.Defines">
-            <summary>
-            Gets configuration object
             </summary>
         </member>
         <member name="T:Editor.Data">
@@ -130,6 +130,11 @@
         <member name="F:Editor.Editor.fileName">
             <summary>
             File name
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.confFileName">
+            <summary>
+            Configuration file name
             </summary>
         </member>
         <member name="F:Editor.Editor.po">
@@ -315,6 +320,27 @@
             <param name="sender">sender</param>
             <param name="e">arg</param>
         </member>
+        <member name="M:Editor.Editor.executeItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            When execute clicked
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.configImportItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            When config imports
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.configSaveItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            When config save
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
         <member name="F:Editor.Editor.components">
             <summary>
             Variable nécessaire au concepteur.
@@ -346,6 +372,13 @@
             <summary>
             When a file has been loaded
             </summary>
+        </member>
+        <member name="M:Editor.FunLab.GetFileNameWithoutExtension(System.String)">
+            <summary>
+            Get the file name without his extension or multidotted extension
+            </summary>
+            <param name="fileName">file name</param>
+            <returns>file name without extension</returns>
         </member>
         <member name="M:Editor.FunLab.Load(System.String@,System.String@,Printer.PrinterObject@)">
             <summary>
@@ -379,6 +412,11 @@
             Create a new printer object
             </summary>
             <param name="po">printer object</param>
+        </member>
+        <member name="P:Editor.FunLab.IsDirty">
+            <summary>
+            Returns true of false if data has modified
+            </summary>
         </member>
         <member name="M:Editor.FunLab.AddNewVariable(System.Windows.Forms.ListBox,Printer.PrinterVariable)">
             <summary>
@@ -512,11 +550,6 @@
             <param name="list">variable list</param>
             <param name="conf">configuration object</param>
         </member>
-        <member name="P:Editor.FunLab.IsDirty">
-            <summary>
-            Returns true of false if data has modified
-            </summary>
-        </member>
         <member name="M:Editor.Program.Main">
             <summary>
             Point d'entrée principal de l'application.
@@ -530,6 +563,21 @@
         <member name="M:Editor.Variable.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.IncludePage">
+            <summary>
+            Gets the include tab page
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.ValuePage">
+            <summary>
+            Gets the value tab page
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.IsIndented">
+            <summary>
+            Gets or sets indented switch
             </summary>
         </member>
         <member name="M:Editor.Variable.btnOK_Click(System.Object,System.EventArgs)">
@@ -589,21 +637,6 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="P:Editor.Variable.IncludePage">
-            <summary>
-            Gets the include tab page
-            </summary>
-        </member>
-        <member name="P:Editor.Variable.ValuePage">
-            <summary>
-            Gets the value tab page
-            </summary>
-        </member>
-        <member name="P:Editor.Variable.IsIndented">
-            <summary>
-            Gets or sets indented switch
             </summary>
         </member>
         <member name="T:Editor.Properties.Resources">

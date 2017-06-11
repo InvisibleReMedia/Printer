@@ -24,6 +24,23 @@ namespace Editor
         private static bool alreadyOpen;
 
         /// <summary>
+        /// Get the file name without his extension or multidotted extension
+        /// </summary>
+        /// <param name="fileName">file name</param>
+        /// <returns>file name without extension</returns>
+        public static string GetFileNameWithoutExtension(string fileName)
+        {
+            try
+            {
+                int pos = fileName.IndexOf('.');
+                return fileName.Substring(0, pos);
+            } catch
+            {
+                return fileName;
+            }
+        }
+
+        /// <summary>
         /// Load from file
         /// </summary>
         /// <param name="path">path</param>
@@ -33,6 +50,9 @@ namespace Editor
         public static bool Load(ref string path, ref string fileName, ref PrinterObject po)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.AddExtension = false;
+            ofd.Filter = "Printer (*.prt)|*.prt";
+            ofd.DefaultExt = "prt";
             ofd.InitialDirectory = path;
             ofd.FileName = fileName;
             DialogResult dr = ofd.ShowDialog();
@@ -65,6 +85,9 @@ namespace Editor
             else
             {
                 SaveFileDialog sfd = new SaveFileDialog();
+                sfd.AddExtension = false;
+                sfd.Filter = "Printer (*.prt)|*.prt";
+                sfd.DefaultExt = "prt";
                 sfd.InitialDirectory = path;
                 sfd.FileName = fileName;
                 DialogResult dr = sfd.ShowDialog();
@@ -91,6 +114,9 @@ namespace Editor
         public static bool SaveAs(ref string path, ref string fileName, PrinterObject po)
         {
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.AddExtension = false;
+            sfd.Filter = "Printer (*.prt)|*.prt";
+            sfd.DefaultExt = "prt";
             sfd.InitialDirectory = path;
             sfd.FileName = fileName;
             DialogResult dr = sfd.ShowDialog();
@@ -98,7 +124,7 @@ namespace Editor
             {
                 path = Path.GetDirectoryName(sfd.FileName);
                 fileName = Path.GetFileName(sfd.FileName);
-                PrinterObject.Save(po, Path.Combine(path, fileName));
+                PrinterObject.Save(po, Path.Combine(path, fileName + ".prt"));
                 alreadyOpen = true;
                 hasModified = false;
                 return true;

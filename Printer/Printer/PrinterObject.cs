@@ -56,8 +56,6 @@ namespace Printer
             this.datas = new List<string>();
             this.unique = new UniqueStrings();
             this.config = new Configuration();
-            this.config.Add("author", Environment.GetEnvironmentVariable("USERNAME"));
-            this.config.Add("date", DateTime.Now.ToShortDateString());
         }
 
         #endregion
@@ -370,6 +368,18 @@ namespace Printer
                 tw.Close();
             }
             return this.Configuration.Execute(sb.ToString());
+        }
+
+        /// <summary>
+        /// Import a configuration values
+        /// </summary>
+        /// <param name="from">configuration values</param>
+        public void ImportConfiguration(Configuration from)
+        {
+            foreach(string key in from)
+            {
+                this.Configuration.Add(key, from[key]);
+            }
         }
 
         /// <summary>

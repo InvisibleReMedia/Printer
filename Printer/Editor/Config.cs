@@ -130,7 +130,7 @@ namespace Editor
             if (this.configs.SelectedIndex != -1)
             {
                 IEnumerable<string> keys = this.conf.Find(this.configs.SelectedItem.ToString());
-                string s = keys.FirstOrDefault();
+                string s = keys.LastOrDefault();
                 this.txtName.Text = s;
                 this.txtValue.Text = this.conf[s];
             }

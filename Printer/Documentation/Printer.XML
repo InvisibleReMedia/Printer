@@ -20,6 +20,18 @@
             Default constructor
             </summary>
         </member>
+        <member name="P:Printer.Configuration.Count">
+            <summary>
+            Count the number of conf
+            </summary>
+        </member>
+        <member name="P:Printer.Configuration.Item(System.String)">
+            <summary>
+            Gets or sets a value key
+            </summary>
+            <param name="key">key</param>
+            <returns>value</returns>
+        </member>
         <member name="M:Printer.Configuration.Add(System.String,System.String)">
             <summary>
             Add an item
@@ -82,17 +94,19 @@
             </summary>
             <returns>the string representation</returns>
         </member>
-        <member name="P:Printer.Configuration.Count">
+        <member name="M:Printer.Configuration.Load(System.String)">
             <summary>
-            Count the number of conf
+            Load a file from disk
             </summary>
+            <param name="fileName">full path of fileName</param>
+            <returns>object</returns>
         </member>
-        <member name="P:Printer.Configuration.Item(System.String)">
+        <member name="M:Printer.Configuration.Save(Printer.Configuration,System.String)">
             <summary>
-            Gets or sets a value key
+            Save a PrinterObject to disk
             </summary>
-            <param name="key">key</param>
-            <returns>value</returns>
+            <param name="obj">object to save</param>
+            <param name="fileName">full path of fileName to save</param>
         </member>
         <member name="T:Printer.PrinterObject">
             <summary>
@@ -127,6 +141,21 @@
         <member name="M:Printer.PrinterObject.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Values">
+            <summary>
+            Gets all values
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Data">
+            <summary>
+            Gets all data sequence
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Configuration">
+            <summary>
+            Gets or sets the configuration object
             </summary>
         </member>
         <member name="M:Printer.PrinterObject.ExistTestVariable(System.String)">
@@ -242,6 +271,12 @@
             </summary>
             <returns>output</returns>
         </member>
+        <member name="M:Printer.PrinterObject.ImportConfiguration(Printer.Configuration)">
+            <summary>
+            Import a configuration values
+            </summary>
+            <param name="from">configuration values</param>
+        </member>
         <member name="M:Printer.PrinterObject.Load(System.String)">
             <summary>
             Load a file from disk
@@ -285,21 +320,6 @@
             </summary>
             <returns>new object</returns>
         </member>
-        <member name="P:Printer.PrinterObject.Values">
-            <summary>
-            Gets all values
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterObject.Data">
-            <summary>
-            Gets all data sequence
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterObject.Configuration">
-            <summary>
-            Gets or sets the configuration object
-            </summary>
-        </member>
         <member name="T:Printer.PrinterVariable">
             <summary>
             A printer variable
@@ -333,6 +353,31 @@
         <member name="M:Printer.PrinterVariable.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Indent">
+            <summary>
+            Indent switch
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Include">
+            <summary>
+            Include switch
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Name">
+            <summary>
+            Gets or sets the name
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Value">
+            <summary>
+            Gets or sets the value
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Values">
+            <summary>
+            Gets all values
             </summary>
         </member>
         <member name="M:Printer.PrinterVariable.ExistTestVariable(System.String)">
@@ -400,31 +445,6 @@
             </summary>
             <returns>new object</returns>
         </member>
-        <member name="P:Printer.PrinterVariable.Indent">
-            <summary>
-            Indent switch
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Include">
-            <summary>
-            Include switch
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Name">
-            <summary>
-            Gets or sets the name
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Value">
-            <summary>
-            Gets or sets the value
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Values">
-            <summary>
-            Gets all values
-            </summary>
-        </member>
         <member name="T:Printer.UniqueStrings">
             <summary>
             Class to stand unique strings
@@ -456,16 +476,16 @@
             Copy constructor
             </summary>
         </member>
+        <member name="P:Printer.UniqueStrings.Counter">
+            <summary>
+            Gets or sets the counter position
+            </summary>
+        </member>
         <member name="M:Printer.UniqueStrings.ComputeNewString">
             <summary>
             Create a new unique name and increment pointer
             </summary>
             <returns>new unique name</returns>
-        </member>
-        <member name="P:Printer.UniqueStrings.Counter">
-            <summary>
-            Gets or sets the counter position
-            </summary>
         </member>
     </members>
 </doc>

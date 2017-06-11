@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -36,6 +37,9 @@ namespace Printer
         public Configuration()
         {
             this.values = new Dictionary<string, string>();
+            this.values.Add("author", Environment.GetEnvironmentVariable("USERNAME"));
+            this.values.Add("date", DateTime.Now.ToShortDateString());
+            this.values.Add("programmingLanguage", "C");
         }
 
         #endregion
@@ -245,6 +249,60 @@ namespace Printer
             }
 
             return output.ToString();
+        }
+
+        /// <summary>
+        /// Load a file from disk
+        /// </summary>
+        /// <param name="fileName">full path of fileName</param>
+        /// <returns>object</returns>
+        public static Configuration Load(string fileName)
+        {
+            Configuration c = null;
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                try
+                {
+                    c = bf.Deserialize(fs) as Configuration;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    fs.Close();
+                }
+            }
+
+            return c;
+        }
+
+
+        /// <summary>
+        /// Save a PrinterObject to disk
+        /// </summary>
+        /// <param name="obj">object to save</param>
+        /// <param name="fileName">full path of fileName to save</param>
+        public static void Save(Configuration obj, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                try
+                {
+                    bf.Serialize(fs, obj);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    fs.Close();
+                }
+            }
         }
 
         #endregion

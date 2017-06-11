@@ -60,6 +60,8 @@
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.txtSource = new System.Windows.Forms.TextBox();
+            this.configImportItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configSaveItem = new System.Windows.Forms.ToolStripMenuItem();
             editSeparatorItem = new System.Windows.Forms.ToolStripSeparator();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -99,35 +101,35 @@
             // appNewItem
             // 
             this.appNewItem.Name = "appNewItem";
-            this.appNewItem.Size = new System.Drawing.Size(114, 22);
+            this.appNewItem.Size = new System.Drawing.Size(152, 22);
             this.appNewItem.Text = "New";
             this.appNewItem.Click += new System.EventHandler(this.appNewItem_Click);
             // 
             // appLoadItem
             // 
             this.appLoadItem.Name = "appLoadItem";
-            this.appLoadItem.Size = new System.Drawing.Size(114, 22);
+            this.appLoadItem.Size = new System.Drawing.Size(152, 22);
             this.appLoadItem.Text = "Load";
             this.appLoadItem.Click += new System.EventHandler(this.appLoadItem_Click);
             // 
             // appSaveItem
             // 
             this.appSaveItem.Name = "appSaveItem";
-            this.appSaveItem.Size = new System.Drawing.Size(114, 22);
+            this.appSaveItem.Size = new System.Drawing.Size(152, 22);
             this.appSaveItem.Text = "Save";
             this.appSaveItem.Click += new System.EventHandler(this.appSaveItem_Click);
             // 
             // appSaveAsItem
             // 
             this.appSaveAsItem.Name = "appSaveAsItem";
-            this.appSaveAsItem.Size = new System.Drawing.Size(114, 22);
+            this.appSaveAsItem.Size = new System.Drawing.Size(152, 22);
             this.appSaveAsItem.Text = "Save As";
             this.appSaveAsItem.Click += new System.EventHandler(this.appSaveAsItem_Click);
             // 
             // appQuitItem
             // 
             this.appQuitItem.Name = "appQuitItem";
-            this.appQuitItem.Size = new System.Drawing.Size(114, 22);
+            this.appQuitItem.Size = new System.Drawing.Size(152, 22);
             this.appQuitItem.Text = "Quit";
             this.appQuitItem.Click += new System.EventHandler(this.appQuitItem_Click);
             // 
@@ -260,7 +262,9 @@
             // configItem
             // 
             this.configItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.configParamsItem});
+            this.configParamsItem,
+            this.configImportItem,
+            this.configSaveItem});
             this.configItem.Name = "configItem";
             this.configItem.Size = new System.Drawing.Size(93, 20);
             this.configItem.Text = "Configuration";
@@ -338,6 +342,20 @@
             this.txtSource.TabIndex = 8;
             this.txtSource.TabStop = false;
             // 
+            // configImportItem
+            // 
+            this.configImportItem.Name = "configImportItem";
+            this.configImportItem.Size = new System.Drawing.Size(152, 22);
+            this.configImportItem.Text = "Import";
+            this.configImportItem.Click += new System.EventHandler(this.configImportItem_Click);
+            // 
+            // configSaveItem
+            // 
+            this.configSaveItem.Name = "configSaveItem";
+            this.configSaveItem.Size = new System.Drawing.Size(152, 22);
+            this.configSaveItem.Text = "Save";
+            this.configSaveItem.Click += new System.EventHandler(this.configSaveItem_Click);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,6 +412,8 @@
         private System.Windows.Forms.ToolStripMenuItem configItem;
         private System.Windows.Forms.ToolStripMenuItem configParamsItem;
         private System.Windows.Forms.ToolStripMenuItem executeItem;
+        private System.Windows.Forms.ToolStripMenuItem configImportItem;
+        private System.Windows.Forms.ToolStripMenuItem configSaveItem;
     }
 }
 

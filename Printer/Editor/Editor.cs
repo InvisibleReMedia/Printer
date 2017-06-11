@@ -28,6 +28,11 @@ namespace Editor
         private string fileName;
 
         /// <summary>
+        /// Configuration file name
+        /// </summary>
+        private string confFileName;
+
+        /// <summary>
         /// Printer object
         /// </summary>
         private PrinterObject po;
@@ -56,6 +61,7 @@ namespace Editor
             this.stored = new List<MemoryStream>();
             this.path = AppDomain.CurrentDomain.BaseDirectory;
             this.fileName = "code.prt";
+            this.confFileName = "code.confprt";
             this.appNewItem_Click(this, new EventArgs());
             this.exec = true;
         }
@@ -103,6 +109,7 @@ namespace Editor
                 }
             }
             FunLab.New(ref po);
+            this.fileName = "code.prt";
             this.Text = "Editor - " + this.fileName;
             this.stored.ForEach(x => { x.Close(); x.Dispose(); });
             this.stored.Clear();
@@ -458,6 +465,7 @@ namespace Editor
                     po.Configuration = c.Defines.Clone() as Configuration;
                     this.Text = "Editor - " + this.fileName + " *";
                     txtSource.Text = po.ToString();
+                    this.AddUndo();
                 }
             }
             else
@@ -466,6 +474,11 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// When execute clicked
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void executeItem_Click(object sender, EventArgs e)
         {
             Control c = sender as Control;
@@ -480,6 +493,55 @@ namespace Editor
                 this.txtSource.Text = po.ToString();
                 this.exec = true;
                 this.executeItem.Text = "Execute";
+            }
+        }
+
+        /// <summary>
+        /// When config imports
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
+        private void configImportItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.AddExtension = false;
+            ofd.Filter = "Configuration Printer (*.confprt)|*.confprt";
+            ofd.DefaultExt = "confprt";
+            ofd.InitialDirectory = this.path;
+            ofd.FileName = this.confFileName;
+            DialogResult dr = ofd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                this.path = Path.GetDirectoryName(ofd.FileName);
+                this.confFileName = Path.GetFileName(ofd.FileName);
+                Configuration conf = Configuration.Load(Path.Combine(this.path, this.confFileName));
+                po.ImportConfiguration(conf);
+                FunLab.IsDirty = true;
+                this.AddUndo();
+                this.Text = "Editor - " + this.fileName + " *";
+                txtSource.Text = po.ToString();
+            }
+        }
+
+        /// <summary>
+        /// When config save
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
+        private void configSaveItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.AddExtension = false;
+            sfd.Filter = "Configuration Printer (*.confprt)|*.confprt";
+            sfd.DefaultExt = "confprt";
+            sfd.InitialDirectory = this.path;
+            sfd.FileName = this.confFileName;
+            DialogResult dr = sfd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                this.path = Path.GetDirectoryName(sfd.FileName);
+                this.confFileName = Path.GetFileName(sfd.FileName);
+                Configuration.Save(po.Configuration, Path.Combine(this.path, this.confFileName));
             }
         }
     }
