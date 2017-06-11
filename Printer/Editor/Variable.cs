@@ -17,6 +17,7 @@ namespace Editor
     public partial class Variable : Form
     {
         private PrinterVariable pv;
+        private OpenFileDialog ofd;
 
         /// <summary>
         /// Default constructor
@@ -24,6 +25,7 @@ namespace Editor
         public Variable()
         {
             InitializeComponent();
+            this.ofd = new OpenFileDialog();
             this.pv = new PrinterVariable();
         }
 
@@ -112,7 +114,9 @@ namespace Editor
         /// <param name="e">arg</param>
         private void btnEdit_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            FunLab.EditVariable(vars, pv);
+            this.Show();
         }
 
         /// <summary>
@@ -122,12 +126,18 @@ namespace Editor
         /// <param name="e">arg</param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            FunLab.DeleteVariables(vars, pv);
+            this.Show();
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-
+            DialogResult dr = this.ofd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                this.txtFile.Text = this.ofd.SafeFileName;
+            }
         }
 
         private void rbInclude_CheckedChanged(object sender, EventArgs e)
@@ -156,6 +166,16 @@ namespace Editor
                 rbInclude.Checked = true;
             }
             this.BindingContext[this.rbValue].ResumeBinding();
+        }
+
+        private void Variable_Load(object sender, EventArgs e)
+        {
+            FunLab.FillVars(vars, pv);
+        }
+
+        private void vars_DoubleClick(object sender, EventArgs e)
+        {
+            btnEdit_Click(sender, e);
         }
     }
 }

@@ -34,6 +34,11 @@ namespace Printer
         private UniqueStrings unique;
 
         /// <summary>
+        /// Configuration object
+        /// </summary>
+        private Configuration config;
+
+        /// <summary>
         /// Size indent space char
         /// </summary>
         public static readonly int IndentSize = 2;
@@ -50,6 +55,9 @@ namespace Printer
             this.variables = new Dictionary<string, PrinterVariable>();
             this.datas = new List<string>();
             this.unique = new UniqueStrings();
+            this.config = new Configuration();
+            this.config.Add("author", Environment.GetEnvironmentVariable("USERNAME"));
+            this.config.Add("date", DateTime.Now.ToShortDateString());
         }
 
         #endregion
@@ -70,6 +78,23 @@ namespace Printer
         public IEnumerable<string> Data
         {
             get { return this.datas; }
+        }
+
+        /// <summary>
+        /// Gets or sets the configuration object
+        /// </summary>
+        public Configuration Configuration
+        {
+            get
+            {
+                if (this.config == null) this.config = new Configuration();
+                return this.config;
+            }
+            set
+            {
+                if (value != null)
+                    this.config = value;
+            }
         }
 
         #endregion
@@ -338,12 +363,13 @@ namespace Printer
             using (TextWriter tw = new StringWriter(sb))
             using (IndentedTextWriter itw = new IndentedTextWriter(tw))
             {
+
                 this.Execute(itw);
                 itw.WriteLine();
                 itw.Close();
                 tw.Close();
             }
-            return sb.ToString();
+            return this.Configuration.Execute(sb.ToString());
         }
 
         /// <summary>
@@ -456,6 +482,7 @@ namespace Printer
 
                 xml.WriteStartDocument();
                 xml.WriteStartElement("Program");
+                this.Configuration.ToString(xml);
                 xml.WriteStartElement("vars");
                 foreach (KeyValuePair<string, PrinterVariable> kv in this.variables)
                 {

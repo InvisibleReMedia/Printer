@@ -13,9 +13,31 @@
     </xsl:apply-templates>
   </xsl:template>
 
+  <xsl:template match="conf" mode="code">
+    <xsl:text><![CDATA[conf
+]]></xsl:text>
+    <xsl:apply-templates select="*" mode="code"/>
+  </xsl:template>
+
+  <xsl:template match="itemConf" mode="code">
+    <xsl:variable name="name">
+      <xsl:value-of select="@name"/>
+    </xsl:variable>
+    <xsl:variable name="val">
+      <xsl:value-of select="text()"/>
+    </xsl:variable>
+    <xsl:value-of select="$name"/>
+    <xsl:text><![CDATA[ = "]]></xsl:text>
+    <xsl:value-of select="$val"/>
+    <xsl:text><![CDATA["
+]]></xsl:text>
+  </xsl:template>
+
   <xsl:template match="vars" mode="code">
     <xsl:param name="offset"/>
     <xsl:param name="align"/>
+    <xsl:text><![CDATA[vars
+]]></xsl:text>
     <xsl:apply-templates select="*" mode="code">
       <xsl:with-param name="offset">
         <xsl:value-of select="$offset"/>

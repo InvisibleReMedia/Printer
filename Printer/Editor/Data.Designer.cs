@@ -91,23 +91,25 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.BackColor = System.Drawing.Color.Black;
             this.btnOK.Location = new System.Drawing.Point(393, 240);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(40, 23);
             this.btnOK.TabIndex = 4;
             this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.UseVisualStyleBackColor = false;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.BackColor = System.Drawing.Color.Black;
             this.btnCancel.Location = new System.Drawing.Point(316, 240);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(61, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // Data
@@ -124,6 +126,7 @@
             this.Controls.Add(this.vars);
             this.ForeColor = System.Drawing.Color.White;
             this.Location = new System.Drawing.Point(100, 100);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(340, 206);
             this.Name = "Data";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

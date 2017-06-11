@@ -217,7 +217,7 @@ namespace Printer
                         PrinterObject po = PrinterObject.Load(fs);
                         foreach (PrinterVariable pv in this.Values)
                         {
-                            po.AddVariable(pv.Name, pv.Value);
+                            po.AddVariable(pv.Name, pv);
                         }
                         w.Write(po.Execute());
                         fs.Close();

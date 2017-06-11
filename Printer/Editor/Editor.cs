@@ -12,17 +12,20 @@ using System.IO;
 
 namespace Editor
 {
+    /// <summary>
+    /// Editor form (main window)
+    /// </summary>
     public partial class Editor : Form
     {
 
         /// <summary>
-        /// Dialog to save
+        /// Path
         /// </summary>
-        private SaveFileDialog sfd;
+        private string path;
         /// <summary>
-        /// Dialog to load
+        /// File name
         /// </summary>
-        private OpenFileDialog ofd;
+        private string fileName;
 
         /// <summary>
         /// Printer object
@@ -40,16 +43,21 @@ namespace Editor
         private int undoPos;
 
         /// <summary>
+        /// exec switch
+        /// </summary>
+        private bool exec;
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public Editor()
         {
             InitializeComponent();
             this.stored = new List<MemoryStream>();
-            this.sfd = new SaveFileDialog();
-            this.ofd = new OpenFileDialog();
-            ofd.InitialDirectory = sfd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            this.path = AppDomain.CurrentDomain.BaseDirectory;
+            this.fileName = "code.prt";
             this.appNewItem_Click(this, new EventArgs());
+            this.exec = true;
         }
 
         /// <summary>
@@ -91,12 +99,11 @@ namespace Editor
                 DialogResult dr = MessageBox.Show("Save current ?", "Not saved", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.Yes)
                 {
-                    FunLab.Save(sfd, po);
+                    FunLab.Save(ref this.path, ref this.fileName, po);
                 }
             }
             FunLab.New(ref po);
-            ofd.FileName = sfd.FileName = "code.prt";
-            this.Text = "Editor - " + ofd.SafeFileName;
+            this.Text = "Editor - " + this.fileName;
             this.stored.ForEach(x => { x.Close(); x.Dispose(); });
             this.stored.Clear();
             this.undoPos = 0;
@@ -124,15 +131,14 @@ namespace Editor
                 DialogResult dr = MessageBox.Show("Save current ?", "Not saved", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.Yes)
                 {
-                    FunLab.Save(sfd, po);
+                    FunLab.Save(ref this.path, ref this.fileName, po);
                 }
             }
             try
             {
-                if (FunLab.Load(ofd, ref po))
+                if (FunLab.Load(ref this.path, ref this.fileName, ref po))
                 {
-                    this.Text = "Editor - " + ofd.SafeFileName;
-                    sfd.FileName = ofd.SafeFileName;
+                    this.Text = "Editor - " + this.fileName;
                     this.stored.ForEach(x => { x.Close(); x.Dispose(); });
                     this.stored.Clear();
                     this.undoPos = 0;
@@ -160,10 +166,9 @@ namespace Editor
         /// <param name="e">arg</param>
         private void appSaveItem_Click(object sender, EventArgs e)
         {
-            if (FunLab.Save(sfd, po))
+            if (FunLab.Save(ref this.path, ref this.fileName, po))
             {
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName);
-                ofd.FileName = Path.GetFileName(sfd.FileName);
+                this.Text = "Editor - " + this.fileName;
             }
         }
 
@@ -174,10 +179,9 @@ namespace Editor
         /// <param name="e">arg</param>
         private void appSaveAsItem_Click(object sender, EventArgs e)
         {
-            if (FunLab.SaveAs(sfd, po))
+            if (FunLab.SaveAs(ref this.path, ref this.fileName, po))
             {
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName);
-                ofd.FileName = Path.GetFileName(sfd.FileName);
+                this.Text = "Editor - " + this.fileName;
             }
         }
 
@@ -202,7 +206,7 @@ namespace Editor
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
@@ -217,30 +221,45 @@ namespace Editor
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Modify variable
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void varsModifyItem_Click(object sender, EventArgs e)
         {
             if (FunLab.EditVariable(vars, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Remove variable
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void varsRemoveItem_Click(object sender, EventArgs e)
         {
             if (FunLab.DeleteVariables(vars, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// When closing (avoid not saved)
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void Editor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (FunLab.IsDirty)
@@ -248,81 +267,126 @@ namespace Editor
                 DialogResult dr = MessageBox.Show("Save current ?", "Not saved", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.Yes)
                 {
-                    FunLab.Save(sfd, po);
+                    FunLab.Save(ref this.path, ref this.fileName, po);
                 }
             }
         }
 
+        /// <summary>
+        /// Modify data
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void datasModifyItem_Click(object sender, EventArgs e)
         {
             if (FunLab.EditData(datas, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Suppress data
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void datasRemoveItem_Click(object sender, EventArgs e)
         {
             if (FunLab.DeleteData(datas, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Dbl click on vars
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void vars_DoubleClick(object sender, EventArgs e)
         {
             this.varsModifyItem_Click(sender, e);
         }
 
+        /// <summary>
+        /// Dbl click on datas
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void datas_DoubleClick(object sender, EventArgs e)
         {
             this.datasModifyItem_Click(sender, e);
         }
 
+        /// <summary>
+        /// Insert before
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void datasInsertBeforeItem_Click(object sender, EventArgs e)
         {
             if (FunLab.InsertBefore(datas, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Insert after
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void datasInsertAfterItem_Click(object sender, EventArgs e)
         {
             if (FunLab.InsertAfter(datas, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Copy variable
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void editCopyVarItem_Click(object sender, EventArgs e)
         {
             if (FunLab.CopyVariables(vars, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Copy data
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void editCopyDataItem_Click(object sender, EventArgs e)
         {
             if (FunLab.CopyData(datas, po))
             {
                 this.AddUndo();
                 txtSource.Text = po.ToString();
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Undo
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void editUndoItem_Click(object sender, EventArgs e)
         {
             if (this.undoPos > 1)
@@ -344,10 +408,15 @@ namespace Editor
                 datas.EndUpdate();
                 txtSource.Text = po.ToString();
                 FunLab.IsDirty = true;
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
             }
         }
 
+        /// <summary>
+        /// Redo
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
         private void editRedoItem_Click(object sender, EventArgs e)
         {
             if (this.undoPos < this.stored.Count)
@@ -368,7 +437,49 @@ namespace Editor
                 datas.EndUpdate();
                 txtSource.Text = po.ToString();
                 FunLab.IsDirty = true;
-                this.Text = "Editor - " + Path.GetFileName(sfd.FileName) + " *";
+                this.Text = "Editor - " + this.fileName + " *";
+            }
+        }
+
+        /// <summary>
+        /// Open config
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">arg</param>
+        private void configParamsItem_Click(object sender, EventArgs e)
+        {
+            Config c = new Config();
+            c.Defines = po.Configuration;
+            DialogResult dr = c.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                if (FunLab.IsDirty)
+                {
+                    po.Configuration = c.Defines.Clone() as Configuration;
+                    this.Text = "Editor - " + this.fileName + " *";
+                    txtSource.Text = po.ToString();
+                }
+            }
+            else
+            {
+                FunLab.IsDirty = false;
+            }
+        }
+
+        private void executeItem_Click(object sender, EventArgs e)
+        {
+            Control c = sender as Control;
+            if (this.exec)
+            {
+                this.txtSource.Text = po.Execute();
+                this.exec = false;
+                this.executeItem.Text = "Source";
+            }
+            else
+            {
+                this.txtSource.Text = po.ToString();
+                this.exec = true;
+                this.executeItem.Text = "Execute";
             }
         }
     }
