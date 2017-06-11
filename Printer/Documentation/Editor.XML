@@ -1,0 +1,626 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Editor</name>
+    </assembly>
+    <members>
+        <member name="T:Editor.Config">
+            <summary>
+            Configuration form
+            </summary>
+        </member>
+        <member name="F:Editor.Config.conf">
+            <summary>
+            Configuration object
+            </summary>
+        </member>
+        <member name="M:Editor.Config.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Editor.Config.btnOK_Click(System.Object,System.EventArgs)">
+            <summary>
+            When Ok clicked
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Config.btnCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            When Cancel clicked
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="F:Editor.Config.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Editor.Config.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Editor.Config.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:Editor.Config.Defines">
+            <summary>
+            Gets configuration object
+            </summary>
+        </member>
+        <member name="T:Editor.Data">
+            <summary>
+            Data form
+            </summary>
+        </member>
+        <member name="M:Editor.Data.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Editor.Data.rbVariable_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            rb var changed
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Data.rbConst_CheckedChanged(System.Object,System.EventArgs)">
+            <summary>
+            rb const changed
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Data.btnOK_Click(System.Object,System.EventArgs)">
+            <summary>
+            When ok clicked
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Data.btnCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            When cancel clicked
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Data.Data_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
+            <summary>
+            When closing
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="F:Editor.Data.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Editor.Data.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Editor.Data.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Editor.Editor">
+            <summary>
+            Editor form (main window)
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.path">
+            <summary>
+            Path
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.fileName">
+            <summary>
+            File name
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.po">
+            <summary>
+            Printer object
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.stored">
+            <summary>
+            Undo/redo memory
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.undoPos">
+            <summary>
+            undo position to redo
+            </summary>
+        </member>
+        <member name="F:Editor.Editor.exec">
+            <summary>
+            exec switch
+            </summary>
+        </member>
+        <member name="M:Editor.Editor.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Editor.Editor.AddUndo">
+            <summary>
+            Add for undo feature
+            </summary>
+        </member>
+        <member name="M:Editor.Editor.AddUndo(System.IO.MemoryStream)">
+            <summary>
+            Add to undo feature
+            </summary>
+            <param name="stream">stream to keep</param>
+        </member>
+        <member name="M:Editor.Editor.appNewItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            New object
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.appLoadItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Load a file
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.appSaveItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Save into a file
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.appSaveAsItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Save into an another file
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.appQuitItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Quit
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.varsAddItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Add variable
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.datasAddItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Add data
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.varsModifyItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Modify variable
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.varsRemoveItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Remove variable
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.Editor_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
+            <summary>
+            When closing (avoid not saved)
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.datasModifyItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Modify data
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.datasRemoveItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Suppress data
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.vars_DoubleClick(System.Object,System.EventArgs)">
+            <summary>
+            Dbl click on vars
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.datas_DoubleClick(System.Object,System.EventArgs)">
+            <summary>
+            Dbl click on datas
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.datasInsertBeforeItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Insert before
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.datasInsertAfterItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Insert after
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.editCopyVarItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Copy variable
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.editCopyDataItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Copy data
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.editUndoItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Undo
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.editRedoItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Redo
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Editor.configParamsItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Open config
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="F:Editor.Editor.components">
+            <summary>
+            Variable nécessaire au concepteur.
+            </summary>
+        </member>
+        <member name="M:Editor.Editor.Dispose(System.Boolean)">
+            <summary>
+            Nettoyage des ressources utilisées.
+            </summary>
+            <param name="disposing">true si les ressources managées doivent être supprimées ; sinon, false.</param>
+        </member>
+        <member name="M:Editor.Editor.InitializeComponent">
+            <summary>
+            Méthode requise pour la prise en charge du concepteur - ne modifiez pas
+            le contenu de cette méthode avec l'éditeur de code.
+            </summary>
+        </member>
+        <member name="T:Editor.FunLab">
+            <summary>
+            Laboratory of functions
+            </summary>
+        </member>
+        <member name="F:Editor.FunLab.hasModified">
+            <summary>
+            Has modified switch
+            </summary>
+        </member>
+        <member name="F:Editor.FunLab.alreadyOpen">
+            <summary>
+            When a file has been loaded
+            </summary>
+        </member>
+        <member name="M:Editor.FunLab.Load(System.String@,System.String@,Printer.PrinterObject@)">
+            <summary>
+            Load from file
+            </summary>
+            <param name="path">path</param>
+            <param name="fileName">file name</param>
+            <param name="po">printer object</param>
+            <returns>true if loaded</returns>
+        </member>
+        <member name="M:Editor.FunLab.Save(System.String@,System.String@,Printer.PrinterObject)">
+            <summary>
+            Save to file
+            </summary>
+            <param name="path">path</param>
+            <param name="fileName">file name</param>
+            <param name="po">printer object</param>
+            <returns>true if saved</returns>
+        </member>
+        <member name="M:Editor.FunLab.SaveAs(System.String@,System.String@,Printer.PrinterObject)">
+            <summary>
+            Save to an another file
+            </summary>
+            <param name="path">path</param>
+            <param name="fileName">file name</param>
+            <param name="po">printer object</param>
+            <returns>true if saved</returns>
+        </member>
+        <member name="M:Editor.FunLab.New(Printer.PrinterObject@)">
+            <summary>
+            Create a new printer object
+            </summary>
+            <param name="po">printer object</param>
+        </member>
+        <member name="M:Editor.FunLab.AddNewVariable(System.Windows.Forms.ListBox,Printer.PrinterVariable)">
+            <summary>
+            Add a new variable
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.AddNewVariable(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Add a new variable
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.EditVariable(System.Windows.Forms.ListBox,Printer.PrinterVariable)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">variable object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.EditVariable(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.CopyVariables(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Copy variables
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">printer object</param>
+            <returns>if at least one item removed</returns>
+        </member>
+        <member name="M:Editor.FunLab.DeleteVariables(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Delete variables
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">printer object</param>
+            <returns>if at least one item removed</returns>
+        </member>
+        <member name="M:Editor.FunLab.DeleteVariables(System.Windows.Forms.ListBox,Printer.PrinterVariable)">
+            <summary>
+            Delete variables
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">variable object</param>
+            <returns>if at least one item removed</returns>
+        </member>
+        <member name="M:Editor.FunLab.AddNewData(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Add a new data
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.EditData(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Edit data
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.InsertBefore(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Insert a new data before a given position
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.InsertAfter(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Insert a new data after a given position
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+            <returns>added variable</returns>
+        </member>
+        <member name="M:Editor.FunLab.DeleteData(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Delete data
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+            <returns>if at least one item removed</returns>
+        </member>
+        <member name="M:Editor.FunLab.CopyData(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Copy data
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+            <returns>if at least one item removed</returns>
+        </member>
+        <member name="M:Editor.FunLab.FillVars(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Fill all variable in list box
+            </summary>
+            <param name="list">variable list</param>
+            <param name="po">printer object</param>
+        </member>
+        <member name="M:Editor.FunLab.FillVars(System.Windows.Forms.ListBox,Printer.PrinterVariable)">
+            <summary>
+            Fill all variable in list box
+            </summary>
+            <param name="list">variable list</param>
+            <param name="pv">printer variable</param>
+        </member>
+        <member name="M:Editor.FunLab.FillData(System.Windows.Forms.ListBox,Printer.PrinterObject)">
+            <summary>
+            Fill all data in list box
+            </summary>
+            <param name="list">data list</param>
+            <param name="po">printer object</param>
+        </member>
+        <member name="M:Editor.FunLab.FillConfigs(System.Windows.Forms.ListBox,Printer.Configuration)">
+            <summary>
+            Fill all config in list box
+            </summary>
+            <param name="list">variable list</param>
+            <param name="conf">configuration object</param>
+        </member>
+        <member name="P:Editor.FunLab.IsDirty">
+            <summary>
+            Returns true of false if data has modified
+            </summary>
+        </member>
+        <member name="M:Editor.Program.Main">
+            <summary>
+            Point d'entrée principal de l'application.
+            </summary>
+        </member>
+        <member name="T:Editor.Variable">
+            <summary>
+            Variable form
+            </summary>
+        </member>
+        <member name="M:Editor.Variable.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Editor.Variable.btnOK_Click(System.Object,System.EventArgs)">
+            <summary>
+            When ok button clicked
+            </summary>
+            <param name="sender">object</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Variable.btnCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            When cancel button clicked
+            </summary>
+            <param name="sender">object</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Variable.Variable_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
+            <summary>
+            When asking to close window
+            </summary>
+            <param name="sender">object</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Variable.btnAdd_Click(System.Object,System.EventArgs)">
+            <summary>
+            When add button clicked
+            </summary>
+            <param name="sender">object</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Variable.btnEdit_Click(System.Object,System.EventArgs)">
+            <summary>
+            When edit button clicked
+            </summary>
+            <param name="sender">object</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="M:Editor.Variable.btnDelete_Click(System.Object,System.EventArgs)">
+            <summary>
+            When delete button clicked
+            </summary>
+            <param name="sender">object</param>
+            <param name="e">arg</param>
+        </member>
+        <member name="F:Editor.Variable.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Editor.Variable.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Editor.Variable.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.IncludePage">
+            <summary>
+            Gets the include tab page
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.ValuePage">
+            <summary>
+            Gets the value tab page
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.IsIndented">
+            <summary>
+            Gets or sets indented switch
+            </summary>
+        </member>
+        <member name="T:Editor.Properties.Resources">
+            <summary>
+              Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
+            </summary>
+        </member>
+        <member name="P:Editor.Properties.Resources.ResourceManager">
+            <summary>
+              Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
+            </summary>
+        </member>
+        <member name="P:Editor.Properties.Resources.Culture">
+            <summary>
+              Remplace la propriété CurrentUICulture du thread actuel pour toutes
+              les recherches de ressources à l'aide de cette classe de ressource fortement typée.
+            </summary>
+        </member>
+    </members>
+</doc>
