@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
+using System.Linq;
+ using System.Xml;
 using System.Xml.Xsl;
+using static System.Environment;
 
 namespace Printer
 {
@@ -43,6 +44,12 @@ namespace Printer
         /// </summary>
         public static readonly int IndentSize = 2;
 
+        /// <summary>
+        /// Current user directory
+        /// stores languages, sources, compiled and temp
+        /// </summary>
+        public static readonly string PersonalDirectory = Environment.GetFolderPath(SpecialFolder.MyDocuments);
+
         #endregion
 
         #region Constructors
@@ -52,6 +59,7 @@ namespace Printer
         /// </summary>
         public PrinterObject()
         {
+            PrinterObject.In
             this.variables = new Dictionary<string, PrinterVariable>();
             this.datas = new List<string>();
             this.unique = new UniqueStrings();
@@ -98,6 +106,41 @@ namespace Printer
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Initialize personal directory
+        /// </summary>
+        private static void InitializePersonalDirectory()
+        {
+            FileInfo fi = new FileInfo(PrinterObject.PersonalDirectory);
+            if (fi.Exists)
+            {
+                DirectoryInfo fiRootDir = new DirectoryInfo(Path.Combine(PrinterObject.PersonalDirectory, "Printer"));
+                if (!fiRootDir.Exists)
+                {
+                    fiRootDir.Create();
+                }
+                DirectoryInfo fiLanguages = new DirectoryInfo(Path.Combine(fiRootDir.FullName, "languages"));
+                if (!fiRootDir.Exists)
+                {
+                    fiLanguages.Create();
+                    DirectoryInfo sourceLanguages = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "languages"));
+                    if (sourceLanguages.Exists)
+                    {
+                    }
+                    else
+                    {
+                        throw new DirectoryNotFoundException(String.Format("The directory {0} doesn't exist", sourceLanguages.FullName));
+
+                    }
+                }
+
+            }
+            else
+            {
+                throw new NotSupportedException("Your personal directory doesn't exist. Assumes to have one");
+            }
+        }
 
         /// <summary>
         /// Test if existing variable
@@ -335,14 +378,15 @@ namespace Printer
         /// Write output as interpretation result
         /// </summary>
         /// <param name="w">writer</param>
-        private void Execute(IndentedTextWriter w)
+        /// <param name="config">configuration</param>
+        private void Execute(IndentedTextWriter w, Configuration config)
         {
             foreach (string e in this.datas)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
-                    this.variables[r].Execute(w);
+                    this.variables[r].Execute(w, config);
                 }
                 else
                 {
@@ -362,12 +406,12 @@ namespace Printer
             using (IndentedTextWriter itw = new IndentedTextWriter(tw))
             {
 
-                this.Execute(itw);
+                this.Execute(itw, this.Configuration);
                 itw.WriteLine();
                 itw.Close();
                 tw.Close();
             }
-            return this.Configuration.Execute(sb.ToString());
+            return sb.ToString();
         }
 
         /// <summary>

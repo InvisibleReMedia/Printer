@@ -259,11 +259,12 @@
             </summary>
             <param name="index">position</param>
         </member>
-        <member name="M:Printer.PrinterObject.Execute(System.CodeDom.Compiler.IndentedTextWriter)">
+        <member name="M:Printer.PrinterObject.Execute(System.CodeDom.Compiler.IndentedTextWriter,Printer.Configuration)">
             <summary>
             Write output as interpretation result
             </summary>
             <param name="w">writer</param>
+            <param name="config">configuration</param>
         </member>
         <member name="M:Printer.PrinterObject.Execute">
             <summary>
@@ -421,11 +422,12 @@
             </summary>
             <param name="key">key name</param>
         </member>
-        <member name="M:Printer.PrinterVariable.Execute(System.CodeDom.Compiler.IndentedTextWriter)">
+        <member name="M:Printer.PrinterVariable.Execute(System.CodeDom.Compiler.IndentedTextWriter,Printer.Configuration)">
             <summary>
             Execute the variable
             </summary>
             <param name="w">writer</param>
+            <param name="config">configuration</param>
         </member>
         <member name="M:Printer.PrinterVariable.ToString(System.Xml.XmlWriter)">
             <summary>

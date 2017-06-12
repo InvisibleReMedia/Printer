@@ -204,12 +204,14 @@ namespace Printer
         /// Execute the variable
         /// </summary>
         /// <param name="w">writer</param>
-        public void Execute(IndentedTextWriter w)
+        /// <param name="config">configuration</param>
+        public void Execute(IndentedTextWriter w, Configuration config)
         {
             if (shouldIndent) w.Indent += PrinterObject.IndentSize;
             if (include)
             {
-                FileInfo fi = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "languages", this.value));
+                string fileName = config.Execute(this.value);
+                FileInfo fi = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "languages", fileName));
                 if (fi.Exists)
                 {
                     using (FileStream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -226,7 +228,7 @@ namespace Printer
             }
             else
             {
-                w.Write(this.value);
+                w.Write(config.Execute(this.value));
             }
             if (shouldIndent) w.Indent -= PrinterObject.IndentSize;
         }
