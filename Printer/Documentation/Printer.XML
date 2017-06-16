@@ -133,7 +133,7 @@
             Configuration object
             </summary>
         </member>
-        <member name="F:Printer.PrinterObject.IndentSize">
+        <member name="F:Printer.PrinterObject.IndentString">
             <summary>
             Size indent space char
             </summary>
@@ -168,6 +168,14 @@
             <summary>
             Gets or sets the configuration object
             </summary>
+        </member>
+        <member name="M:Printer.PrinterObject.IndentSource(System.IO.TextWriter,System.Int32,System.String)">
+            <summary>
+            Indentation before each line
+            </summary>
+            <param name="sw">writer</param>
+            <param name="n">number of indentation</param>
+            <param name="source">string to write indented (can contains \r\n)</param>
         </member>
         <member name="M:Printer.PrinterObject.CopyDirectory(System.IO.DirectoryInfo,System.String)">
             <summary>
@@ -282,11 +290,12 @@
             </summary>
             <param name="index">position</param>
         </member>
-        <member name="M:Printer.PrinterObject.Execute(System.CodeDom.Compiler.IndentedTextWriter,Printer.Configuration)">
+        <member name="M:Printer.PrinterObject.Execute(System.IO.TextWriter,System.Int32@,Printer.Configuration)">
             <summary>
             Write output as interpretation result
             </summary>
             <param name="w">writer</param>
+            <param name="indentValue">space size</param>
             <param name="config">configuration</param>
         </member>
         <member name="M:Printer.PrinterObject.Execute">
@@ -445,11 +454,12 @@
             </summary>
             <param name="key">key name</param>
         </member>
-        <member name="M:Printer.PrinterVariable.Execute(System.CodeDom.Compiler.IndentedTextWriter,Printer.Configuration)">
+        <member name="M:Printer.PrinterVariable.Execute(System.IO.TextWriter,System.Int32@,Printer.Configuration)">
             <summary>
             Execute the variable
             </summary>
             <param name="w">writer</param>
+            <param name="indentValue">space size</param>
             <param name="config">configuration</param>
         </member>
         <member name="M:Printer.PrinterVariable.ToString(System.Xml.XmlWriter)">

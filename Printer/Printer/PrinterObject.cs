@@ -5,9 +5,10 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Linq;
- using System.Xml;
+using System.Xml;
 using System.Xml.Xsl;
 using static System.Environment;
+using System.Text.RegularExpressions;
 
 namespace Printer
 {
@@ -42,7 +43,7 @@ namespace Printer
         /// <summary>
         /// Size indent space char
         /// </summary>
-        public static readonly int IndentSize = 2;
+        public static readonly string IndentString = " ";
 
         /// <summary>
         /// Current user directory
@@ -110,6 +111,20 @@ namespace Printer
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Indentation before each line
+        /// </summary>
+        /// <param name="sw">writer</param>
+        /// <param name="n">number of indentation</param>
+        /// <param name="source">string to write indented (can contains \r\n)</param>
+        public static void IndentSource(TextWriter sw, int n, string source)
+        {
+            string indent = String.Empty;
+            for (int index = 0; index < n; ++index) indent += IndentString;
+            Regex reg = new Regex(Environment.NewLine);
+            sw.Write(reg.Replace(source, Environment.NewLine + indent));
+        }
 
         /// <summary>
         /// Copy an entire directory to an existing destination directory
@@ -419,19 +434,20 @@ namespace Printer
         /// Write output as interpretation result
         /// </summary>
         /// <param name="w">writer</param>
+        /// <param name="indentValue">space size</param>
         /// <param name="config">configuration</param>
-        private void Execute(IndentedTextWriter w, Configuration config)
+        public void Execute(TextWriter w, ref int indentValue, Configuration config)
         {
             foreach (string e in this.datas)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
-                    this.variables[r].Execute(w, config);
+                    this.variables[r].Execute(w, ref indentValue, config);
                 }
                 else
                 {
-                    w.Write(e);
+                    PrinterObject.IndentSource(w, indentValue, config.Execute(e));
                 }
             }
         }
@@ -442,14 +458,12 @@ namespace Printer
         /// <returns>output</returns>
         public string Execute()
         {
+            int indentValue = 0;
             StringBuilder sb = new StringBuilder();
             using (TextWriter tw = new StringWriter(sb))
-            using (IndentedTextWriter itw = new IndentedTextWriter(tw))
             {
-
-                this.Execute(itw, this.Configuration);
-                itw.WriteLine();
-                itw.Close();
+                this.Execute(tw, ref indentValue, this.Configuration);
+                IndentSource(tw, indentValue, Environment.NewLine);
                 tw.Close();
             }
             return sb.ToString();
