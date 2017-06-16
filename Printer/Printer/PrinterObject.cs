@@ -48,8 +48,12 @@ namespace Printer
         /// Current user directory
         /// stores languages, sources, compiled and temp
         /// </summary>
-        public static readonly string PersonalDirectory = Environment.GetFolderPath(SpecialFolder.MyDocuments);
+        public static readonly string PersonalDirectory = Environment.GetFolderPath(SpecialFolder.MyDocuments) + "\\";
 
+        /// <summary>
+        /// Current program document directory
+        /// </summary>
+        public static readonly string PrinterDirectory = Path.Combine(PersonalDirectory, "Printer");
         #endregion
 
         #region Constructors
@@ -59,7 +63,7 @@ namespace Printer
         /// </summary>
         public PrinterObject()
         {
-            PrinterObject.In
+            PrinterObject.InitializePersonalDirectory();
             this.variables = new Dictionary<string, PrinterVariable>();
             this.datas = new List<string>();
             this.unique = new UniqueStrings();
@@ -108,30 +112,67 @@ namespace Printer
         #region Methods
 
         /// <summary>
+        /// Copy an entire directory to an existing destination directory
+        /// </summary>
+        /// <param name="di">directory to copy</param>
+        /// <param name="destination">destination path</param>
+        private static void CopyDirectory(DirectoryInfo di, string destination)
+        {
+            foreach (FileInfo fi in di.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(destination, fi.Name), true);
+            }
+            foreach (DirectoryInfo subDi in di.GetDirectories())
+            {
+                DirectoryInfo newdi = new DirectoryInfo(Path.Combine(destination, subDi.Name));
+                if (!newdi.Exists)
+                {
+                    newdi.Create();
+                }
+                CopyDirectory(subDi, Path.Combine(destination, subDi.Name));
+            }
+        }
+
+        /// <summary>
         /// Initialize personal directory
         /// </summary>
         private static void InitializePersonalDirectory()
         {
-            FileInfo fi = new FileInfo(PrinterObject.PersonalDirectory);
-            if (fi.Exists)
+            DirectoryInfo di = new DirectoryInfo(PrinterObject.PersonalDirectory);
+            if (di.Exists)
             {
-                DirectoryInfo fiRootDir = new DirectoryInfo(Path.Combine(PrinterObject.PersonalDirectory, "Printer"));
-                if (!fiRootDir.Exists)
+                DirectoryInfo diRootDir = new DirectoryInfo(Path.Combine(PrinterObject.PersonalDirectory, "Printer"));
+                if (!diRootDir.Exists)
                 {
-                    fiRootDir.Create();
-                }
-                DirectoryInfo fiLanguages = new DirectoryInfo(Path.Combine(fiRootDir.FullName, "languages"));
-                if (!fiRootDir.Exists)
-                {
-                    fiLanguages.Create();
-                    DirectoryInfo sourceLanguages = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "languages"));
-                    if (sourceLanguages.Exists)
+                    diRootDir.Create();
+                    DirectoryInfo diLanguages = new DirectoryInfo(Path.Combine(diRootDir.FullName, "languages"));
+                    if (!diLanguages.Exists)
                     {
+                        diLanguages.Create();
+                        DirectoryInfo sourceLanguages = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "languages"));
+                        if (sourceLanguages.Exists)
+                        {
+                            CopyDirectory(sourceLanguages, diLanguages.FullName);
+                        }
+                        else
+                        {
+                            throw new DirectoryNotFoundException(String.Format("The directory {0} doesn't exist", sourceLanguages.FullName));
+                        }
                     }
-                    else
+                    DirectoryInfo diSources = new DirectoryInfo(Path.Combine(diRootDir.FullName, "sources"));
+                    if (!diSources.Exists)
                     {
-                        throw new DirectoryNotFoundException(String.Format("The directory {0} doesn't exist", sourceLanguages.FullName));
-
+                        diSources.Create();
+                    }
+                    DirectoryInfo diCompiled = new DirectoryInfo(Path.Combine(diRootDir.FullName, "compiled"));
+                    if (!diCompiled.Exists)
+                    {
+                        diCompiled.Create();
+                    }
+                    DirectoryInfo diTemp = new DirectoryInfo(Path.Combine(diRootDir.FullName, "temp"));
+                    if (!diTemp.Exists)
+                    {
+                        diTemp.Create();
                     }
                 }
 

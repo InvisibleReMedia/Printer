@@ -138,6 +138,17 @@
             Size indent space char
             </summary>
         </member>
+        <member name="F:Printer.PrinterObject.PersonalDirectory">
+            <summary>
+            Current user directory
+            stores languages, sources, compiled and temp
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.PrinterDirectory">
+            <summary>
+            Current program document directory
+            </summary>
+        </member>
         <member name="M:Printer.PrinterObject.#ctor">
             <summary>
             Default constructor
@@ -156,6 +167,18 @@
         <member name="P:Printer.PrinterObject.Configuration">
             <summary>
             Gets or sets the configuration object
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterObject.CopyDirectory(System.IO.DirectoryInfo,System.String)">
+            <summary>
+            Copy an entire directory to an existing destination directory
+            </summary>
+            <param name="di">directory to copy</param>
+            <param name="destination">destination path</param>
+        </member>
+        <member name="M:Printer.PrinterObject.InitializePersonalDirectory">
+            <summary>
+            Initialize personal directory
             </summary>
         </member>
         <member name="M:Printer.PrinterObject.ExistTestVariable(System.String)">
