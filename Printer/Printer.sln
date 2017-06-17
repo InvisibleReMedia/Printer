@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Printer", "Printer\Printer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{C99B3B6F-E6F7-4EF6-B697-D194CFA19914}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luigi", "Luigi\Luigi.csproj", "{74DF86C0-535E-4502-A6F6-25D4ECC80800}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C99B3B6F-E6F7-4EF6-B697-D194CFA19914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C99B3B6F-E6F7-4EF6-B697-D194CFA19914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C99B3B6F-E6F7-4EF6-B697-D194CFA19914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74DF86C0-535E-4502-A6F6-25D4ECC80800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74DF86C0-535E-4502-A6F6-25D4ECC80800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74DF86C0-535E-4502-A6F6-25D4ECC80800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74DF86C0-535E-4502-A6F6-25D4ECC80800}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
