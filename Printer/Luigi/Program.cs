@@ -1,72 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Luigi
 {
+    /// <summary>
+    /// The principal program
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Main function
+        /// </summary>
+        /// <param name="args">command-line arguments</param>
         static void Main(string[] args)
         {
             try
             {
                 if (args.Length == 0)
                 {
-                    throw new ArgumentException("USAGE : printer file.prt");
+                    throw new ArgumentException("USAGE : printer file.lgi");
                 }
-                PrinterObject po = null;
-                FileInfo fi = new FileInfo(args[0]);
+
+                FileInfo fi = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, args[0]));
+                LuigiObject lo;
+
                 if (fi.Exists)
                 {
-                    po = PrinterObject.Load(args[0]);
+                    using (FileStream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        lo = LuigiObject.Load(fs) as LuigiObject;
+                        fs.Close();
+                    }
                 }
                 else
                 {
-                    po = new PrinterObject();
-                    po.AddData(@"using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+                    lo = new LuigiObject("test");
+                }
+                LuigiLiteral li = new LuigiLiteral("v", false, ".", "test", lo);
+                lo.AddElement(li);
+                LuigiMapper ma = new LuigiMapper("m", false, lo);
+                LuigiLiteral li2 = new LuigiLiteral("s", false, ".", "a", ma);
+                ma.AddElement(li2);
+                li2 = new LuigiLiteral("x", false, ".", "b", ma);
+                ma.AddElement(li2);
+                lo.AddElement(ma);
+                LuigiSet s = new LuigiSet("s", false, lo);
+                LuigiParameter par = new LuigiParameter("p1", li, s);
+                s.AddElement(par);
+                LuigiParameter par2 = new LuigiParameter("p2", li2, s);
+                s.AddElement(par2);
+                LuigiParameter par3 = new LuigiParameter("p3", ma, s);
+                s.AddElement(par3);
+                lo.AddElement(s);
 
-namespace ");
-                    po.AddData("[Printer]");
-                    po.AddData(@"
-{
-    class ");
-                    po.AddData("[Program]");
-                    po.AddData(@"
-    {
-        static void Main(string[] args)
-        {
-            //");
+                //Console.WriteLine(lo.Execute());
 
-                    PrinterVariable pv = new PrinterVariable();
-                    pv.Name = "condition";
-                    pv.Include = true;
-                    pv.Indent = true;
-                    pv.AddVariable("expression", "true");
-                    pv.AddVariable("then", "code");
-                    pv.AddVariable("else", "code");
-                    pv.Value = "C#.NET/if.prt";
-
-                    po.AddVariable("condition", pv);
-
-                    po.UseVariable("condition");
-                    po.AddData(@"
-        }
-    }
-}
-");
+                using(FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, args[0]), FileMode.Create, FileAccess.Write, FileShare.Write))
+                {
+                    LuigiObject.Save(lo, fs);
+                    fs.Close();
                 }
 
+                Console.WriteLine(lo.ToString());
 
-                Console.WriteLine(po.Execute());
-
-                Console.WriteLine("code:");
-                Console.WriteLine(po.ToString());
-
-                PrinterObject.Save(po, args[0]);
             }
             catch (Exception ex)
             {

@@ -10,11 +10,24 @@ using System.Xml;
 
 namespace Luigi
 {
+    /// <summary>
+    /// Abstract class for Luigi language
+    /// Takes all needs for each class
+    /// </summary>
+    [Serializable]
     public abstract class LuigiElement
     {
 
         #region Fields
 
+        /// <summary>
+        /// Root of this program
+        /// </summary>
+        private LuigiObject root;
+        /// <summary>
+        /// Parent
+        /// </summary>
+        private LuigiElement parent;
         /// <summary>
         /// Name of the object
         /// </summary>
@@ -34,20 +47,56 @@ namespace Luigi
         #region Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Constructor for top-level object
         /// </summary>
         /// <param name="n">name</param>
-        /// <param name="t">type name</param>
         /// <param name="v">value</param>
         protected LuigiElement(string n, dynamic v)
         {
             this.name = n;
             this.value = v;
+            this.parent = null;
+        }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="n">name</param>
+        /// <param name="v">value</param>
+        /// <param name="parent">parent</param>
+        protected LuigiElement(string n, dynamic v, LuigiElement parent)
+        {
+            this.name = n;
+            this.value = v;
+            this.parent = parent;
+            this.root = parent.Root;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the root of this program
+        /// </summary>
+        public LuigiObject Root
+        {
+            get
+            {
+                return this.root;
+            }
+        }
+
+        /// <summary>
+        /// Gets the parent of this object
+        /// </summary>
+        public LuigiElement Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the name
@@ -113,7 +162,6 @@ namespace Luigi
         /// </summary>
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
-        /// <param name="config">configuration</param>
         public abstract void Execute(TextWriter w, ref int indentValue);
 
         /// <summary>
@@ -229,20 +277,6 @@ namespace Luigi
             }
         }
 
-        /// <summary>
-        /// Generates the source code
-        /// of this LuigiElement
-        /// </summary>
-        /// <returns>the string representation</returns>
-        public override string ToString()
-        {
-            StringBuilder output = new StringBuilder();
-
-            return output.ToString();
-        }
-
         #endregion
-
-
     }
 }

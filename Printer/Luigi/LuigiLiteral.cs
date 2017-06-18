@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace Luigi
 {
-    class LuigiLiteral : LuigiElement
+    /// <summary>
+    /// A literal into Luigi language
+    /// </summary>
+    [Serializable]
+    public class LuigiLiteral : LuigiElement
     {
 
         #region Fields
@@ -30,10 +34,13 @@ namespace Luigi
         /// Literal object
         /// </summary>
         /// <param name="n">type name of the object</param>
+        /// <param name="im">immediate switch</param>
         /// <param name="d">delimiter</param>
         /// <param name="v">value string</param>
-        public LuigiLiteral(string n, string d, string v) : base(n, v)
+        /// <param name="p">parent</param>
+        public LuigiLiteral(string n, bool im, string d, string v, LuigiElement p) : base(n, v, p)
         {
+            this.immediate = im;
             this.delimiter = d;
         }
 

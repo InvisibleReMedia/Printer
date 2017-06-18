@@ -169,7 +169,7 @@ namespace Editor
             PrinterVariable pv = new PrinterVariable();
             Variable var = new Variable();
             var.IsIndented = pv.Indent;
-            var.Controls["txtName"].DataBindings.Add("Text", pv, "Name");
+            var.Controls["txtName"].Text = pv.Name;
             if (pv.Include)
             {
                 (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked = true;
@@ -185,6 +185,11 @@ namespace Editor
             DialogResult dr = var.ShowDialog();
             if (dr == DialogResult.OK)
             {
+                if (!String.IsNullOrEmpty(pv.Name) && pv.Name != var.Controls["txtName"].Text)
+                {
+                    po.DeleteVariable(pv.Name);
+                    list.Items.Remove(pv.Name);
+                }
                 pv.Indent = var.IsIndented;
                 pv.Include = (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked;
                 if (pv.Include)
@@ -195,6 +200,7 @@ namespace Editor
                 {
                     pv.Value = var.ValuePage.Controls["txtValue"].Text;
                 }
+                pv.Name = var.Controls["txtName"].Text;
                 if (po.ExistTestVariable(pv.Name))
                 {
                     po.EditVariable(pv.Name, pv);
@@ -231,7 +237,7 @@ namespace Editor
             PrinterVariable pv = new PrinterVariable();
             Variable var = new Variable();
             var.IsIndented = pv.Indent;
-            var.Controls["txtName"].DataBindings.Add("Text", pv, "Name");
+            var.Controls["txtName"].Text = pv.Name;
             if (pv.Include)
             {
                 (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked = true;
@@ -247,6 +253,11 @@ namespace Editor
             DialogResult dr = var.ShowDialog();
             if (dr == DialogResult.OK)
             {
+                if (!String.IsNullOrEmpty(pv.Name) && pv.Name != var.Controls["txtName"].Text)
+                {
+                    po.DeleteVariable(pv.Name);
+                    list.Items.Remove(pv.Name);
+                }
                 pv.Indent = var.IsIndented;
                 pv.Include = (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked;
                 if (pv.Include)
@@ -261,6 +272,7 @@ namespace Editor
                 {
                     pv.Value = var.ValuePage.Controls["txtValue"].Text;
                 }
+                pv.Name = var.Controls["txtName"].Text;
                 if (po.ExistTestVariable(pv.Name))
                 {
                     po.EditVariable(pv.Name, pv);
@@ -299,7 +311,7 @@ namespace Editor
                 PrinterVariable pv = list.SelectedItems[0] as PrinterVariable;
                 Variable var = new Variable();
                 var.IsIndented = pv.Indent;
-                var.Controls["txtName"].DataBindings.Add("Text", pv, "Name");
+                var.Controls["txtName"].Text = pv.Name;
                 if (pv.Include)
                 {
                     (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked = true;
@@ -315,7 +327,7 @@ namespace Editor
                 DialogResult dr = var.ShowDialog();
                 if (dr == DialogResult.OK)
                 {
-                    if (pv.Name != var.Controls["txtName"].Text)
+                    if (!String.IsNullOrEmpty(pv.Name) && pv.Name != var.Controls["txtName"].Text)
                     {
                         po.DeleteVariable(pv.Name);
                         list.Items.RemoveAt(list.SelectedIndices[0]);
@@ -377,7 +389,7 @@ namespace Editor
                 PrinterVariable pv = list.SelectedItems[0] as PrinterVariable;
                 Variable var = new Variable();
                 var.IsIndented = pv.Indent;
-                var.Controls["txtName"].DataBindings.Add("Text", pv, "Name");
+                var.Controls["txtName"].Text = pv.Name;
                 if (pv.Include)
                 {
                     (var.IncludePage.Controls["rbInclude"] as RadioButton).Checked = true;
@@ -393,7 +405,7 @@ namespace Editor
                 DialogResult dr = var.ShowDialog();
                 if (dr == DialogResult.OK)
                 {
-                    if (pv.Name != var.Controls["txtName"].Text)
+                    if (!String.IsNullOrEmpty(pv.Name) && pv.Name != var.Controls["txtName"].Text)
                     {
                         po.DeleteVariable(pv.Name);
                         list.Items.RemoveAt(list.SelectedIndices[0]);

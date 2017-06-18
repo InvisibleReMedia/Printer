@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 
 namespace Luigi
 {
+    /// <summary>
+    /// Operates functions
+    /// </summary>
+    [Serializable]
     public class LuigiFunction : LuigiElement
     {
 
         #region Constructor
-
-        public LuigiFunction(string n, dynamic v) : base(n, "function", v)
+        
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="n">name of the function</param>
+        /// <param name="v">parameters</param>
+        /// <param name="p">parent</param>
+        public LuigiFunction(string n, LuigiList v, LuigiElement p) : base(n, v, p)
         {
         }
 
@@ -20,6 +30,11 @@ namespace Luigi
 
         #region Methods
 
+        /// <summary>
+        /// Execute this object
+        /// </summary>
+        /// <param name="w">writer</param>
+        /// <param name="indentValue">indent size</param>
         public override void Execute(TextWriter w, ref int indentValue)
         {
             throw new NotImplementedException();

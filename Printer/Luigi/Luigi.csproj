@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Documentation\Luigi.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,12 +46,15 @@
   <ItemGroup>
     <Compile Include="LuigiElement.cs" />
     <Compile Include="LuigiFunction.cs" />
+    <Compile Include="LuigiDictionary.cs" />
     <Compile Include="LuigiList.cs" />
     <Compile Include="LuigiLiteral.cs" />
     <Compile Include="LuigiMapper.cs" />
     <Compile Include="LuigiObject.cs" />
+    <Compile Include="LuigiParameter.cs" />
     <Compile Include="LuigiReference.cs" />
     <Compile Include="LuigiSet.cs" />
+    <Compile Include="LuigiValue.cs" />
     <Compile Include="LuigiVariable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

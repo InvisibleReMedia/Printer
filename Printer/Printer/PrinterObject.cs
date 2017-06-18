@@ -7,7 +7,6 @@ using System.Text;
 using System.Linq;
 using System.Xml;
 using System.Xml.Xsl;
-using static System.Environment;
 using System.Text.RegularExpressions;
 
 namespace Printer
@@ -49,7 +48,7 @@ namespace Printer
         /// Current user directory
         /// stores languages, sources, compiled and temp
         /// </summary>
-        public static readonly string PersonalDirectory = Environment.GetFolderPath(SpecialFolder.MyDocuments) + "\\";
+        public static readonly string PersonalDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\";
 
         /// <summary>
         /// Current program document directory
@@ -463,7 +462,6 @@ namespace Printer
             using (TextWriter tw = new StringWriter(sb))
             {
                 this.Execute(tw, ref indentValue, this.Configuration);
-                IndentSource(tw, indentValue, Environment.NewLine);
                 tw.Close();
             }
             return sb.ToString();

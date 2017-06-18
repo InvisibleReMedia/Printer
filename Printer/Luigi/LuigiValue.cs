@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 namespace Luigi
 {
     /// <summary>
-    /// A variable into Luigi language
+    /// A value for effective parameters
     /// </summary>
     [Serializable]
-    public class LuigiVariable : LuigiElement
+    public class LuigiValue : LuigiElement
     {
-
         #region Constructor
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="n">name of variable</param>
-        /// <param name="v">luigi element</param>
+        /// <param name="n">name of the function</param>
+        /// <param name="v">parameters</param>
         /// <param name="p">parent</param>
-        public LuigiVariable(string n, LuigiElement v, LuigiElement p) : base(n, v, p)
+        public LuigiValue(string n, LuigiElement v, LuigiElement p) : base(n, v, p)
         {
         }
 

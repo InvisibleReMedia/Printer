@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 
 namespace Luigi
 {
+    /// <summary>
+    /// A reference type into Luigi language
+    /// </summary>
+    [Serializable]
     public class LuigiReference : LuigiElement
     {
 
         #region Constructor
 
-        public LuigiReference(string n, dynamic v) : base(n, "reference", v)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="n">type name</param>
+        /// <param name="v">reference type</param>
+        /// <param name="p">parent</param>
+        public LuigiReference(string n, string v, LuigiElement p) : base(n, v, p)
         {
         }
 
@@ -20,6 +30,11 @@ namespace Luigi
 
         #region Methods
 
+        /// <summary>
+        /// Execute this object
+        /// </summary>
+        /// <param name="w">writer</param>
+        /// <param name="indentValue">indent size</param>
         public override void Execute(TextWriter w, ref int indentValue)
         {
             throw new NotImplementedException();

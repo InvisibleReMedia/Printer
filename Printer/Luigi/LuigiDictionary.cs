@@ -11,7 +11,7 @@ namespace Luigi
     /// A list of luigi instance elements
     /// </summary>
     [Serializable]
-    public class LuigiList : LuigiElement
+    public class LuigiDictionary : LuigiElement
     {
 
         #region Fields
@@ -35,10 +35,10 @@ namespace Luigi
         /// <param name="n">name of the list</param>
         /// <param name="v">input list</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
+        public LuigiDictionary(string n, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
         {
             this.mixedContent = true;
-            this.Value = new List<LuigiElement>(v);
+            this.Value = new Dictionary<string, LuigiElement>(v.ToDictionary(x => x.Name));
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Luigi
         /// <param name="inType">type name of the content</param>
         /// <param name="v">input list</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, string inType, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
+        public LuigiDictionary(string n, string inType, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
         {
             this.mixedContent = false;
             this.contentTypeName = inType;
-            this.Value = new List<LuigiElement>(v);
+            this.Value = new Dictionary<string, LuigiElement>(v.ToDictionary(x => x.Name));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Luigi
         /// </summary>
         /// <param name="n">name of the list</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, LuigiElement p) : base(n, new List<LuigiElement>(), p)
+        public LuigiDictionary(string n, LuigiElement p) : base(n, new Dictionary<string, LuigiElement>(), p)
         {
             this.mixedContent = true;
         }
@@ -71,7 +71,8 @@ namespace Luigi
         /// <param name="n">name of the list</param>
         /// <param name="inType">type name of the content</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, string inType, LuigiElement p) : base(n, new List<LuigiElement>(), p)
+        public LuigiDictionary(string n, string inType, LuigiElement p)
+            : base(n, new Dictionary<string, LuigiElement>(), p)
         {
             this.contentTypeName = inType;
             this.mixedContent = false;
@@ -107,7 +108,7 @@ namespace Luigi
         /// <summary>
         /// Gets the elements object
         /// </summary>
-        public List<LuigiElement> Elements
+        public Dictionary<string, LuigiElement> Elements
         {
             get
             {
@@ -128,50 +129,60 @@ namespace Luigi
             if (!mixedContent && e.TypeName != this.ContentTypeName)
                 throw new InvalidCastException(String.Format("{0} type name doesn't match {1} as content type name", e.TypeName, this.ContentTypeName));
 
-            this.Elements.Add(e);
+            if (this.Elements.ContainsKey(e.Name))
+            {
+                this.Elements[e.Name] = e;
+            }
+            else
+            {
+                this.Elements.Add(e.Name, e);
+            }
         }
 
         /// <summary>
-        /// Insert an element
+        /// Change the name of an item
         /// </summary>
-        /// <param name="index">index position</param>
-        /// <param name="e"></param>
-        public void InsertElement(int index, LuigiElement e)
+        /// <param name="oldName">an existing item name</param>
+        /// <param name="newName">the new name of the same item</param>
+        public void ChangeName(string oldName, string newName)
         {
-            if (!mixedContent && e.TypeName != this.ContentTypeName)
-                throw new InvalidCastException(String.Format("{0} type name doesn't match {1} as content type name", e.TypeName, this.ContentTypeName));
-
-            if (index < this.Elements.Count)
+            if (this.Elements.ContainsKey(oldName))
             {
-                this.Elements.Insert(index, e);
+                LuigiElement e = this.Elements[oldName];
+                e.Name = newName;
+                this.Elements.Remove(oldName);
+                this.AddElement(e);
             }
         }
 
         /// <summary>
         /// Edit element list
         /// </summary>
-        /// <param name="index">index position</param>
         /// <param name="e">element to add</param>
-        public void EditElement(int index, LuigiElement e)
+        public void EditElement(LuigiElement e)
         {
             if (!mixedContent && e.TypeName != this.ContentTypeName)
                 throw new InvalidCastException(String.Format("{0} type name doesn't match {1} as content type name", e.TypeName, this.ContentTypeName));
 
-            if (index < this.Elements.Count)
+            if (this.Elements.ContainsKey(e.Name))
             {
-                this.Elements[index] = e;
+                this.Elements[e.Name] = e;
+            }
+            else
+            {
+                this.Elements.Add(e.Name, e);
             }
         }
 
         /// <summary>
         /// Remove an element from the list
         /// </summary>
-        /// <param name="index">index to remove</param>
-        public void RemoveElement(int index)
+        /// <param name="nameToRemove">name to remove</param>
+        public void RemoveElement(string nameToRemove)
         {
-            if (index < this.Elements.Count)
+            if (this.Elements.ContainsKey(nameToRemove))
             {
-                this.Elements.RemoveAt(index);
+                this.Elements.Remove(nameToRemove);
             }
         }
 
