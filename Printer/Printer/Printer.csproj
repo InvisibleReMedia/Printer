@@ -77,17 +77,23 @@
     <EmbeddedResource Include="languages\Python\main.prt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="languages\Luigi\literal-au.prt" />
     <None Include="languages\Luigi\literal-im.prt" />
     <None Include="languages\Luigi\literal-key.prt" />
     <None Include="languages\Luigi\literal-param-name-src.prt" />
     <None Include="languages\Luigi\literal-param-src.prt" />
     <None Include="languages\Luigi\literal-src.prt" />
     <None Include="languages\Luigi\literal.prt" />
+    <None Include="languages\Luigi\mapper-au.prt" />
+    <None Include="languages\Luigi\mapper-im.prt" />
     <None Include="languages\Luigi\mapper-key.prt" />
     <None Include="languages\Luigi\mapper-src.prt" />
     <None Include="languages\Luigi\mapper.prt" />
     <None Include="languages\Luigi\param-name.prt" />
+    <None Include="languages\Luigi\set-au.prt" />
+    <None Include="languages\Luigi\set-im.prt" />
     <None Include="languages\Luigi\set-src.prt" />
+    <None Include="languages\Luigi\var.prt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="printer.xsl">
