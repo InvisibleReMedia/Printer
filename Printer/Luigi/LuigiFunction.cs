@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Printer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -55,11 +56,11 @@ namespace Luigi
         /// <summary>
         /// Implements built-in functions
         /// </summary>
-        private Dictionary<string, Func<TextWriter, int, int>> BuiltIn
+        private Dictionary<string, Func<PrinterObject, int, int>> BuiltIn
         {
             get
             {
-                Dictionary<string, Func<TextWriter, int, int>> functions = new Dictionary<string, Func<TextWriter, int, int>>();
+                Dictionary<string, Func<PrinterObject, int, int>> functions = new Dictionary<string, Func<PrinterObject, int, int>>();
                 functions.Add("concat", (t, i) =>
                 {
                     foreach (LuigiElement e in this.EffectiveValues.Elements)
@@ -115,16 +116,16 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Execute this object
+        /// Execute the process of a list
         /// </summary>
-        /// <param name="w">writer</param>
-        /// <param name="indentValue">indent size</param>
-        public override void Execute(TextWriter w, ref int indentValue)
+        /// <param name="po">printer</param>
+        /// <param name="indentValue">indent</param>
+        public override void Execute(PrinterObject po, ref int indentValue)
         {
-            Dictionary<string, Func<TextWriter, int, int>> list = this.BuiltIn;
+            Dictionary<string, Func<PrinterObject, int, int>> list = this.BuiltIn;
             if (list.ContainsKey(this.Name))
             {
-                indentValue = list[this.Name](w, indentValue);
+                indentValue = list[this.Name](po, indentValue);
             }
             else
             {

@@ -58,11 +58,11 @@
             <param name="n">number of indentation</param>
             <param name="source">string to write indented (can contains \r\n)</param>
         </member>
-        <member name="M:Luigi.LuigiElement.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiElement.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
             Write output as interpretation result
             </summary>
-            <param name="w">writer</param>
+            <param name="po">printer</param>
             <param name="indentValue">space size</param>
         </member>
         <member name="M:Luigi.LuigiElement.Execute">
@@ -185,12 +185,12 @@
             </summary>
             <param name="index">index to remove</param>
         </member>
-        <member name="M:Luigi.LuigiFunction.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiFunction.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiFunction.CopyInto(Luigi.LuigiElement)">
             <summary>
@@ -281,11 +281,11 @@
             </summary>
             <param name="nameToRemove">name to remove</param>
         </member>
-        <member name="M:Luigi.LuigiDictionary.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiDictionary.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
             Execute the process of a list
             </summary>
-            <param name="w">writer</param>
+            <param name="po">printer</param>
             <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiDictionary.CopyInto(Luigi.LuigiElement)">
@@ -383,11 +383,11 @@
             </summary>
             <param name="index">index to remove</param>
         </member>
-        <member name="M:Luigi.LuigiList.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiList.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
             Execute the process of a list
             </summary>
-            <param name="w">writer</param>
+            <param name="po">printer</param>
             <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiList.CopyInto(Luigi.LuigiElement)">
@@ -450,12 +450,12 @@
             <param name="v">value string</param>
             <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiLiteral.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiLiteral.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this literal statement
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiLiteral.ToString">
             <summary>
@@ -483,6 +483,11 @@
         <member name="P:Luigi.LuigiLiteral.Delimiter">
             <summary>
             Gets or sets the delimiter
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiLiteral.Content">
+            <summary>
+            Gets or sets the content
             </summary>
         </member>
         <member name="T:Luigi.LuigiMapper">
@@ -567,12 +572,12 @@
             </summary>
             <param name="nameToRemove">name to remove</param>
         </member>
-        <member name="M:Luigi.LuigiMapper.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiMapper.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this mapper statement
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiMapper.ToString">
             <summary>
@@ -698,12 +703,12 @@
             </summary>
             <param name="index">index to remove</param>
         </member>
-        <member name="M:Luigi.LuigiObject.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiObject.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiObject.ToString">
             <summary>
@@ -741,12 +746,12 @@
             <param name="v">value</param>
             <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiParameter.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiParameter.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiParameter.ToString">
             <summary>
@@ -779,12 +784,12 @@
             <param name="v">reference type name</param>
             <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiReference.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiReference.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiReference.CopyInto(Luigi.LuigiElement)">
             <summary>
@@ -875,12 +880,12 @@
             </summary>
             <param name="nameToRemove">name to remove</param>
         </member>
-        <member name="M:Luigi.LuigiSet.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiSet.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiSet.ToString">
             <summary>
@@ -928,12 +933,12 @@
             <param name="v">parameters</param>
             <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiValue.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiValue.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiValue.CopyInto(Luigi.LuigiElement)">
             <summary>
@@ -960,12 +965,12 @@
             <param name="v">luigi element</param>
             <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiVariable.Execute(System.IO.TextWriter,System.Int32@)">
+        <member name="M:Luigi.LuigiVariable.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
-            Execute this object
+            Execute the process of a list
             </summary>
-            <param name="w">writer</param>
-            <param name="indentValue">indent size</param>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiVariable.ToString">
             <summary>

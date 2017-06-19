@@ -112,22 +112,33 @@ namespace Luigi
             }
         }
 
+        /// <summary>
+        /// Gets or sets the content
+        /// </summary>
+        public string Content
+        {
+            get
+            {
+                return this.Value;
+            }
+            set
+            {
+                this.Value = value;
+            }
+        }
+
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Execute this literal statement
+        /// Execute the process of a list
         /// </summary>
-        /// <param name="w">writer</param>
-        /// <param name="indentValue">indent size</param>
-        public override void Execute(TextWriter w, ref int indentValue)
+        /// <param name="po">printer</param>
+        /// <param name="indentValue">indent</param>
+        public override void Execute(PrinterObject po, ref int indentValue)
         {
-            PrinterObject po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal.prt"));
-            po.Configuration.Add("typeName", this.Name);
-            po.Configuration.Add("delimiter", this.Delimiter);
-            po.Configuration.Add("value", this.Value);
-            po.Execute(w, ref indentValue, po.Configuration);
+            po.AddData(this.Content);
         }
 
         /// <summary>

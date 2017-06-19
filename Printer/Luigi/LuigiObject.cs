@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Printer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -241,11 +242,11 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Execute this object
+        /// Execute the process of a list
         /// </summary>
-        /// <param name="w">writer</param>
-        /// <param name="indentValue">indent size</param>
-        public override void Execute(TextWriter w, ref int indentValue)
+        /// <param name="po">printer</param>
+        /// <param name="indentValue">indent</param>
+        public override void Execute(PrinterObject po, ref int indentValue)
         {
             foreach (LuigiElement e in this.Datas.Elements)
             {
@@ -253,11 +254,13 @@ namespace Luigi
                 {
                     LuigiMapper m = e as LuigiMapper;
                     if (m.Keys.Elements.Count > 0)
-                        m.ExecuteCall(m.Keys.Elements.Keys.First());
+                    {
+                        m.ExecuteCall(m.Keys.Elements.Keys.First()).Execute(po, ref indentValue);
+                    }
                 }
                 else
                 {
-                    e.Execute(w, ref indentValue);
+                    e.Execute(po, ref indentValue);
                 }
             }
         }

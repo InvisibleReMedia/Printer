@@ -49,13 +49,13 @@ namespace Luigi
         #region Methods
 
         /// <summary>
-        /// Execute this object
+        /// Execute the process of a list
         /// </summary>
-        /// <param name="w">writer</param>
-        /// <param name="indentValue">indent size</param>
-        public override void Execute(TextWriter w, ref int indentValue)
+        /// <param name="po">printer</param>
+        /// <param name="indentValue">indent</param>
+        public override void Execute(PrinterObject po, ref int indentValue)
         {
-            this.Content.Execute(w, ref indentValue);
+            this.Content.Execute(po, ref indentValue);
         }
 
         /// <summary>

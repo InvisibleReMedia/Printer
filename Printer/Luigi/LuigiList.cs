@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Printer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -178,11 +179,10 @@ namespace Luigi
         /// <summary>
         /// Execute the process of a list
         /// </summary>
-        /// <param name="w">writer</param>
+        /// <param name="po">printer</param>
         /// <param name="indentValue">indent</param>
-        public override void Execute(TextWriter w, ref int indentValue)
+        public override void Execute(PrinterObject po, ref int indentValue)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Printer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -160,9 +161,9 @@ namespace Luigi
         /// <summary>
         /// Write output as interpretation result
         /// </summary>
-        /// <param name="w">writer</param>
+        /// <param name="po">printer</param>
         /// <param name="indentValue">space size</param>
-        public abstract void Execute(TextWriter w, ref int indentValue);
+        public abstract void Execute(PrinterObject po, ref int indentValue);
 
         /// <summary>
         /// Write output as interpretation result
@@ -171,14 +172,9 @@ namespace Luigi
         public string Execute()
         {
             int indentValue = 0;
-            StringBuilder sb = new StringBuilder();
-            using (TextWriter tw = new StringWriter(sb))
-            {
-                this.Execute(tw, ref indentValue);
-                IndentSource(tw, indentValue, Environment.NewLine);
-                tw.Close();
-            }
-            return sb.ToString();
+            PrinterObject po = new PrinterObject();
+            this.Execute(po, ref indentValue);
+            return po.Execute();
         }
 
         /// <summary>
