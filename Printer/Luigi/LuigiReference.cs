@@ -19,11 +19,27 @@ namespace Luigi
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="n">type name</param>
-        /// <param name="v">reference type</param>
+        /// <param name="n">object name</param>
+        /// <param name="v">reference type name</param>
         /// <param name="p">parent</param>
         public LuigiReference(string n, string v, LuigiElement p) : base(n, v, p)
         {
+            this.Value = this.Root.Find(v);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Object that is referenced
+        /// </summary>
+        public LuigiElement ReferencedObject
+        {
+            get
+            {
+                return this.Value;
+            }
         }
 
         #endregion
@@ -37,7 +53,18 @@ namespace Luigi
         /// <param name="indentValue">indent size</param>
         public override void Execute(TextWriter w, ref int indentValue)
         {
-            throw new NotImplementedException();
+            this.ReferencedObject.Execute(w, ref indentValue);
+        }
+
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            return new LuigiReference(this.Name, this.Value, parent);
         }
 
         #endregion

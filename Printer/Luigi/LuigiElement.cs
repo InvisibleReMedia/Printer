@@ -15,7 +15,7 @@ namespace Luigi
     /// Takes all needs for each class
     /// </summary>
     [Serializable]
-    public abstract class LuigiElement
+    public abstract class LuigiElement : ICloneable
     {
 
         #region Fields
@@ -275,6 +275,22 @@ namespace Luigi
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public abstract LuigiElement CopyInto(LuigiElement parent);
+
+        /// <summary>
+        /// Clone one element
+        /// </summary>
+        /// <returns>cloned object</returns>
+        public object Clone()
+        {
+            return this.CopyInto(this.Parent);
         }
 
         #endregion

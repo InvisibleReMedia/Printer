@@ -22,6 +22,10 @@ namespace Luigi
         /// Immediate switch
         /// </summary>
         private bool immediate;
+        /// <summary>
+        /// no name switch
+        /// </summary>
+        private bool automatic;
 
         #endregion
 
@@ -36,7 +40,20 @@ namespace Luigi
         /// <param name="p">parent</param>
         public LuigiMapper(string n, bool imm, LuigiDictionary v, LuigiElement p) : base(n, v, p)
         {
+            this.automatic = false;
             this.immediate = imm;
+        }
+
+        /// <summary>
+        /// Mapper object
+        /// </summary>
+        /// <param name="v">dictionary of string</param>
+        /// <param name="p">parent</param>
+        public LuigiMapper(LuigiDictionary v, LuigiElement p)
+            : base("", v, p)
+        {
+            this.immediate = false;
+            this.automatic = true;
         }
 
         /// <summary>
@@ -47,13 +64,41 @@ namespace Luigi
         /// <param name="p">parent</param>
         public LuigiMapper(string n, bool imm, LuigiElement p) : base(n, null, p)
         {
+            this.automatic = false;
             this.immediate = imm;
+            this.Value = new LuigiDictionary("map", "LuigiLiteral", this);
+        }
+
+        /// <summary>
+        /// Mapper object
+        /// </summary>
+        /// <param name="p">parent</param>
+        public LuigiMapper(LuigiElement p)
+            : base("", null, p)
+        {
+            this.automatic = true;
+            this.immediate = false;
             this.Value = new LuigiDictionary("map", "LuigiLiteral", this);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the no name switch
+        /// </summary>
+        public bool IsAutomatic
+        {
+            get
+            {
+                return this.automatic;
+            }
+            set
+            {
+                this.automatic = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the immediate switch
@@ -103,6 +148,20 @@ namespace Luigi
         /// <summary>
         /// Add a new element
         /// </summary>
+        /// <param name="r">reference to add</param>
+        public void AddReference(LuigiReference r)
+        {
+            if (r.ReferencedObject is LuigiLiteral)
+            {
+                LuigiLiteral lit = r.ReferencedObject as LuigiLiteral;
+                lit.IsImmediate = true;
+                this.Keys.AddElement(lit);
+            }
+        }
+
+        /// <summary>
+        /// Add a new element
+        /// </summary>
         /// <param name="lit">literal to add</param>
         public void AddElement(LuigiLiteral lit)
         {
@@ -111,7 +170,21 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Add a new element
+        /// Edit an element
+        /// </summary>
+        /// <param name="r">reference to add</param>
+        public void EditReference(LuigiReference r)
+        {
+            if (r.ReferencedObject is LuigiLiteral)
+            {
+                LuigiLiteral lit = r.ReferencedObject as LuigiLiteral;
+                lit.IsImmediate = true;
+                this.Keys.EditElement(lit);
+            }
+        }
+
+        /// <summary>
+        /// Edit an element
         /// </summary>
         /// <param name="lit">literal to add</param>
         public void EditElement(LuigiLiteral lit)
@@ -121,7 +194,7 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Add a new element
+        /// Change the name of an element
         /// </summary>
         /// <param name="oldName">old name</param>
         /// <param name="newName">new name</param>
@@ -131,7 +204,7 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Add a new element
+        /// Remove an existing element
         /// </summary>
         /// <param name="nameToRemove">name to remove</param>
         public void RemoveElement(string nameToRemove)
@@ -140,13 +213,12 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Execute this literal statement
+        /// Execute this mapper statement
         /// </summary>
         /// <param name="w">writer</param>
         /// <param name="indentValue">indent size</param>
         public override void Execute(TextWriter w, ref int indentValue)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -156,13 +228,20 @@ namespace Luigi
         public override string ToString()
         {
             PrinterObject po = null;
-            if (this.immediate)
+            if (this.automatic)
             {
-                po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "mapper-im.prt"));
+                po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "mapper-au.prt"));
             }
             else
             {
-                po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "mapper-src.prt"));
+                if (this.immediate)
+                {
+                    po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "mapper-im.prt"));
+                }
+                else
+                {
+                    po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "mapper-src.prt"));
+                }
             }
             po.Configuration.Add("typeName", this.Name);
             string objects = string.Empty;
@@ -173,6 +252,29 @@ namespace Luigi
             }
             po.Configuration.Add("items", objects);
             return po.Execute();
+        }
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            LuigiMapper m;
+            if (this.IsAutomatic)
+            {
+                m = new LuigiMapper(parent);
+            }
+            else
+            {
+                m = new LuigiMapper(this.Name, this.IsImmediate, parent);
+            }
+            foreach (KeyValuePair<string, LuigiElement> kv in this.Keys.Elements)
+            {
+                m.Keys.AddElement(kv.Value.CopyInto(m));
+            }
+            return m;
         }
 
         #endregion

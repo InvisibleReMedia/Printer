@@ -16,7 +16,9 @@ namespace Editor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+#endif
             Application.Run(new Editor());
         }
 

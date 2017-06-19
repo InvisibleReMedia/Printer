@@ -55,6 +55,7 @@ namespace Luigi
         /// <param name="indentValue">indent size</param>
         public override void Execute(TextWriter w, ref int indentValue)
         {
+            this.ParameterValue.Execute(w, ref indentValue);
         }
 
         /// <summary>
@@ -66,7 +67,16 @@ namespace Luigi
             PrinterObject po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "param-name.prt"));
             po.Configuration.Add("paramName", this.Name);
             string header = "";
-            switch (this.ParameterValue.TypeName)
+            LuigiElement e;
+            if (this.ParameterValue is LuigiReference)
+            {
+                e = (this.ParameterValue as LuigiReference).ReferencedObject;
+            }
+            else
+            {
+                e = this.ParameterValue;
+            }
+            switch (e.TypeName)
             {
                 case "LuigiLiteral":
                     header = "-";
@@ -77,11 +87,23 @@ namespace Luigi
                 case "LuigiSet":
                     header = "@";
                     break;
+                default:
+                    throw new InvalidDataException(String.Format("Type name {0} is not allowed as a parameter", e.TypeName));
             }
             po.Configuration.Add("paramSwitch", header);
-            string value = this.Value.ToString();
+            string value = e.ToString();
             po.Configuration.Add("paramValue", value);
             return po.Execute();
+        }
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            return new LuigiParameter(this.Name, this.Value, parent);
         }
 
         #endregion

@@ -196,6 +196,29 @@ namespace Luigi
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            LuigiDictionary d;
+            if (this.CanHaveMixedContent)
+            {
+                d = new LuigiDictionary(this.Name, parent);
+            }
+            else
+            {
+                d = new LuigiDictionary(this.Name, this.ContentTypeName, parent);
+            }
+            foreach (KeyValuePair<string, LuigiElement> kv in this.Elements)
+            {
+                d.AddElement(kv.Value.CopyInto(d));
+            }
+            return d;
+        }
+
         #endregion
     }
 }

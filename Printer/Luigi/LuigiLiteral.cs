@@ -25,6 +25,10 @@ namespace Luigi
         /// Immediate switch
         /// </summary>
         private bool immediate;
+        /// <summary>
+        /// no name switch
+        /// </summary>
+        private bool automatic;
 
         #endregion
 
@@ -40,13 +44,43 @@ namespace Luigi
         /// <param name="p">parent</param>
         public LuigiLiteral(string n, bool im, string d, string v, LuigiElement p) : base(n, v, p)
         {
+            this.automatic = false;
             this.immediate = im;
+            this.delimiter = d;
+        }
+
+        /// <summary>
+        /// Literal object
+        /// </summary>
+        /// <param name="d">delimiter</param>
+        /// <param name="v">value string</param>
+        /// <param name="p">parent</param>
+        public LuigiLiteral(string d, string v, LuigiElement p)
+            : base("", v, p)
+        {
+            this.automatic = true;
+            this.immediate = false;
             this.delimiter = d;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the no name switch
+        /// </summary>
+        public bool IsAutomatic
+        {
+            get
+            {
+                return this.automatic;
+            }
+            set
+            {
+                this.automatic = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the immediate switch
@@ -103,18 +137,44 @@ namespace Luigi
         public override string ToString()
         {
             PrinterObject po = null;
-            if (this.immediate)
+            if (this.automatic)
             {
-                po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-im.prt"));
-            }
+                po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-au.prt"));
+            } 
             else
             {
-                po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-src.prt"));
+                if (this.immediate)
+                {
+                    po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-im.prt"));
+                }
+                else
+                {
+                    po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-src.prt"));
+                }
             }
             po.Configuration.Add("typeName", this.Name);
             po.Configuration.Add("delimiter", this.Delimiter);
             po.Configuration.Add("value", this.Value);
             return po.Execute();
+        }
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            LuigiLiteral l;
+            if (this.IsAutomatic)
+            {
+                l = new LuigiLiteral(this.Delimiter, this.Value, parent);
+            }
+            else
+            {
+                l = new LuigiLiteral(this.Name, this.IsImmediate, this.Delimiter, this.Value, parent);
+            }
+            return l;
         }
 
         #endregion

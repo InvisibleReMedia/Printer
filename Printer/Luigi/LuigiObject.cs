@@ -72,6 +72,115 @@ namespace Luigi
         #region Methods
 
         /// <summary>
+        /// Find any type name
+        /// </summary>
+        /// <param name="name">type name</param>
+        /// <returns>object if exists</returns>
+        /// <exception cref="KeyNotFoundException">not exist</exception>
+        public LuigiElement Find(string name)
+        {
+            if (this.variables.Elements.ContainsKey(name))
+            {
+                return this.variables.Elements[name];
+            }
+            else if (this.typeNames.Elements.ContainsKey(name))
+            {
+                return this.typeNames.Elements[name];
+            }
+            else
+            {
+                throw new KeyNotFoundException(String.Format("Variable or type name {0} doesn't exist", name));
+            }
+        }
+
+        /// <summary>
+        /// Find literal type name
+        /// </summary>
+        /// <param name="name">type name</param>
+        /// <returns>object if exists</returns>
+        /// <exception cref="InvalidCastException">not a literal</exception>
+        /// <exception cref="KeyNotFoundException">not exist</exception>
+        public LuigiLiteral FindLiteral(string name)
+        {
+            if (this.typeNames.Elements.ContainsKey(name))
+            {
+                LuigiElement e = this.typeNames.Elements[name];
+                if (e is LuigiLiteral)
+                    return e as LuigiLiteral;
+                else
+                    throw new InvalidCastException(String.Format("Type name {0} is not a literal type", name));
+            }
+            else
+            {
+                throw new KeyNotFoundException(String.Format("Type name {0} doesn't exist", name));
+            }
+        }
+
+        /// <summary>
+        /// Find mapper type name
+        /// </summary>
+        /// <param name="name">type name</param>
+        /// <returns>object if exists</returns>
+        /// <exception cref="InvalidCastException">not a literal</exception>
+        /// <exception cref="KeyNotFoundException">not exist</exception>
+        public LuigiMapper FindMapper(string name)
+        {
+            if (this.typeNames.Elements.ContainsKey(name))
+            {
+                LuigiElement e = this.typeNames.Elements[name];
+                if (e is LuigiMapper)
+                    return e as LuigiMapper;
+                else
+                    throw new InvalidCastException(String.Format("Type name {0} is not a mapper type", name));
+            }
+            else
+            {
+                throw new KeyNotFoundException(String.Format("Type name {0} doesn't exist", name));
+            }
+        }
+
+        /// <summary>
+        /// Find set type name
+        /// </summary>
+        /// <param name="name">type name</param>
+        /// <returns>object if exists</returns>
+        /// <exception cref="InvalidCastException">not a literal</exception>
+        /// <exception cref="KeyNotFoundException">not exist</exception>
+        public LuigiSet FindSet(string name)
+        {
+            if (this.typeNames.Elements.ContainsKey(name))
+            {
+                LuigiElement e = this.typeNames.Elements[name];
+                if (e is LuigiSet)
+                    return e as LuigiSet;
+                else
+                    throw new InvalidCastException(String.Format("Type name {0} is not a set type", name));
+            }
+            else
+            {
+                throw new KeyNotFoundException(String.Format("Type name {0} doesn't exist", name));
+            }
+        }
+
+        /// <summary>
+        /// Find variable instance
+        /// </summary>
+        /// <param name="name">variable name</param>
+        /// <returns>object if exists</returns>
+        /// <exception cref="KeyNotFoundException">not exist</exception>
+        public LuigiElement FindVariable(string name)
+        {
+            if (this.variables.Elements.ContainsKey(name))
+            {
+                return this.variables.Elements[name];
+            }
+            else
+            {
+                throw new KeyNotFoundException(String.Format("Variable {0} doesn't exist", name));
+            }
+        }
+
+        /// <summary>
         /// Add element list
         /// </summary>
         /// <param name="e">element to add</param>
@@ -165,6 +274,22 @@ namespace Luigi
                 output += e.ToString();
             }
             return output;
+        }
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            LuigiObject o = new LuigiObject(this.Name);
+            foreach (LuigiElement e in this.Datas.Elements)
+            {
+                LuigiElement copied = e.CopyInto(o);
+                o.AddElement(copied);
+            }
+            return o;
         }
 
         #endregion

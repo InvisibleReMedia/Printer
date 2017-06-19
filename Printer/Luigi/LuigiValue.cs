@@ -27,6 +27,21 @@ namespace Luigi
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the content of this value
+        /// </summary>
+        public LuigiElement Content
+        {
+            get
+            {
+                return this.Value;
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -36,7 +51,17 @@ namespace Luigi
         /// <param name="indentValue">indent size</param>
         public override void Execute(TextWriter w, ref int indentValue)
         {
-            throw new NotImplementedException();
+            this.Content.Execute(w, ref indentValue);
+        }
+
+        /// <summary>
+        /// Copy this into a new element
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <returns>a new element</returns>
+        public override LuigiElement CopyInto(LuigiElement parent)
+        {
+            return new LuigiValue(this.Name, this.Value, parent);
         }
 
         #endregion

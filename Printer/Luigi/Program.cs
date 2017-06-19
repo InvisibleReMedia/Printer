@@ -37,23 +37,25 @@ namespace Luigi
                     lo = new LuigiObject("test");
                 }
                 LuigiLiteral li = new LuigiLiteral("v", false, ".", "test", lo);
-                lo.AddElement(li);
+                lo.AddElement(li.Clone() as LuigiLiteral);
                 LuigiMapper ma = new LuigiMapper("m", false, lo);
                 LuigiLiteral li2 = new LuigiLiteral("s", false, ".", "a", ma);
-                ma.AddElement(li2);
+                ma.AddElement(li2.Clone() as LuigiLiteral);
                 li2 = new LuigiLiteral("x", false, ".", "b", ma);
-                ma.AddElement(li2);
-                lo.AddElement(ma);
+                ma.AddElement(li2.Clone() as LuigiLiteral);
+                lo.AddElement(ma.Clone() as LuigiMapper);
                 LuigiSet s = new LuigiSet("s", false, lo);
                 LuigiParameter par = new LuigiParameter("p1", li, s);
-                s.AddElement(par);
+                s.AddElement(par.Clone() as LuigiParameter);
                 LuigiParameter par2 = new LuigiParameter("p2", li2, s);
-                s.AddElement(par2);
+                s.AddElement(par2.Clone() as LuigiParameter);
                 LuigiParameter par3 = new LuigiParameter("p3", ma, s);
-                s.AddElement(par3);
-                lo.AddElement(s);
+                s.AddElement(par3.Clone() as LuigiParameter);
+                lo.AddElement(s.Clone() as LuigiSet);
+                LuigiVariable var1 = new LuigiVariable("v", ma, lo);
+                lo.AddElement(var1.Clone() as LuigiVariable);
 
-                //Console.WriteLine(lo.Execute());
+                Console.WriteLine(lo.Execute());
 
                 using(FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, args[0]), FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
