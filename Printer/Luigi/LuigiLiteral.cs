@@ -42,7 +42,8 @@ namespace Luigi
         /// <param name="d">delimiter</param>
         /// <param name="v">value string</param>
         /// <param name="p">parent</param>
-        public LuigiLiteral(string n, bool im, string d, string v, LuigiElement p) : base(n, v, p)
+        public LuigiLiteral(string n, bool im, string d, string v, LuigiElement p)
+            : base(n, v, p)
         {
             this.automatic = false;
             this.immediate = im;
@@ -151,7 +152,7 @@ namespace Luigi
             if (this.automatic)
             {
                 po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-au.prt"));
-            } 
+            }
             else
             {
                 if (this.immediate)

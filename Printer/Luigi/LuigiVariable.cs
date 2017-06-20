@@ -23,7 +23,8 @@ namespace Luigi
         /// <param name="n">name of variable</param>
         /// <param name="v">luigi element</param>
         /// <param name="p">parent</param>
-        public LuigiVariable(string n, LuigiElement v, LuigiElement p) : base(n, v, p)
+        public LuigiVariable(string n, LuigiElement v, LuigiElement p)
+            : base(n, v, p)
         {
             if (this.Content != null && (this.Content is LuigiLiteral || this.Content is LuigiMapper || this.Content is LuigiSet))
                 this.Value.IsAutomatic = true;

@@ -16,14 +16,15 @@ namespace Luigi
     {
 
         #region Constructor
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="n">name of the function</param>
         /// <param name="v">parameters</param>
         /// <param name="p">parent</param>
-        public LuigiFunction(string n, LuigiList v, LuigiElement p) : base(n, v, p)
+        public LuigiFunction(string n, LuigiList v, LuigiElement p)
+            : base(n, v, p)
         {
         }
 

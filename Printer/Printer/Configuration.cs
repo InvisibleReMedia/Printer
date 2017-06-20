@@ -169,7 +169,7 @@ namespace Printer
         public string Execute(string input)
         {
             StringBuilder sb = new StringBuilder();
-            Regex reg = new Regex("(\\" + Configuration.Indentifier + @"([a-zA-Z][a-zA-Z\-_]+))|(\n|\r|" + Environment.NewLine + ")|([^\r\n" + Configuration.Indentifier +  "]*)", RegexOptions.Multiline);
+            Regex reg = new Regex("(\\" + Configuration.Indentifier + @"([a-zA-Z][a-zA-Z\-_]+))|(\n|\r|" + Environment.NewLine + ")|([^\r\n" + Configuration.Indentifier + "]*)", RegexOptions.Multiline);
             MatchCollection mCol = reg.Matches(input);
             foreach (Match m in mCol)
             {

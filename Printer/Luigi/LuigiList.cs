@@ -36,7 +36,8 @@ namespace Luigi
         /// <param name="n">name of the list</param>
         /// <param name="v">input list</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
+        public LuigiList(string n, IEnumerable<LuigiElement> v, LuigiElement p)
+            : base(n, null, p)
         {
             this.mixedContent = true;
             this.Value = new List<LuigiElement>(v);
@@ -49,7 +50,8 @@ namespace Luigi
         /// <param name="inType">type name of the content</param>
         /// <param name="v">input list</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, string inType, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
+        public LuigiList(string n, string inType, IEnumerable<LuigiElement> v, LuigiElement p)
+            : base(n, null, p)
         {
             this.mixedContent = false;
             this.contentTypeName = inType;
@@ -61,7 +63,8 @@ namespace Luigi
         /// </summary>
         /// <param name="n">name of the list</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, LuigiElement p) : base(n, new List<LuigiElement>(), p)
+        public LuigiList(string n, LuigiElement p)
+            : base(n, new List<LuigiElement>(), p)
         {
             this.mixedContent = true;
         }
@@ -72,7 +75,8 @@ namespace Luigi
         /// <param name="n">name of the list</param>
         /// <param name="inType">type name of the content</param>
         /// <param name="p">parent</param>
-        public LuigiList(string n, string inType, LuigiElement p) : base(n, new List<LuigiElement>(), p)
+        public LuigiList(string n, string inType, LuigiElement p)
+            : base(n, new List<LuigiElement>(), p)
         {
             this.contentTypeName = inType;
             this.mixedContent = false;

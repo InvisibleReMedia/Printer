@@ -337,7 +337,7 @@ namespace Printer
                 pv.Value = this.Value.Clone() as string;
             pv.shouldIndent = this.shouldIndent;
             pv.include = this.include;
-            foreach(PrinterVariable subpv in this.Values)
+            foreach (PrinterVariable subpv in this.Values)
             {
                 pv.includedVars.Add(subpv.Name, subpv.Clone() as PrinterVariable);
             }

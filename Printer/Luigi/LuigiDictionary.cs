@@ -36,7 +36,8 @@ namespace Luigi
         /// <param name="n">name of the list</param>
         /// <param name="v">input list</param>
         /// <param name="p">parent</param>
-        public LuigiDictionary(string n, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
+        public LuigiDictionary(string n, IEnumerable<LuigiElement> v, LuigiElement p)
+            : base(n, null, p)
         {
             this.mixedContent = true;
             this.Value = new Dictionary<string, LuigiElement>(v.ToDictionary(x => x.Name));
@@ -49,7 +50,8 @@ namespace Luigi
         /// <param name="inType">type name of the content</param>
         /// <param name="v">input list</param>
         /// <param name="p">parent</param>
-        public LuigiDictionary(string n, string inType, IEnumerable<LuigiElement> v, LuigiElement p) : base(n, null, p)
+        public LuigiDictionary(string n, string inType, IEnumerable<LuigiElement> v, LuigiElement p)
+            : base(n, null, p)
         {
             this.mixedContent = false;
             this.contentTypeName = inType;
@@ -61,7 +63,8 @@ namespace Luigi
         /// </summary>
         /// <param name="n">name of the list</param>
         /// <param name="p">parent</param>
-        public LuigiDictionary(string n, LuigiElement p) : base(n, new Dictionary<string, LuigiElement>(), p)
+        public LuigiDictionary(string n, LuigiElement p)
+            : base(n, new Dictionary<string, LuigiElement>(), p)
         {
             this.mixedContent = true;
         }

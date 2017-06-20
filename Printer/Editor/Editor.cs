@@ -160,7 +160,8 @@ namespace Editor
                     txtSource.Text = po.ToString();
                     this.AddUndo();
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Not loaded", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

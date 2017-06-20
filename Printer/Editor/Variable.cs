@@ -87,7 +87,8 @@ namespace Editor
                 if (this.rbInclude.Checked)
                 {
                     e.Cancel = String.IsNullOrEmpty(this.txtName.Text) || String.IsNullOrEmpty(this.txtFile.Text);
-                } else
+                }
+                else
                 {
                     e.Cancel = String.IsNullOrEmpty(this.txtName.Text) || String.IsNullOrEmpty(this.txtValue.Text);
                 }

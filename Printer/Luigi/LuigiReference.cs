@@ -23,7 +23,8 @@ namespace Luigi
         /// <param name="n">object name</param>
         /// <param name="v">reference type name</param>
         /// <param name="p">parent</param>
-        public LuigiReference(string n, string v, LuigiElement p) : base(n, v, p)
+        public LuigiReference(string n, string v, LuigiElement p)
+            : base(n, v, p)
         {
             this.Value = this.Root.Find(v);
         }

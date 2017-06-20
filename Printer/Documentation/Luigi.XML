@@ -4,6 +4,11 @@
         <name>Luigi</name>
     </assembly>
     <members>
+        <member name="T:Luigi.LuigiDepthList">
+            <summary>
+            Class to implement an iron path
+            </summary>
+        </member>
         <member name="T:Luigi.LuigiElement">
             <summary>
             Abstract class for Luigi language
@@ -138,6 +143,27 @@
             <summary>
             Gets or sets the value
             </summary>
+        </member>
+        <member name="M:Luigi.LuigiDepthList.#ctor(System.String,Luigi.LuigiElement)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="n">name</param>
+            <param name="parent">parent</param>
+        </member>
+        <member name="M:Luigi.LuigiDepthList.Execute(Printer.PrinterObject,System.Int32@)">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <param name="po">printer</param>
+            <param name="indentValue">space size</param>
+        </member>
+        <member name="M:Luigi.LuigiDepthList.CopyInto(Luigi.LuigiElement)">
+            <summary>
+            Copy this into a new element
+            </summary>
+            <param name="parent">parent</param>
+            <returns>a new element</returns>
         </member>
         <member name="T:Luigi.LuigiFunction">
             <summary>

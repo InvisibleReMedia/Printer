@@ -48,7 +48,7 @@ namespace Printer
         {
             this.counter = counter;
         }
-        
+
         #endregion
 
         #region Public Properties

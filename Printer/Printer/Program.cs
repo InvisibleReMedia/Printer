@@ -59,7 +59,7 @@ namespace ");
 ");
                 }
 
-                
+
                 Console.WriteLine(po.Execute());
 
                 Console.WriteLine("code:");
@@ -67,7 +67,7 @@ namespace ");
 
                 PrinterObject.Save(po, args[0]);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

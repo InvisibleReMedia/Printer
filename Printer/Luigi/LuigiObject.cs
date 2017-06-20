@@ -35,7 +35,8 @@ namespace Luigi
         /// Constructor
         /// </summary>
         /// <param name="n">name of the program</param>
-        public LuigiObject(string n) : base(n, null)
+        public LuigiObject(string n)
+            : base(n, null)
         {
             this.Value = new LuigiList("datas", this);
             this.typeNames = new LuigiDictionary("types", this);

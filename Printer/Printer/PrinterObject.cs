@@ -299,7 +299,7 @@ namespace Printer
         /// <param name="name">variable name</param>
         public void UseVariable(string name)
         {
-            this.datas.Add("[" + name +"]");
+            this.datas.Add("[" + name + "]");
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace Printer
         /// <param name="from">configuration values</param>
         public void ImportConfiguration(Configuration from)
         {
-            foreach(string key in from)
+            foreach (string key in from)
             {
                 this.Configuration.Add(key, from[key]);
             }
@@ -649,12 +649,12 @@ namespace Printer
         public object Clone()
         {
             PrinterObject newPo = new PrinterObject();
-            foreach(string s in this.datas)
+            foreach (string s in this.datas)
             {
                 newPo.datas.Add(s.Clone() as string);
             }
             newPo.unique = new UniqueStrings(this.unique.Counter);
-            foreach(PrinterVariable pv in this.Values)
+            foreach (PrinterVariable pv in this.Values)
             {
                 newPo.variables.Add(pv.Name, pv.Clone() as PrinterVariable);
             }

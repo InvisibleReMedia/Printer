@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LuigiDepthList.cs" />
     <Compile Include="LuigiElement.cs" />
     <Compile Include="LuigiFunction.cs" />
     <Compile Include="LuigiDictionary.cs" />

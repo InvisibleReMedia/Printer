@@ -57,7 +57,7 @@ namespace Luigi
 
                 Console.WriteLine(lo.Execute());
 
-                using(FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, args[0]), FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, args[0]), FileMode.Create, FileAccess.Write, FileShare.Write))
                 {
                     LuigiObject.Save(lo, fs);
                     fs.Close();

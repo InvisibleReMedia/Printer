@@ -38,7 +38,8 @@ namespace Luigi
         /// <param name="imm">immediate switch</param>
         /// <param name="v">dictionary of string</param>
         /// <param name="p">parent</param>
-        public LuigiMapper(string n, bool imm, LuigiDictionary v, LuigiElement p) : base(n, v, p)
+        public LuigiMapper(string n, bool imm, LuigiDictionary v, LuigiElement p)
+            : base(n, v, p)
         {
             this.automatic = false;
             this.immediate = imm;
@@ -62,7 +63,8 @@ namespace Luigi
         /// <param name="n">type name of the object</param>
         /// <param name="imm">immediate switch</param>
         /// <param name="p">parent</param>
-        public LuigiMapper(string n, bool imm, LuigiElement p) : base(n, null, p)
+        public LuigiMapper(string n, bool imm, LuigiElement p)
+            : base(n, null, p)
         {
             this.automatic = false;
             this.immediate = imm;

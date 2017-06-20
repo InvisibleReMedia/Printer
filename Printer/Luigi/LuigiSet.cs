@@ -43,7 +43,8 @@ namespace Luigi
         /// <param name="v">list of parameters</param>
         /// <param name="f">expression</param>
         /// <param name="p">parent</param>
-        public LuigiSet(string n, bool im, LuigiDictionary v, LuigiFunction f, LuigiElement p) : base(n, v, p)
+        public LuigiSet(string n, bool im, LuigiDictionary v, LuigiFunction f, LuigiElement p)
+            : base(n, v, p)
         {
             this.automatic = false;
             this.immediate = im;
