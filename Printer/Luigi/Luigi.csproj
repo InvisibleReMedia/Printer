@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LuigiDepthList.cs" />
     <Compile Include="LuigiElement.cs" />
     <Compile Include="LuigiFunction.cs" />
     <Compile Include="LuigiDictionary.cs" />
@@ -53,7 +52,9 @@
     <Compile Include="LuigiMapper.cs" />
     <Compile Include="LuigiObject.cs" />
     <Compile Include="LuigiParameter.cs" />
+    <Compile Include="LuigiPrint.cs" />
     <Compile Include="LuigiReference.cs" />
+    <Compile Include="LuigiResult.cs" />
     <Compile Include="LuigiSet.cs" />
     <Compile Include="LuigiValue.cs" />
     <Compile Include="LuigiVariable.cs" />

@@ -139,7 +139,20 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
-            po.AddData(this.Content);
+            if (this.IsAutomatic)
+            {
+                po.AddData(this.Content);
+            }
+            else
+            {
+                PrinterObject poLiteral = new PrinterObject();
+                poLiteral.Configuration.Add("delimiter", this.Delimiter);
+                poLiteral.Configuration.Add("content", this.Content);
+                poLiteral.AddVariable("delimiter", "@delimiter");
+                poLiteral.AddVariable("value", "@content");
+                poLiteral.UseVariable("value");
+                PrinterObject.Save(poLiteral, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
+            }
         }
 
         /// <summary>

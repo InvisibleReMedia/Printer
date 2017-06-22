@@ -128,21 +128,6 @@ namespace Luigi
             }
         }
 
-        /// <summary>
-        /// Gets the exec function which route selected
-        /// key to its literal
-        /// </summary>
-        public Func<string, LuigiLiteral> ExecuteCall
-        {
-            get
-            {
-                return c =>
-                {
-                    return this.Keys.Elements[c] as LuigiLiteral;
-                };
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -221,6 +206,15 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
+            PrinterObject poMapper = new PrinterObject();
+            foreach (KeyValuePair<string, LuigiElement> l in this.Keys.Elements)
+            {
+                l.Value.Execute(poMapper, ref indentValue);
+            }
+            poMapper.Configuration.Add("select", "");
+            poMapper.AddVariable("value", "@select");
+            poMapper.UseVariable("value");
+            PrinterObject.Save(poMapper, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
         }
 
         /// <summary>

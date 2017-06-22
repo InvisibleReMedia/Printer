@@ -4,11 +4,6 @@
         <name>Luigi</name>
     </assembly>
     <members>
-        <member name="T:Luigi.LuigiDepthList">
-            <summary>
-            Class to implement an iron path
-            </summary>
-        </member>
         <member name="T:Luigi.LuigiElement">
             <summary>
             Abstract class for Luigi language
@@ -143,27 +138,6 @@
             <summary>
             Gets or sets the value
             </summary>
-        </member>
-        <member name="M:Luigi.LuigiDepthList.#ctor(System.String,Luigi.LuigiElement)">
-            <summary>
-            Default constructor
-            </summary>
-            <param name="n">name</param>
-            <param name="parent">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiDepthList.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Write output as interpretation result
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">space size</param>
-        </member>
-        <member name="M:Luigi.LuigiDepthList.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
         </member>
         <member name="T:Luigi.LuigiFunction">
             <summary>
@@ -476,6 +450,13 @@
             <param name="v">value string</param>
             <param name="p">parent</param>
         </member>
+        <member name="M:Luigi.LuigiLiteral.Print(Printer.PrinterObject,System.Int32@)">
+            <summary>
+            Execute the process of a list
+            </summary>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
+        </member>
         <member name="M:Luigi.LuigiLiteral.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>
             Execute the process of a list
@@ -633,12 +614,6 @@
             Gets the keys of mapper
             </summary>
         </member>
-        <member name="P:Luigi.LuigiMapper.ExecuteCall">
-            <summary>
-            Gets the exec function which route selected
-            key to its literal
-            </summary>
-        </member>
         <member name="T:Luigi.LuigiObject">
             <summary>
             Top-level class of Luigi language
@@ -749,11 +724,6 @@
             <param name="parent">parent</param>
             <returns>a new element</returns>
         </member>
-        <member name="P:Luigi.LuigiObject.Root">
-            <summary>
-            New implementation for Root
-            </summary>
-        </member>
         <member name="P:Luigi.LuigiObject.Datas">
             <summary>
             Datas stored into this program
@@ -827,6 +797,56 @@
         <member name="P:Luigi.LuigiReference.ReferencedObject">
             <summary>
             Object that is referenced
+            </summary>
+        </member>
+        <member name="T:Luigi.LuigiResult">
+            <summary>
+            Result of a worked item
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiResult.stacked">
+            <summary>
+            String that's anterior
+            </summary>
+        </member>
+        <member name="M:Luigi.LuigiResult.#ctor(System.String,System.Int32,Luigi.LuigiElement)">
+            <summary>
+            Constructor for an integer
+            </summary>
+            <param name="n">aame</param>
+            <param name="init">value (string)</param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.LuigiResult.#ctor(System.String,System.String,Luigi.LuigiElement)">
+            <summary>
+            Constructor for an integer
+            </summary>
+            <param name="n">aame</param>
+            <param name="init">value (integer)</param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.LuigiResult.Execute(Printer.PrinterObject,System.Int32@)">
+            <summary>
+            Execute operation
+            </summary>
+            <param name="po">printer output</param>
+            <param name="indentValue">indent size</param>
+        </member>
+        <member name="M:Luigi.LuigiResult.CopyInto(Luigi.LuigiElement)">
+            <summary>
+            Copy this into a new element
+            </summary>
+            <param name="parent">parent for the new element</param>
+            <returns>new element</returns>
+        </member>
+        <member name="P:Luigi.LuigiResult.Current">
+            <summary>
+            Gets or sets the current string
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiResult.Stacked">
+            <summary>
+            Gets the anterior's string
             </summary>
         </member>
         <member name="T:Luigi.LuigiSet">
@@ -905,6 +925,13 @@
             Add a new element
             </summary>
             <param name="nameToRemove">name to remove</param>
+        </member>
+        <member name="M:Luigi.LuigiSet.Print(Printer.PrinterObject,System.Int32@)">
+            <summary>
+            Print method
+            </summary>
+            <param name="po">printer</param>
+            <param name="indentValue">indent</param>
         </member>
         <member name="M:Luigi.LuigiSet.Execute(Printer.PrinterObject,System.Int32@)">
             <summary>

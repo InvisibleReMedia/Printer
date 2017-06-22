@@ -24,7 +24,7 @@ namespace Luigi
         /// <summary>
         /// Root of this program
         /// </summary>
-        private LuigiObject root;
+        protected LuigiObject root;
         /// <summary>
         /// Parent
         /// </summary>

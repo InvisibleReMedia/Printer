@@ -192,11 +192,11 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Execute the process of a list
+        /// Print method
         /// </summary>
         /// <param name="po">printer</param>
         /// <param name="indentValue">indent</param>
-        public override void Execute(PrinterObject po, ref int indentValue)
+        public void Print(PrinterObject po, ref int indentValue)
         {
             for (int index = 0; index < this.Function.EffectiveValues.Elements.Count; ++index)
             {
@@ -210,6 +210,15 @@ namespace Luigi
                 }
             }
             this.Function.Execute(po, ref indentValue);
+        }
+
+        /// <summary>
+        /// Execute the process of a list
+        /// </summary>
+        /// <param name="po">printer</param>
+        /// <param name="indentValue">indent</param>
+        public override void Execute(PrinterObject po, ref int indentValue)
+        {
         }
 
         /// <summary>

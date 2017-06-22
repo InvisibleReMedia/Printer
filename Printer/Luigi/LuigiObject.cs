@@ -38,6 +38,7 @@ namespace Luigi
         public LuigiObject(string n)
             : base(n, null)
         {
+            this.root = this;
             this.Value = new LuigiList("datas", this);
             this.typeNames = new LuigiDictionary("types", this);
             this.variables = new LuigiDictionary("vars", "LuigiVariable", this);
@@ -46,17 +47,6 @@ namespace Luigi
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// New implementation for Root
-        /// </summary>
-        public new LuigiElement Root
-        {
-            get
-            {
-                return this;
-            }
-        }
 
         /// <summary>
         /// Datas stored into this program
@@ -251,18 +241,7 @@ namespace Luigi
         {
             foreach (LuigiElement e in this.Datas.Elements)
             {
-                if (e is LuigiMapper)
-                {
-                    LuigiMapper m = e as LuigiMapper;
-                    if (m.Keys.Elements.Count > 0)
-                    {
-                        m.ExecuteCall(m.Keys.Elements.Keys.First()).Execute(po, ref indentValue);
-                    }
-                }
-                else
-                {
-                    e.Execute(po, ref indentValue);
-                }
+                e.Execute(po, ref indentValue);
             }
         }
 
