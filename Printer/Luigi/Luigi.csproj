@@ -52,6 +52,7 @@
     <Compile Include="LuigiMapper.cs" />
     <Compile Include="LuigiObject.cs" />
     <Compile Include="LuigiParameter.cs" />
+    <Compile Include="LuigiPolymorph.cs" />
     <Compile Include="LuigiPrint.cs" />
     <Compile Include="LuigiReference.cs" />
     <Compile Include="LuigiResult.cs" />

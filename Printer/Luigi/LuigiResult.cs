@@ -78,7 +78,6 @@ namespace Luigi
 
         #endregion
 
-
         #region Methods
 
         /// <summary>

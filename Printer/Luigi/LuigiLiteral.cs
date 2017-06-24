@@ -145,7 +145,8 @@ namespace Luigi
             }
             else
             {
-                PrinterObject poLiteral = new PrinterObject();
+                PrinterObject poLiteral = new PrinterObject(po.CurrentDirectory);
+                poLiteral.Configuration.Edit("programmingLanguage", po.Configuration["programmingLanguage"]);
                 poLiteral.Configuration.Add("delimiter", this.Delimiter);
                 poLiteral.Configuration.Add("content", this.Content);
                 poLiteral.AddVariable("delimiter", "@delimiter");

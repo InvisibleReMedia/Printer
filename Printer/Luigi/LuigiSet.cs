@@ -77,7 +77,7 @@ namespace Luigi
         {
             this.automatic = true;
             this.immediate = false;
-            this.fun = new LuigiFunction("concat", this);
+            this.fun = f;
         }
 
         /// <summary>
@@ -94,7 +94,6 @@ namespace Luigi
         }
 
         #endregion
-
 
         #region Properties
 
@@ -192,12 +191,14 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Print method
+        /// Execute the process of a list
         /// </summary>
         /// <param name="po">printer</param>
         /// <param name="indentValue">indent</param>
-        public void Print(PrinterObject po, ref int indentValue)
+        public override void Execute(PrinterObject po, ref int indentValue)
         {
+            PrinterObject poSet = new PrinterObject(po.CurrentDirectory);
+            poSet.Configuration.Edit("programmingLanguage", po.Configuration["programmingLanguage"]);
             for (int index = 0; index < this.Function.EffectiveValues.Elements.Count; ++index)
             {
                 LuigiElement e = this.Function.EffectiveValues.Elements[index];
@@ -209,16 +210,8 @@ namespace Luigi
                     }
                 }
             }
-            this.Function.Execute(po, ref indentValue);
-        }
-
-        /// <summary>
-        /// Execute the process of a list
-        /// </summary>
-        /// <param name="po">printer</param>
-        /// <param name="indentValue">indent</param>
-        public override void Execute(PrinterObject po, ref int indentValue)
-        {
+            this.Function.Execute(poSet, ref indentValue);
+            PrinterObject.Save(poSet, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
         }
 
         /// <summary>

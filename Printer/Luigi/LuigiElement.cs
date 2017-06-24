@@ -172,7 +172,8 @@ namespace Luigi
         public string Execute()
         {
             int indentValue = 0;
-            PrinterObject po = new PrinterObject();
+            PrinterObject po = new PrinterObject(Path.Combine(PrinterObject.PrinterDirectory, "compiled"));
+            po.Configuration.Edit("programmingLanguage", "Luigi");
             this.Execute(po, ref indentValue);
             return po.Execute();
         }

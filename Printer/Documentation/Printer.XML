@@ -20,6 +20,18 @@
             Default constructor
             </summary>
         </member>
+        <member name="P:Printer.Configuration.Count">
+            <summary>
+            Count the number of conf
+            </summary>
+        </member>
+        <member name="P:Printer.Configuration.Item(System.String)">
+            <summary>
+            Gets or sets a value key
+            </summary>
+            <param name="key">key</param>
+            <returns>value</returns>
+        </member>
         <member name="M:Printer.Configuration.Add(System.String,System.String)">
             <summary>
             Add an item
@@ -96,21 +108,14 @@
             <param name="obj">object to save</param>
             <param name="fileName">full path of fileName to save</param>
         </member>
-        <member name="P:Printer.Configuration.Count">
-            <summary>
-            Count the number of conf
-            </summary>
-        </member>
-        <member name="P:Printer.Configuration.Item(System.String)">
-            <summary>
-            Gets or sets a value key
-            </summary>
-            <param name="key">key</param>
-            <returns>value</returns>
-        </member>
         <member name="T:Printer.PrinterObject">
             <summary>
             Printer class
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.currentDirectory">
+            <summary>
+            Current directory where objects resides
             </summary>
         </member>
         <member name="F:Printer.PrinterObject.variables">
@@ -152,6 +157,32 @@
         <member name="M:Printer.PrinterObject.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterObject.#ctor(System.String)">
+            <summary>
+            Constructor with currentDirectory setted
+            </summary>
+            <param name="cd">current directory</param>
+        </member>
+        <member name="P:Printer.PrinterObject.Values">
+            <summary>
+            Gets all values
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Data">
+            <summary>
+            Gets all data sequence
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Configuration">
+            <summary>
+            Gets or sets the configuration object
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.CurrentDirectory">
+            <summary>
+            Gets or sets the current directory
             </summary>
         </member>
         <member name="M:Printer.PrinterObject.IndentSource(System.IO.TextWriter,System.Int32,System.String)">
@@ -325,6 +356,12 @@
             <param name="obj">object to save</param>
             <param name="stream">stream buffer</param>
         </member>
+        <member name="M:Printer.PrinterObject.ComputeNewString">
+            <summary>
+            Computes a new name 
+            </summary>
+            <returns>a new name</returns>
+        </member>
         <member name="M:Printer.PrinterObject.ToString">
             <summary>
             Generates the source code
@@ -337,21 +374,6 @@
             Clone this object
             </summary>
             <returns>new object</returns>
-        </member>
-        <member name="P:Printer.PrinterObject.Values">
-            <summary>
-            Gets all values
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterObject.Data">
-            <summary>
-            Gets all data sequence
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterObject.Configuration">
-            <summary>
-            Gets or sets the configuration object
-            </summary>
         </member>
         <member name="T:Printer.PrinterVariable">
             <summary>
@@ -386,6 +408,31 @@
         <member name="M:Printer.PrinterVariable.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Indent">
+            <summary>
+            Indent switch
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Include">
+            <summary>
+            Include switch
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Name">
+            <summary>
+            Gets or sets the name
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Value">
+            <summary>
+            Gets or sets the value
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.Values">
+            <summary>
+            Gets all values
             </summary>
         </member>
         <member name="M:Printer.PrinterVariable.ExistTestVariable(System.String)">
@@ -429,13 +476,14 @@
             </summary>
             <param name="key">key name</param>
         </member>
-        <member name="M:Printer.PrinterVariable.Execute(System.IO.TextWriter,System.Int32@,Printer.Configuration)">
+        <member name="M:Printer.PrinterVariable.Execute(System.IO.TextWriter,System.Int32@,Printer.Configuration,System.String)">
             <summary>
             Execute the variable
             </summary>
             <param name="w">writer</param>
             <param name="indentValue">space size</param>
             <param name="config">configuration</param>
+            <param name="dir">directory</param>
         </member>
         <member name="M:Printer.PrinterVariable.ToString(System.Xml.XmlWriter)">
             <summary>
@@ -454,31 +502,6 @@
             Clone this object
             </summary>
             <returns>new object</returns>
-        </member>
-        <member name="P:Printer.PrinterVariable.Indent">
-            <summary>
-            Indent switch
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Include">
-            <summary>
-            Include switch
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Name">
-            <summary>
-            Gets or sets the name
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Value">
-            <summary>
-            Gets or sets the value
-            </summary>
-        </member>
-        <member name="P:Printer.PrinterVariable.Values">
-            <summary>
-            Gets all values
-            </summary>
         </member>
         <member name="T:Printer.UniqueStrings">
             <summary>
@@ -511,16 +534,16 @@
             Copy constructor
             </summary>
         </member>
+        <member name="P:Printer.UniqueStrings.Counter">
+            <summary>
+            Gets or sets the counter position
+            </summary>
+        </member>
         <member name="M:Printer.UniqueStrings.ComputeNewString">
             <summary>
             Create a new unique name and increment pointer
             </summary>
             <returns>new unique name</returns>
-        </member>
-        <member name="P:Printer.UniqueStrings.Counter">
-            <summary>
-            Gets or sets the counter position
-            </summary>
         </member>
     </members>
 </doc>

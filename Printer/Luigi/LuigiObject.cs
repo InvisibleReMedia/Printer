@@ -243,6 +243,7 @@ namespace Luigi
             {
                 e.Execute(po, ref indentValue);
             }
+            po.Execute();
         }
 
         /// <summary>

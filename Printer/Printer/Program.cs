@@ -47,7 +47,7 @@ namespace ");
                     pv.AddVariable("expression", "true");
                     pv.AddVariable("then", "code");
                     pv.AddVariable("else", "code");
-                    pv.Value = "C#.NET/if.prt";
+                    pv.Value = "C/if.prt";
 
                     po.AddVariable("condition", pv);
 

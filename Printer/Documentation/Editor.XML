@@ -19,6 +19,11 @@
             Constructor
             </summary>
         </member>
+        <member name="P:Editor.Config.Defines">
+            <summary>
+            Gets configuration object
+            </summary>
+        </member>
         <member name="M:Editor.Config.btnOK_Click(System.Object,System.EventArgs)">
             <summary>
             When Ok clicked
@@ -48,11 +53,6 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="P:Editor.Config.Defines">
-            <summary>
-            Gets configuration object
             </summary>
         </member>
         <member name="T:Editor.Data">
@@ -413,6 +413,11 @@
             </summary>
             <param name="po">printer object</param>
         </member>
+        <member name="P:Editor.FunLab.IsDirty">
+            <summary>
+            Returns true of false if data has modified
+            </summary>
+        </member>
         <member name="M:Editor.FunLab.AddNewVariable(System.Windows.Forms.ListBox,Printer.PrinterVariable)">
             <summary>
             Add a new variable
@@ -545,11 +550,6 @@
             <param name="list">variable list</param>
             <param name="conf">configuration object</param>
         </member>
-        <member name="P:Editor.FunLab.IsDirty">
-            <summary>
-            Returns true of false if data has modified
-            </summary>
-        </member>
         <member name="M:Editor.Program.Main">
             <summary>
             Point d'entrée principal de l'application.
@@ -563,6 +563,21 @@
         <member name="M:Editor.Variable.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.IncludePage">
+            <summary>
+            Gets the include tab page
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.ValuePage">
+            <summary>
+            Gets the value tab page
+            </summary>
+        </member>
+        <member name="P:Editor.Variable.IsIndented">
+            <summary>
+            Gets or sets indented switch
             </summary>
         </member>
         <member name="M:Editor.Variable.btnOK_Click(System.Object,System.EventArgs)">
@@ -622,21 +637,6 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="P:Editor.Variable.IncludePage">
-            <summary>
-            Gets the include tab page
-            </summary>
-        </member>
-        <member name="P:Editor.Variable.ValuePage">
-            <summary>
-            Gets the value tab page
-            </summary>
-        </member>
-        <member name="P:Editor.Variable.IsIndented">
-            <summary>
-            Gets or sets indented switch
             </summary>
         </member>
         <member name="T:Editor.Properties.Resources">

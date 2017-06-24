@@ -20,6 +20,10 @@ namespace Printer
         #region Fields
 
         /// <summary>
+        /// Current directory where objects resides
+        /// </summary>
+        private string currentDirectory;
+        /// <summary>
         /// Data variable
         /// </summary>
         private Dictionary<string, PrinterVariable> variables;
@@ -68,6 +72,21 @@ namespace Printer
             this.datas = new List<string>();
             this.unique = new UniqueStrings();
             this.config = new Configuration();
+            this.currentDirectory = Path.Combine(PrinterDirectory, "languages");
+        }
+
+        /// <summary>
+        /// Constructor with currentDirectory setted
+        /// </summary>
+        /// <param name="cd">current directory</param>
+        public PrinterObject(string cd)
+        {
+            PrinterObject.InitializePersonalDirectory();
+            this.currentDirectory = cd;
+            this.variables = new Dictionary<string, PrinterVariable>();
+            this.datas = new List<string>();
+            this.unique = new UniqueStrings();
+            this.config = new Configuration();
         }
 
         #endregion
@@ -104,6 +123,21 @@ namespace Printer
             {
                 if (value != null)
                     this.config = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current directory
+        /// </summary>
+        public string CurrentDirectory
+        {
+            get
+            {
+                return this.currentDirectory;
+            }
+            set
+            {
+                this.currentDirectory = value;
             }
         }
 
@@ -442,7 +476,8 @@ namespace Printer
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
-                    this.variables[r].Execute(w, ref indentValue, config);
+                    r = config.Execute(r);
+                    this.variables[r].Execute(w, ref indentValue, config, this.CurrentDirectory);
                 }
                 else
                 {
@@ -493,6 +528,10 @@ namespace Printer
                 try
                 {
                     po = bf.Deserialize(fs) as PrinterObject;
+                    if (String.IsNullOrEmpty(po.CurrentDirectory))
+                    {
+                        po.CurrentDirectory = Path.GetDirectoryName(fileName);
+                    }
                 }
                 catch (Exception)
                 {
@@ -520,6 +559,7 @@ namespace Printer
                 BinaryFormatter bf = new BinaryFormatter();
                 try
                 {
+                    obj.CurrentDirectory = Path.GetDirectoryName(fileName);
                     bf.Serialize(fs, obj);
                 }
                 catch (Exception)
@@ -573,6 +613,15 @@ namespace Printer
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Computes a new name 
+        /// </summary>
+        /// <returns>a new name</returns>
+        public string ComputeNewString()
+        {
+            return this.unique.ComputeNewString();
         }
 
         /// <summary>

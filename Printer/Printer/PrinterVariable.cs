@@ -206,18 +206,20 @@ namespace Printer
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
         /// <param name="config">configuration</param>
-        public void Execute(TextWriter w, ref int indentValue, Configuration config)
+        /// <param name="dir">directory</param>
+        public void Execute(TextWriter w, ref int indentValue, Configuration config, string dir)
         {
             if (shouldIndent) ++indentValue;
             if (include)
             {
                 string fileName = config.Execute(this.value);
-                FileInfo fi = new FileInfo(Path.Combine(PrinterObject.PrinterDirectory, "languages", fileName));
+                FileInfo fi = new FileInfo(Path.Combine(dir, fileName));
                 if (fi.Exists)
                 {
                     using (FileStream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         PrinterObject po = PrinterObject.Load(fs);
+                        po.CurrentDirectory = dir;
                         foreach (PrinterVariable pv in this.Values)
                         {
                             po.AddVariable(pv.Name, pv);

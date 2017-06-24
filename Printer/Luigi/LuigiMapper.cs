@@ -206,14 +206,21 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
-            PrinterObject poMapper = new PrinterObject();
+            PrinterObject poMapper = new PrinterObject(po.CurrentDirectory);
+            poMapper.Configuration.Edit("programmingLanguage", po.Configuration["programmingLanguage"]);
             foreach (KeyValuePair<string, LuigiElement> l in this.Keys.Elements)
             {
                 l.Value.Execute(poMapper, ref indentValue);
+                PrinterVariable pv = new PrinterVariable();
+                pv.Name = l.Value.Name;
+                pv.Include = true;
+                pv.Value = l.Value.Name + ".prt";
+                pv.AddVariable("delimiter", (l.Value as LuigiLiteral).Delimiter);
+                pv.AddVariable("value", (l.Value as LuigiLiteral).Content);
+                poMapper.AddVariable(l.Key, pv);
             }
-            poMapper.Configuration.Add("select", "");
-            poMapper.AddVariable("value", "@select");
-            poMapper.UseVariable("value");
+            poMapper.AddVariable("select", "@select");
+            poMapper.UseVariable("select");
             PrinterObject.Save(poMapper, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
         }
 

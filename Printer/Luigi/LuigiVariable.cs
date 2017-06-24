@@ -15,6 +15,12 @@ namespace Luigi
     public class LuigiVariable : LuigiElement
     {
 
+        #region Fields
+
+        private string valueName;
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -28,6 +34,20 @@ namespace Luigi
         {
             if (this.Content != null && (this.Content is LuigiLiteral || this.Content is LuigiMapper || this.Content is LuigiSet))
                 this.Value.IsAutomatic = true;
+            this.valueName = this.Content.Name;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="n">name of variable</param>
+        /// <param name="s">name of the content</param>
+        /// <param name="p">parent</param>
+        public LuigiVariable(string n, string s, LuigiElement p)
+            : base(n, s, p)
+        {
+            this.Value = this.Root.Find(s);
+            this.valueName = s;
         }
 
         #endregion
@@ -56,7 +76,6 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
-            this.Content.Execute(po, ref indentValue);
         }
 
         /// <summary>
@@ -68,7 +87,7 @@ namespace Luigi
             PrinterObject po;
             po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "var.prt"));
             po.Configuration.Add("varName", this.Name);
-            po.Configuration.Add("value", this.Content.ToString());
+            po.Configuration.Add("value", this.valueName);
             return po.Execute();
         }
 
@@ -79,7 +98,7 @@ namespace Luigi
         /// <returns>a new element</returns>
         public override LuigiElement CopyInto(LuigiElement parent)
         {
-            return new LuigiVariable(this.Name, this.Value, parent);
+            return new LuigiVariable(this.Name, this.valueName, parent);
         }
 
         #endregion

@@ -53,7 +53,6 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
-            this.Content.Execute(po, ref indentValue);
         }
 
         /// <summary>

@@ -36,6 +36,7 @@ namespace Luigi
                 {
                     lo = new LuigiObject("test");
                 }
+
                 LuigiLiteral li = new LuigiLiteral("v", false, ".", "test", lo);
                 lo.AddElement(li.Clone() as LuigiLiteral);
                 LuigiMapper ma = new LuigiMapper("m", false, lo);
@@ -44,16 +45,20 @@ namespace Luigi
                 li2 = new LuigiLiteral("x", false, ".", "b", ma);
                 ma.AddElement(li2.Clone() as LuigiLiteral);
                 lo.AddElement(ma.Clone() as LuigiMapper);
-                LuigiSet s = new LuigiSet("s", false, lo);
+                LuigiSet s = new LuigiSet("r", false, lo);
                 LuigiParameter par = new LuigiParameter("p1", li, s);
                 s.AddElement(par.Clone() as LuigiParameter);
                 LuigiParameter par2 = new LuigiParameter("p2", li2, s);
                 s.AddElement(par2.Clone() as LuigiParameter);
-                LuigiParameter par3 = new LuigiParameter("p3", ma, s);
+                LuigiParameter par3 = new LuigiParameter("p3", ma.Clone() as LuigiElement, s);
                 s.AddElement(par3.Clone() as LuigiParameter);
                 lo.AddElement(s.Clone() as LuigiSet);
-                LuigiVariable var1 = new LuigiVariable("v", ma, lo);
+                LuigiVariable var1 = new LuigiVariable("v", "m", lo);
                 lo.AddElement(var1.Clone() as LuigiVariable);
+
+                LuigiPrint pr = new LuigiPrint("z", var1.CopyInto(lo), lo);
+                pr.PolymorphObject.SelectedKey = "s";
+                lo.AddElement(pr);
 
                 Console.WriteLine(lo.Execute());
 
