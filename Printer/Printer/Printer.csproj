@@ -77,6 +77,9 @@
     <EmbeddedResource Include="languages\Python\main.prt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="languages\Accu\child.prt" />
+    <None Include="languages\Accu\node.prt" />
+    <None Include="languages\Accu\val.prt" />
     <None Include="languages\C\if.prt" />
     <None Include="languages\Luigi\literal-au.prt" />
     <None Include="languages\Luigi\literal-im.prt" />

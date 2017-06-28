@@ -205,9 +205,10 @@ namespace Printer
         /// </summary>
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
+        /// <param name="currentLine">in-progress line add</param>
         /// <param name="config">configuration</param>
         /// <param name="dir">directory</param>
-        public void Execute(TextWriter w, ref int indentValue, Configuration config, string dir)
+        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config, string dir)
         {
             if (shouldIndent) ++indentValue;
             if (include)
@@ -225,14 +226,18 @@ namespace Printer
                             po.AddVariable(pv.Name, pv);
                         }
                         po.ImportConfiguration(config);
-                        po.Execute(w, ref indentValue, po.Configuration);
+                        po.Execute(w, ref indentValue, ref currentLine, po.Configuration);
                         fs.Close();
                     }
                 }
             }
             else
             {
-                PrinterObject.IndentSource(w, indentValue, config.Execute(this.value));
+                if (!String.IsNullOrEmpty(this.value))
+                {
+                    string val = config.Execute(this.value);
+                    PrinterObject.IndentSource(w, indentValue, ref currentLine, val);
+                }
             }
             if (shouldIndent) --indentValue;
         }
@@ -275,9 +280,12 @@ namespace Printer
                 {
                     xml.WriteAttributeString("non-indented", "true");
                 }
-                string v = this.value.Replace(":", ":dbdot;");
-                v = v.Replace("\"", ":dbquot;");
-                xml.WriteString(v);
+                if (!String.IsNullOrEmpty(this.value))
+                {
+                    string v = this.value.Replace(":", ":dbdot;");
+                    v = v.Replace("\"", ":dbquot;");
+                    xml.WriteString(v);
+                }
             }
             xml.WriteEndElement();
         }

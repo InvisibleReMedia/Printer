@@ -14,6 +14,20 @@ namespace Luigi
     [Serializable]
     public class LuigiValue : LuigiElement
     {
+
+        #region Fields
+
+        /// <summary>
+        /// resulted string representation
+        /// </summary>
+        private string result;
+        /// <summary>
+        /// Execute just one time
+        /// </summary>
+        private bool done;
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -53,6 +67,12 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
+            if (!this.done)
+            {
+                LuigiPrint p = new LuigiPrint("temp", this, this);
+                this.result = p.Execute();
+                this.done = true;
+            }
         }
 
         /// <summary>

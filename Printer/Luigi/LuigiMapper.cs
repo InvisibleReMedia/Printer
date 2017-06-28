@@ -53,6 +53,7 @@ namespace Luigi
         public LuigiMapper(LuigiDictionary v, LuigiElement p)
             : base("", v, p)
         {
+            this.Name = this.Root.ComputeNewString();
             this.immediate = false;
             this.automatic = true;
         }
@@ -78,6 +79,7 @@ namespace Luigi
         public LuigiMapper(LuigiElement p)
             : base("", null, p)
         {
+            this.Name = this.Root.ComputeNewString();
             this.automatic = true;
             this.immediate = false;
             this.Value = new LuigiDictionary("map", "LuigiLiteral", this);
@@ -206,22 +208,29 @@ namespace Luigi
         /// <param name="indentValue">indent</param>
         public override void Execute(PrinterObject po, ref int indentValue)
         {
-            PrinterObject poMapper = new PrinterObject(po.CurrentDirectory);
-            poMapper.Configuration.Edit("programmingLanguage", po.Configuration["programmingLanguage"]);
-            foreach (KeyValuePair<string, LuigiElement> l in this.Keys.Elements)
+            if (this.IsAutomatic)
             {
-                l.Value.Execute(poMapper, ref indentValue);
-                PrinterVariable pv = new PrinterVariable();
-                pv.Name = l.Value.Name;
-                pv.Include = true;
-                pv.Value = l.Value.Name + ".prt";
-                pv.AddVariable("delimiter", (l.Value as LuigiLiteral).Delimiter);
-                pv.AddVariable("value", (l.Value as LuigiLiteral).Content);
-                poMapper.AddVariable(l.Key, pv);
+                po.AddData("[" + "]");
             }
-            poMapper.AddVariable("select", "@select");
-            poMapper.UseVariable("select");
-            PrinterObject.Save(poMapper, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
+            else
+            {
+                PrinterObject poMapper = new PrinterObject(po.CurrentDirectory);
+                poMapper.Configuration.Edit("programmingLanguage", po.Configuration["programmingLanguage"]);
+                foreach (KeyValuePair<string, LuigiElement> l in this.Keys.Elements)
+                {
+                    l.Value.Execute(poMapper, ref indentValue);
+                    PrinterVariable pv = new PrinterVariable();
+                    pv.Include = true;
+                    pv.Name = l.Value.Name;
+                    pv.Value = l.Value.Name + ".prt";
+                    pv.AddVariable("delimiter", (l.Value as LuigiLiteral).Delimiter);
+                    pv.AddVariable("value", (l.Value as LuigiLiteral).Content);
+                    poMapper.AddVariable(l.Key, pv);
+                }
+                poMapper.AddVariable("select", "@select");
+                poMapper.UseVariable("select");
+                PrinterObject.Save(poMapper, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
+            }
         }
 
         /// <summary>

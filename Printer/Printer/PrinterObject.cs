@@ -46,7 +46,7 @@ namespace Printer
         /// <summary>
         /// Size indent space char
         /// </summary>
-        public static readonly string IndentString = " ";
+        public static readonly string IndentString = "  ";
 
         /// <summary>
         /// Current user directory
@@ -151,12 +151,21 @@ namespace Printer
         /// <param name="sw">writer</param>
         /// <param name="n">number of indentation</param>
         /// <param name="source">string to write indented (can contains \r\n)</param>
-        public static void IndentSource(TextWriter sw, int n, string source)
+        /// <param name="add">add chars</param>
+        public static void IndentSource(TextWriter sw, int n, ref string source, string add)
         {
-            string indent = String.Empty;
+            string indent = string.Empty;
             for (int index = 0; index < n; ++index) indent += IndentString;
-            Regex reg = new Regex(Environment.NewLine);
-            sw.Write(reg.Replace(source, Environment.NewLine + indent));
+            int pos = add.IndexOf(Environment.NewLine);
+            while (pos != -1)
+            {
+                source += add.Substring(0, pos);
+                sw.WriteLine(indent + source);
+                source = string.Empty;
+                add = add.Substring(pos + 2);
+                pos = add.IndexOf(Environment.NewLine);
+            }
+            source += add;
         }
 
         /// <summary>
@@ -468,8 +477,9 @@ namespace Printer
         /// </summary>
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
+        /// <param name="currentLine">in-progress line add</param>
         /// <param name="config">configuration</param>
-        public void Execute(TextWriter w, ref int indentValue, Configuration config)
+        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config)
         {
             foreach (string e in this.datas)
             {
@@ -477,11 +487,12 @@ namespace Printer
                 {
                     string r = e.Substring(1, e.Length - 2);
                     r = config.Execute(r);
-                    this.variables[r].Execute(w, ref indentValue, config, this.CurrentDirectory);
+                    this.variables[r].Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
                 }
                 else
                 {
-                    PrinterObject.IndentSource(w, indentValue, config.Execute(e));
+                    string val = config.Execute(e);
+                    PrinterObject.IndentSource(w, indentValue, ref currentLine, val);
                 }
             }
         }
@@ -493,10 +504,11 @@ namespace Printer
         public string Execute()
         {
             int indentValue = 0;
+            string currentLine = string.Empty;
             StringBuilder sb = new StringBuilder();
             using (TextWriter tw = new StringWriter(sb))
             {
-                this.Execute(tw, ref indentValue, this.Configuration);
+                this.Execute(tw, ref indentValue, ref currentLine, this.Configuration);
                 tw.Close();
             }
             return sb.ToString();

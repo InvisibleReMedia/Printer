@@ -141,7 +141,7 @@ namespace Luigi
         {
             if (this.IsAutomatic)
             {
-                po.AddData(this.Content);
+                po.AddData("[" + this.Content + "]");
             }
             else
             {

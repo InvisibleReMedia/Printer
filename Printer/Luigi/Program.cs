@@ -52,12 +52,19 @@ namespace Luigi
                 s.AddElement(par2.Clone() as LuigiParameter);
                 LuigiParameter par3 = new LuigiParameter("p3", ma.Clone() as LuigiElement, s);
                 s.AddElement(par3.Clone() as LuigiParameter);
+
+                s.Function.AddParameter(new LuigiValue("v1", par, s));
+                s.Function.AddParameter(new LuigiValue("v2", par2, s));
+                s.Function.AddParameter(new LuigiValue("v3", par3, s));
+
                 lo.AddElement(s.Clone() as LuigiSet);
                 LuigiVariable var1 = new LuigiVariable("v", "m", lo);
                 lo.AddElement(var1.Clone() as LuigiVariable);
 
                 LuigiPrint pr = new LuigiPrint("z", var1.CopyInto(lo), lo);
                 pr.PolymorphObject.SelectedKey = "s";
+                pr = new LuigiPrint("t", var1.CopyInto(lo), lo);
+                pr.PolymorphObject.SelectedKey = "x";
                 lo.AddElement(pr);
 
                 Console.WriteLine(lo.Execute());

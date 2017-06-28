@@ -18,6 +18,10 @@ namespace Luigi
         #region Fields
 
         /// <summary>
+        /// creates unique strings
+        /// </summary>
+        private UniqueStrings unique;
+        /// <summary>
         /// Types
         /// </summary>
         private LuigiDictionary typeNames;
@@ -42,6 +46,7 @@ namespace Luigi
             this.Value = new LuigiList("datas", this);
             this.typeNames = new LuigiDictionary("types", this);
             this.variables = new LuigiDictionary("vars", "LuigiVariable", this);
+            this.unique = new UniqueStrings();
         }
 
         #endregion
@@ -62,6 +67,15 @@ namespace Luigi
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Compute a new name as string
+        /// </summary>
+        /// <returns>a new name</returns>
+        public string ComputeNewString()
+        {
+            return this.unique.ComputeNewString();
+        }
 
         /// <summary>
         /// Find any type name
