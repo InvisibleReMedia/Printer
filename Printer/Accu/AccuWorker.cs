@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Accu
 {
+    /// <summary>
+    /// Programme de traitement des
+    /// données Accu
+    /// </summary>
     public static class AccuWorker
     {
 
@@ -46,8 +50,10 @@ namespace Accu
         /// <param name="po">printer output</param>
         private static void ToString(Accu child, PrinterObject po)
         {
+            if (child.IsMethodCall) return;
             foreach (Accu subChild in child.Children)
             {
+                if (subChild.IsMethodCall) continue;
                 AccuWorker.ToString(subChild, po);
                 PrinterVariable pv = new PrinterVariable();
                 pv.Include = true;
@@ -69,9 +75,8 @@ namespace Accu
                     pv.AddVariable("name", subChild.Name);
                     pv.AddVariable("value", subChild.Value.ToString());
                 }
-                string id = po.ComputeNewString();
-                po.AddVariable(id, pv);
-                po.UseVariable(id);
+                po.AddVariable(subChild.Name, pv);
+                po.UseVariable(subChild.Name);
             }
         }
 
@@ -85,6 +90,27 @@ namespace Accu
             PrinterObject po = new PrinterObject();
             AccuWorker.ToString(root, po);
             return po.Execute();
+        }
+
+        /// <summary>
+        /// Execute commands
+        /// </summary>
+        /// <param name="root">root of Accu</param>
+        /// <param name="workingFun">a set of functions that work on value</param>
+        /// <returns>string result</returns>
+        public static string Execute(Accu root, Func<dynamic, IEnumerable<Accu>, string> workingFun)
+        {
+            string output = string.Empty;
+            foreach (Accu e in root.Children)
+            {
+                output += AccuWorker.Execute(e, workingFun);
+                if (!e.HasResult)
+                {
+                    e.Execute(workingFun);
+                }
+                output += e.Result;
+            }
+            return output;
         }
 
         #endregion

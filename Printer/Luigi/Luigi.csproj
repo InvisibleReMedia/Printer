@@ -44,21 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LuigiElement.cs" />
-    <Compile Include="LuigiFunction.cs" />
-    <Compile Include="LuigiDictionary.cs" />
-    <Compile Include="LuigiList.cs" />
-    <Compile Include="LuigiLiteral.cs" />
-    <Compile Include="LuigiMapper.cs" />
-    <Compile Include="LuigiObject.cs" />
-    <Compile Include="LuigiParameter.cs" />
-    <Compile Include="LuigiPolymorph.cs" />
-    <Compile Include="LuigiPrint.cs" />
-    <Compile Include="LuigiReference.cs" />
-    <Compile Include="LuigiResult.cs" />
-    <Compile Include="LuigiSet.cs" />
-    <Compile Include="LuigiValue.cs" />
-    <Compile Include="LuigiVariable.cs" />
+    <Compile Include="accu\Literal.cs" />
+    <Compile Include="accu\Mapper.cs" />
+    <Compile Include="accu\Reference.cs" />
+    <Compile Include="accu\Type.cs" />
+    <Compile Include="accu\Parameter.cs" />
+    <Compile Include="accu\Set.cs" />
+    <Compile Include="accu\TopLevel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +58,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accu\Accu.csproj">
+      <Project>{c879f073-3d83-429d-a8fb-ce1652228fac}</Project>
+      <Name>Accu</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Printer\Printer.csproj">
       <Project>{da0c562a-7825-4806-b228-bbde45fabc95}</Project>
       <Name>Printer</Name>

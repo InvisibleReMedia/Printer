@@ -15,23 +15,6 @@ namespace Luigi
     public class LuigiLiteral : LuigiElement
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Delimiter
-        /// </summary>
-        private string delimiter;
-        /// <summary>
-        /// Immediate switch
-        /// </summary>
-        private bool immediate;
-        /// <summary>
-        /// no name switch
-        /// </summary>
-        private bool automatic;
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
@@ -45,9 +28,9 @@ namespace Luigi
         public LuigiLiteral(string n, bool im, string d, string v, LuigiElement p)
             : base(n, v, p)
         {
-            this.automatic = false;
-            this.immediate = im;
-            this.delimiter = d;
+            this.data.AddElement(new Accu.Accu("delimiter", d));
+            this.data.AddElement(new Accu.Accu("automatic", false));
+            this.data.AddElement(new Accu.Accu("immediate", im));
         }
 
         /// <summary>
@@ -57,16 +40,39 @@ namespace Luigi
         /// <param name="v">value string</param>
         /// <param name="p">parent</param>
         public LuigiLiteral(string d, string v, LuigiElement p)
-            : base("", v, p)
+            : base(p.Root.ComputeNewString(), v, p)
         {
-            this.automatic = true;
-            this.immediate = false;
-            this.delimiter = d;
+            this.data.AddElement(new Accu.Accu("delimiter", d));
+            this.data.AddElement(new Accu.Accu("automatic", true));
+            this.data.AddElement(new Accu.Accu("immediate", false));
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the source name
+        /// unique name to serve a file name
+        /// prefix usr if user-defined name
+        /// prefix auto if automatic object
+        /// </summary>
+        public string SourceName
+        {
+            get
+            {
+                string name;
+                if (this.IsAutomatic)
+                {
+                    name = "auto_" + this.Name;
+                }
+                else
+                {
+                    name = "usr_" + this.Name;
+                }
+                return name;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the no name switch
@@ -75,11 +81,11 @@ namespace Luigi
         {
             get
             {
-                return this.automatic;
+                return this.data.FindByName("automatic").Value;
             }
             set
             {
-                this.automatic = value;
+                this.data.FindByName("automatic").Value = value;
             }
         }
 
@@ -90,11 +96,11 @@ namespace Luigi
         {
             get
             {
-                return this.immediate;
+                return this.data.FindByName("immediate").Value;
             }
             set
             {
-                this.immediate = value;
+                this.data.FindByName("immediate").Value = value;
             }
         }
 
@@ -105,11 +111,11 @@ namespace Luigi
         {
             get
             {
-                return this.delimiter;
+                return this.data.FindByName("delimiter").Value;
             }
             set
             {
-                this.delimiter = value;
+                this.data.FindByName("delimiter").Value = value;
             }
         }
 
@@ -133,27 +139,22 @@ namespace Luigi
         #region Methods
 
         /// <summary>
-        /// Execute the process of a list
+        /// Write output as interpretation result
         /// </summary>
-        /// <param name="po">printer</param>
-        /// <param name="indentValue">indent</param>
-        public override void Execute(PrinterObject po, ref int indentValue)
+        /// <param name="pars">parameters</param>
+        /// <returns>string value</returns>
+        public override string Execute(Dictionary<string, string> pars)
         {
-            if (this.IsAutomatic)
-            {
-                po.AddData("[" + this.Content + "]");
-            }
-            else
-            {
-                PrinterObject poLiteral = new PrinterObject(po.CurrentDirectory);
-                poLiteral.Configuration.Edit("programmingLanguage", po.Configuration["programmingLanguage"]);
-                poLiteral.Configuration.Add("delimiter", this.Delimiter);
-                poLiteral.Configuration.Add("content", this.Content);
-                poLiteral.AddVariable("delimiter", "@delimiter");
-                poLiteral.AddVariable("value", "@content");
-                poLiteral.UseVariable("value");
-                PrinterObject.Save(poLiteral, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.Name + ".prt"));
-            }
+            PrinterObject poLiteral = new PrinterObject();
+            poLiteral.Configuration.Edit("programmingLanguage", "Luigi");
+            poLiteral.Configuration.Add("delimiter", this.Delimiter);
+            poLiteral.Configuration.Add("content", this.Content);
+            poLiteral.AddVariable("delimiter", "@delimiter");
+            poLiteral.AddVariable("value", "@content");
+            poLiteral.UseVariable("value");
+            PrinterObject.Save(poLiteral, Path.Combine(PrinterObject.PrinterDirectory, "compiled", this.SourceName + ".prt"));
+
+            return poLiteral.Execute();
         }
 
         /// <summary>
@@ -163,13 +164,13 @@ namespace Luigi
         public override string ToString()
         {
             PrinterObject po = null;
-            if (this.automatic)
+            if (this.IsAutomatic)
             {
                 po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-au.prt"));
             }
             else
             {
-                if (this.immediate)
+                if (this.IsImmediate)
                 {
                     po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal-im.prt"));
                 }

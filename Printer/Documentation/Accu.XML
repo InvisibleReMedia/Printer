@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accu</name>
+    </assembly>
+    <members>
+        <member name="T:Accu.Accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.childs">
+            <summary>
+            Children
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.value">
+            <summary>
+            Value
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.res">
+            <summary>
+            Result when operated value
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.methodCall">
+            <summary>
+            Method call switch
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.isRef">
+            <summary>
+            This element is a reference to an another by its name
+            value contains its name
+            </summary>
+        </member>
+        <member name="F:Accu.Accu.done">
+            <summary>
+            True if result has been computed
+            </summary>
+        </member>
+        <member name="M:Accu.Accu.#ctor(System.Boolean,System.Boolean,System.String,System.String)">
+            <summary>
+            Reference constructor
+            </summary>
+            <param name="f">make as reference</param>
+            <param name="m">make as method call</param>
+            <param name="n">name</param>
+            <param name="r">reference name</param>
+        </member>
+        <member name="M:Accu.Accu.#ctor(System.Boolean,System.Boolean,System.String,System.Object)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="f">make as reference</param>
+            <param name="m">make as method call</param>
+            <param name="n">name</param>
+            <param name="v">value</param>
+        </member>
+        <member name="M:Accu.Accu.Execute(System.Func{System.Object,System.Collections.Generic.IEnumerable{Accu.Accu},System.String})">
+            <summary>
+            Execute
+            </summary>
+            <param name="workingFun">a set of functions that work on value</param>
+            <returns>list of objects</returns>
+        </member>
+        <member name="M:Accu.Accu.SetReference(System.String)">
+            <summary>
+            Set a reference (cannot be undo)
+            </summary>
+            <param name="referenceName">reference name</param>
+        </member>
+        <member name="M:Accu.Accu.SetMethodCall(System.String)">
+            <summary>
+            Set a method call (cannot be undo)
+            </summary>
+            <param name="methodName">method name</param>
+        </member>
+        <member name="M:Accu.Accu.AddElement(Accu.Accu)">
+            <summary>
+            Add an element at the end
+            of the list
+            </summary>
+            <param name="a">element</param>
+        </member>
+        <member name="M:Accu.Accu.InsertElement(System.Int32,Accu.Accu)">
+            <summary>
+            Insert an element at the index position
+            </summary>
+            <param name="index">index where to inser</param>
+            <param name="a">element</param>
+        </member>
+        <member name="M:Accu.Accu.EditElement(Accu.Accu)">
+            <summary>
+            Edit an element
+            </summary>
+            <param name="a">element to change</param>
+        </member>
+        <member name="M:Accu.Accu.DeleteElement(System.Int32)">
+            <summary>
+            Delete an element
+            </summary>
+            <param name="index">index position to remove</param>
+        </member>
+        <member name="M:Accu.Accu.FindByName(System.String)">
+            <summary>
+            Find a specific accu with the same name
+            that's supplied
+            </summary>
+            <param name="name">supplied name</param>
+            <returns>Accu</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">if the name was not found</exception>
+        </member>
+        <member name="M:Accu.Accu.FindByIndex(System.Int32)">
+            <summary>
+            Find a specific accu with the same index
+            that's supplied
+            </summary>
+            <param name="index">index position</param>
+            <returns>Accu</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the name was not found</exception>
+        </member>
+        <member name="M:Accu.Accu.RecursiveFindByName(Accu.Accu,System.String)">
+            <summary>
+            Recursive find by id
+            </summary>
+            <param name="root">first accu</param>
+            <param name="name">name</param>
+            <returns>last accu</returns>
+        </member>
+        <member name="M:Accu.Accu.RecursiveFindByIndex(Accu.Accu,System.String)">
+            <summary>
+            Recursive find by name
+            </summary>
+            <param name="root">first accu</param>
+            <param name="name">name</param>
+            <returns>last accu</returns>
+        </member>
+        <member name="P:Accu.Accu.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.Value">
+            <summary>
+            Gets or sets the value
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.Children">
+            <summary>
+            Gets following children
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.IsReference">
+            <summary>
+            Gets if its a reference
+            or not
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.IsMethodCall">
+            <summary>
+            Gets if its a method call
+            or not
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.Result">
+            <summary>
+            Gets or sets the result interpretation
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.HasResult">
+            <summary>
+            Gets or sets the result
+            </summary>
+        </member>
+        <member name="T:Accu.AccuWorker">
+            <summary>
+            Programme de traitement des
+            données Accu
+            </summary>
+        </member>
+        <member name="M:Accu.AccuWorker.ToString(System.Int32,Accu.Accu,Printer.PrinterVariable)">
+            <summary>
+            Converts accumulator to a string representation
+            </summary>
+            <param name="index">iterator</param>
+            <param name="child">child</param>
+            <param name="subPv">printer variable</param>
+        </member>
+        <member name="M:Accu.AccuWorker.ToString(Accu.Accu,Printer.PrinterObject)">
+            <summary>
+            Converts Accumulator to string
+            </summary>
+            <param name="child">child</param>
+            <param name="po">printer output</param>
+        </member>
+        <member name="M:Accu.AccuWorker.ToString(Accu.Accu)">
+            <summary>
+            Converts Accumulator to string
+            </summary>
+            <param name="root">accumulator</param>
+            <returns>string result</returns>
+        </member>
+        <member name="M:Accu.AccuWorker.Execute(Accu.Accu,System.Func{System.Object,System.Collections.Generic.IEnumerable{Accu.Accu},System.String})">
+            <summary>
+            Execute commands
+            </summary>
+            <param name="root">root of Accu</param>
+            <param name="workingFun">a set of functions that work on value</param>
+            <returns>string result</returns>
+        </member>
+    </members>
+</doc>

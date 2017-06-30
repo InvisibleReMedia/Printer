@@ -511,6 +511,8 @@ namespace Printer
                 this.Execute(tw, ref indentValue, ref currentLine, this.Configuration);
                 tw.Close();
             }
+            if (!String.IsNullOrEmpty(currentLine))
+                sb.Append(currentLine);
             return sb.ToString();
         }
 

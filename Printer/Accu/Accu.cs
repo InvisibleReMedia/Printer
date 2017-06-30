@@ -9,6 +9,7 @@ namespace Accu
     /// <summary>
     /// Accumulator
     /// </summary>
+    [Serializable]
     public class Accu
     {
 
@@ -30,10 +31,25 @@ namespace Accu
         private dynamic value;
 
         /// <summary>
+        /// Result when operated value
+        /// </summary>
+        private string res;
+
+        /// <summary>
+        /// Method call switch
+        /// </summary>
+        private bool methodCall;
+
+        /// <summary>
         /// This element is a reference to an another by its name
         /// value contains its name
         /// </summary>
         private bool isRef;
+
+        /// <summary>
+        /// True if result has been computed
+        /// </summary>
+        private bool done;
 
         #endregion
 
@@ -42,11 +58,15 @@ namespace Accu
         /// <summary>
         /// Reference constructor
         /// </summary>
+        /// <param name="f">make as reference</param>
+        /// <param name="m">make as method call</param>
         /// <param name="n">name</param>
         /// <param name="r">reference name</param>
-        public Accu(string n, string r)
+        public Accu(bool f, bool m, string n, string r)
         {
-            this.isRef = true;
+            this.done = false;
+            this.isRef = f;
+            this.methodCall = m;
             this.name = n;
             this.value = r;
             this.childs = new List<Accu>();
@@ -55,11 +75,15 @@ namespace Accu
         /// <summary>
         /// Default constructor
         /// </summary>
+        /// <param name="f">make as reference</param>
+        /// <param name="m">make as method call</param>
         /// <param name="n">name</param>
         /// <param name="v">value</param>
-        public Accu(string n, dynamic v)
+        public Accu(bool f, bool m, string n, dynamic v)
         {
-            this.isRef = false;
+            this.done = false;
+            this.isRef = f;
+            this.methodCall = m;
             this.name = n;
             this.value = v;
             this.childs = new List<Accu>();
@@ -118,9 +142,86 @@ namespace Accu
             }
         }
 
+        /// <summary>
+        /// Gets if its a method call
+        /// or not
+        /// </summary>
+        public bool IsMethodCall
+        {
+            get
+            {
+                return this.methodCall;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the result interpretation
+        /// </summary>
+        public string Result
+        {
+            get
+            {
+                return this.res;
+            }
+            set
+            {
+                this.res = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the result
+        /// </summary>
+        public bool HasResult
+        {
+            get
+            {
+                return this.done;
+            }
+            set
+            {
+                this.done = value;
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Execute
+        /// </summary>
+        /// <param name="workingFun">a set of functions that work on value</param>
+        /// <returns>list of objects</returns>
+        public Dictionary<string, Accu> Execute(Func<dynamic, IEnumerable<Accu>, string> workingFun)
+        {
+            Dictionary<string, Accu> dict = new Dictionary<string, Accu>();
+            foreach (Accu e in this.Children)
+            {
+                dict.Concat(e.Execute(workingFun));
+            }
+            if (!this.HasResult)
+            {
+                if (this.IsReference)
+                {
+                    if (dict.ContainsKey(this.Value.ToString()))
+                    {
+                        Accu r = dict[this.Value.ToString()];
+                        if (!r.HasResult)
+                        {
+                            r.Result = workingFun(r.Value, r.Children);
+                            r.HasResult = true;
+                        }
+                    }
+                }
+                else
+                {
+                    this.Result = workingFun(this.Value, this.Children);
+                    this.HasResult = true;
+                }
+            }
+            return dict;
+        }
 
         /// <summary>
         /// Set a reference (cannot be undo)
@@ -133,13 +234,24 @@ namespace Accu
         }
 
         /// <summary>
+        /// Set a method call (cannot be undo)
+        /// </summary>
+        /// <param name="methodName">method name</param>
+        public void SetMethodCall(string methodName)
+        {
+            this.value = methodName;
+            this.isRef = false;
+            this.methodCall = true;
+        }
+
+        /// <summary>
         /// Add an element at the end
         /// of the list
         /// </summary>
         /// <param name="a">element</param>
         public void AddElement(Accu a)
         {
-            int pos = this.childs.FindIndex(x => x.Name == a.Name);
+            int pos = this.childs.FindLastIndex(x => x.Name == a.Name);
             if (pos != -1)
             {
                 this.childs[pos] = a;
@@ -166,7 +278,7 @@ namespace Accu
         /// <param name="a">element to change</param>
         public void EditElement(Accu a)
         {
-            int pos = this.childs.FindIndex(x => x.Name == a.Name);
+            int pos = this.childs.FindLastIndex(x => x.Name == a.Name);
             if (pos != -1)
             {
                 this.childs[pos] = a;
@@ -207,10 +319,10 @@ namespace Accu
         }
 
         /// <summary>
-        /// Find a specific accu with the same name
+        /// Find a specific accu with the same index
         /// that's supplied
         /// </summary>
-        /// <param name="name">supplied name</param>
+        /// <param name="index">index position</param>
         /// <returns>Accu</returns>
         /// <exception cref="IndexOutOfRangeException">if the name was not found</exception>
         public Accu FindByIndex(int index)

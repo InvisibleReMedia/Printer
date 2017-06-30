@@ -1,4 +1,5 @@
 ﻿using Printer;
+using Accu;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -213,7 +214,7 @@ namespace Luigi
         /// <param name="e"></param>
         public void InsertElement(int index, LuigiElement e)
         {
-            this.Datas.AddElement(e);
+            this.Datas.InsertElement(index, e);
             switch (e.TypeName)
             {
                 case "LuigiLiteral":
@@ -247,17 +248,13 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Execute the process of a list
+        /// Write output as interpretation result
         /// </summary>
-        /// <param name="po">printer</param>
-        /// <param name="indentValue">indent</param>
-        public override void Execute(PrinterObject po, ref int indentValue)
+        /// <param name="pars">parameters</param>
+        /// <returns>string value</returns>
+        public override string Execute(Dictionary<string, string> pars)
         {
-            foreach (LuigiElement e in this.Datas.Elements)
-            {
-                e.Execute(po, ref indentValue);
-            }
-            po.Execute();
+            throw new NotSupportedException();
         }
 
         /// <summary>

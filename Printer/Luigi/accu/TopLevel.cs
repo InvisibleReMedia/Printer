@@ -1,72 +1,59 @@
 ﻿using Printer;
-using Accu;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 
-namespace Luigi
+namespace Luigi.accu
 {
     /// <summary>
-    /// Abstract class for Luigi language
-    /// Takes all needs for each class
+    /// Top level of the structure
     /// </summary>
     [Serializable]
-    public abstract class LuigiElement : ICloneable
+    public class TopLevel
     {
 
         #region Fields
 
         /// <summary>
-        /// Root of this program
+        /// Accumulator
         /// </summary>
-        protected LuigiObject root;
+        private Accu.Accu accu;
+
         /// <summary>
-        /// Parent
+        /// Keys
         /// </summary>
-        private LuigiElement parent;
+        private List<Type> types;
+
         /// <summary>
-        /// Data handler
+        /// Top level class (use for a get reference object)
         /// </summary>
-        protected Accu.Accu data;
+        private TopLevel root;
+
         /// <summary>
-        /// Value
+        /// Parent object
         /// </summary>
-        private dynamic value;
+        private dynamic parent;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Constructor for top-level object
-        /// </summary>
-        /// <param name="n">name</param>
-        /// <param name="v">value</param>
-        protected LuigiElement(string n, dynamic v)
-        {
-            this.data = new Accu.Accu(n, this);
-            this.value = v;
-            this.parent = null;
-        }
-
-        /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="n">name</param>
-        /// <param name="v">value</param>
-        /// <param name="parent">parent</param>
-        protected LuigiElement(string n, dynamic v, LuigiElement parent)
+        public TopLevel()
         {
-            this.data = new Accu.Accu(n, this);
-            this.value = v;
-            this.parent = parent;
-            this.root = parent.Root;
+            this.parent = null;
+            this.root = this;
+            this.accu = new Accu.Accu(false, false, "root", this);
+            this.accu.AddElement(new Accu.Accu(false, true, "type", this.GetType().Name));
+            this.accu.AddElement(new Accu.Accu(false, true, "count", 0));
+            this.accu.AddElement(new Accu.Accu(false, true, "print", "result"));
+            this.types = new List<Type>();
         }
 
         #endregion
@@ -74,9 +61,9 @@ namespace Luigi
         #region Properties
 
         /// <summary>
-        /// Gets the root of this program
+        /// Gets the root parent
         /// </summary>
-        public LuigiObject Root
+        public TopLevel Root
         {
             get
             {
@@ -85,9 +72,9 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Gets the parent of this object
+        /// Gets the parent
         /// </summary>
-        public LuigiElement Parent
+        public dynamic Parent
         {
             get
             {
@@ -102,33 +89,18 @@ namespace Luigi
         {
             get
             {
-                return this.data.Name;
+                return this.accu.Name;
             }
         }
 
         /// <summary>
-        /// Gets or sets the type name
+        /// Gets the number of keys
         /// </summary>
-        public string TypeName
+        public int Count
         {
             get
             {
-                return this.GetType().Name;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the value
-        /// </summary>
-        public dynamic Value
-        {
-            get
-            {
-                return this.value;
-            }
-            set
-            {
-                this.value = value;
+                return this.accu.FindByIndex(1).Value;
             }
         }
 
@@ -137,28 +109,61 @@ namespace Luigi
         #region Methods
 
         /// <summary>
-        /// Write output as interpretation result
+        /// Add a key
         /// </summary>
-        /// <param name="pars">parameters</param>
-        /// <returns>string value</returns>
-        public abstract string Execute(Dictionary<string, string> pars);
+        /// <param name="v">value</param>
+        public void AddType(dynamic v)
+        {
+            int pos = this.types.FindLastIndex(x => x.Name == v.Name);
+            if (pos != -1)
+            {
+                this.types[pos].Value = v;
+            }
+            else
+            {
+                Type t = new Type(v, this);
+                this.types.Add(t);
+                this.accu.AddElement(new Accu.Accu(false, false, v.Name, t));
+                int n = this.accu.FindByIndex(1).Value;
+                this.accu.FindByIndex(1).Value = n + 1;
+            }
+        }
 
         /// <summary>
-        /// Write output as interpretation result
+        /// Edit a key
         /// </summary>
-        /// <returns>output</returns>
-        public string Execute()
+        /// <param name="v">value</param>
+        public void EditType(dynamic v)
         {
-            return Accu.AccuWorker.Execute(this.data, (e, l) =>
+            int pos = this.types.FindLastIndex(x => x.Name == v.Name);
+            if (pos != -1)
             {
-                LuigiElement le = e as LuigiElement;
-                Dictionary<string, string> d = new Dictionary<string, string>();
-                foreach (Accu.Accu a in l)
-                {
-                    d.Add(a.Name, a.Result);
-                }
-                return le.Execute(d);
-            });
+                this.types[pos].Value = v;
+            }
+            else
+            {
+                Type t = new Type(v, this);
+                this.types.Add(t);
+                this.accu.AddElement(new Accu.Accu(false, false, v.Name, t));
+                int n = this.accu.FindByIndex(1).Value;
+                this.accu.FindByIndex(1).Value = n + 1;
+            }
+        }
+
+        /// <summary>
+        /// Delete a key
+        /// </summary>
+        /// <param name="key">key name</param>
+        public void DeleteType(string key)
+        {
+            int pos = this.types.FindLastIndex(x => x.Name == key);
+            if (pos != -1)
+            {
+                this.types.RemoveAt(pos);
+                this.accu.DeleteElement(pos + 3);
+                int n = this.accu.FindByIndex(1).Value;
+                this.accu.FindByIndex(1).Value = n - 1;
+            }
         }
 
         /// <summary>
@@ -166,15 +171,15 @@ namespace Luigi
         /// </summary>
         /// <param name="fileName">full path of fileName</param>
         /// <returns>object</returns>
-        public static LuigiElement Load(string fileName)
+        public static TopLevel Load(string fileName)
         {
-            LuigiElement po = null;
+            TopLevel top = null;
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 try
                 {
-                    po = bf.Deserialize(fs) as LuigiElement;
+                    top = bf.Deserialize(fs) as TopLevel;
                 }
                 catch (Exception)
                 {
@@ -186,7 +191,7 @@ namespace Luigi
                 }
             }
 
-            return po;
+            return top;
         }
 
 
@@ -195,7 +200,7 @@ namespace Luigi
         /// </summary>
         /// <param name="obj">object to save</param>
         /// <param name="fileName">full path of fileName to save</param>
-        public static void Save(LuigiElement obj, string fileName)
+        public static void Save(TopLevel obj, string fileName)
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
@@ -221,20 +226,20 @@ namespace Luigi
         /// </summary>
         /// <param name="stream">stream buffer</param>
         /// <returns>object</returns>
-        public static LuigiElement Load(Stream stream)
+        public static TopLevel Load(Stream stream)
         {
-            LuigiElement po = null;
+            TopLevel top = null;
             BinaryFormatter bf = new BinaryFormatter();
             try
             {
-                po = bf.Deserialize(stream) as LuigiElement;
+                top = bf.Deserialize(stream) as TopLevel;
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return po;
+            return top;
         }
 
 
@@ -244,7 +249,7 @@ namespace Luigi
         /// </summary>
         /// <param name="obj">object to save</param>
         /// <param name="stream">stream buffer</param>
-        public static void Save(LuigiElement obj, Stream stream)
+        public static void Save(TopLevel obj, Stream stream)
         {
             BinaryFormatter bf = new BinaryFormatter();
             try
@@ -258,21 +263,15 @@ namespace Luigi
         }
 
         /// <summary>
-        /// Copy this into a new element
+        /// Converts this object into a string representation (source code)
         /// </summary>
-        /// <param name="parent">parent</param>
-        /// <returns>a new element</returns>
-        public abstract LuigiElement CopyInto(LuigiElement parent);
-
-        /// <summary>
-        /// Clone one element
-        /// </summary>
-        /// <returns>cloned object</returns>
-        public object Clone()
+        /// <returns>string representation as the source code</returns>
+        public override string ToString()
         {
-            return this.CopyInto(this.Parent);
+            return Accu.AccuWorker.ToString(this.accu);
         }
 
         #endregion
+
     }
 }

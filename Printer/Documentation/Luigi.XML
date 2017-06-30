@@ -4,88 +4,481 @@
         <name>Luigi</name>
     </assembly>
     <members>
-        <member name="T:Luigi.LuigiElement">
+        <member name="T:Luigi.accu.Literal">
             <summary>
-            Abstract class for Luigi language
-            Takes all needs for each class
+            State a literal
             </summary>
         </member>
-        <member name="F:Luigi.LuigiElement.root">
+        <member name="F:Luigi.accu.Literal.accu">
             <summary>
-            Root of this program
+            Accumulator
             </summary>
         </member>
-        <member name="F:Luigi.LuigiElement.parent">
+        <member name="F:Luigi.accu.Literal.root">
             <summary>
-            Parent
+            Top level class (use for a get reference object)
             </summary>
         </member>
-        <member name="F:Luigi.LuigiElement.name">
+        <member name="F:Luigi.accu.Literal.parent">
             <summary>
-            Name of the object
+            Parent object
             </summary>
         </member>
-        <member name="F:Luigi.LuigiElement.value">
+        <member name="M:Luigi.accu.Literal.#ctor(System.String,System.Object)">
             <summary>
-            Value object
+            Default constructor
+            </summary>
+            <param name="n"></param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.accu.Literal.Apply(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Apply
+            </summary>
+            <param name="pars">parameters</param>
+            <returns>string result</returns>
+        </member>
+        <member name="M:Luigi.accu.Literal.ToString">
+            <summary>
+            Converts this object into a string representation (source code)
+            </summary>
+            <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Literal.Root">
+            <summary>
+            Gets the root parent
             </summary>
         </member>
-        <member name="F:Luigi.LuigiElement.IndentString">
+        <member name="P:Luigi.accu.Literal.Parent">
             <summary>
-            Size indent space char
+            Gets the parent
             </summary>
         </member>
-        <member name="M:Luigi.LuigiElement.#ctor(System.String,System.Object)">
+        <member name="P:Luigi.accu.Literal.Name">
             <summary>
-            Constructor for top-level object
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Literal.Delimiter">
+            <summary>
+            Gets or sets the delimiter
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Literal.Text">
+            <summary>
+            Gets or sets the content
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.Mapper">
+            <summary>
+            State a mapper
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Mapper.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Mapper.keys">
+            <summary>
+            Keys
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Mapper.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Mapper.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.Mapper.#ctor(System.String,System.Object)">
+            <summary>
+            Default constructor
             </summary>
             <param name="n">name</param>
-            <param name="v">value</param>
+            <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiElement.#ctor(System.String,System.Object,Luigi.LuigiElement)">
+        <member name="M:Luigi.accu.Mapper.AddKey(System.String,System.String,System.String)">
+            <summary>
+            Add a key
+            </summary>
+            <param name="key">key name</param>
+            <param name="delimiter">delimiter</param>
+            <param name="text">text</param>
+        </member>
+        <member name="M:Luigi.accu.Mapper.EditKey(System.String,System.String,System.String)">
+            <summary>
+            Edit a key
+            </summary>
+            <param name="key">key name</param>
+            <param name="delimiter">delimiter</param>
+            <param name="text">text</param>
+        </member>
+        <member name="M:Luigi.accu.Mapper.DeleteKey(System.String)">
+            <summary>
+            Delete a key
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Luigi.accu.Mapper.ToString(System.Int32,Accu.Accu,Printer.PrinterVariable)">
+            <summary>
+            Converts accumulator to a string representation
+            </summary>
+            <param name="index">iterator</param>
+            <param name="child">child</param>
+            <param name="subPv">printer variable</param>
+        </member>
+        <member name="M:Luigi.accu.Mapper.ToString">
+            <summary>
+            Converts this object into a string representation (source code)
+            </summary>
+            <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Mapper.Root">
+            <summary>
+            Gets the root parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Mapper.Parent">
+            <summary>
+            Gets the parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Mapper.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Mapper.Count">
+            <summary>
+            Gets the number of keys
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.Reference">
+            <summary>
+            Is an object referencing an another object by its names
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Reference.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Reference.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Reference.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.Reference.#ctor(System.String,System.Object,System.Object)">
             <summary>
             Default constructor
             </summary>
             <param name="n">name</param>
             <param name="v">value</param>
-            <param name="parent">parent</param>
+            <param name="p">parent</param>
         </member>
-        <member name="M:Luigi.LuigiElement.IndentSource(System.IO.TextWriter,System.Int32,System.String)">
+        <member name="M:Luigi.accu.Reference.Apply(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
-            Indentation before each line
+            Apply
             </summary>
-            <param name="sw">writer</param>
-            <param name="n">number of indentation</param>
-            <param name="source">string to write indented (can contains \r\n)</param>
+            <param name="pars">parameters</param>
+            <returns>string result</returns>
         </member>
-        <member name="M:Luigi.LuigiElement.Execute(Printer.PrinterObject,System.Int32@)">
+        <member name="M:Luigi.accu.Reference.ToString">
             <summary>
-            Write output as interpretation result
+            Converts this object into a string representation (source code)
             </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">space size</param>
+            <returns>string representation as the source code</returns>
         </member>
-        <member name="M:Luigi.LuigiElement.Execute">
+        <member name="P:Luigi.accu.Reference.Root">
             <summary>
-            Write output as interpretation result
+            Gets the root parent
             </summary>
-            <returns>output</returns>
         </member>
-        <member name="M:Luigi.LuigiElement.Load(System.String)">
+        <member name="P:Luigi.accu.Reference.Parent">
+            <summary>
+            Gets the parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Reference.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Reference.ReferencedObject">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.Type">
+            <summary>
+            Is a type name representing an object
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Type.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Type.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Type.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.Type.#ctor(System.Object,System.Object)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="v">value</param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.accu.Type.ToString">
+            <summary>
+            Converts this object into a string representation (source code)
+            </summary>
+            <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Type.Root">
+            <summary>
+            Gets the root parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Type.Parent">
+            <summary>
+            Gets the parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Type.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Type.Value">
+            <summary>
+            Gets or sets the value (inner object)
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.Parameter">
+            <summary>
+            Is an element parameter of a set
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Parameter.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Parameter.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Parameter.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.Parameter.#ctor(System.String,System.Object,System.Object)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="n">name</param>
+            <param name="v">value</param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.accu.Parameter.ToString">
+            <summary>
+            Converts this object into a string representation (source code)
+            </summary>
+            <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Parameter.Root">
+            <summary>
+            Gets the root parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Parameter.Parent">
+            <summary>
+            Gets the parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Parameter.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Parameter.Value">
+            <summary>
+            Gets or sets the value (inner object)
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Parameter.InnerType">
+            <summary>
+            Gets or sets the inner type of inner object
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.Set">
+            <summary>
+            Statement for a set
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Set.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Set.pars">
+            <summary>
+            Keys
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Set.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Set.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.Set.#ctor(System.String,System.Object)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="n">name</param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.accu.Set.AddParameter(System.String,System.Object)">
+            <summary>
+            Add a key
+            </summary>
+            <param name="key">key name</param>
+            <param name="v">value</param>
+        </member>
+        <member name="M:Luigi.accu.Set.EditParameter(System.String,System.Object)">
+            <summary>
+            Edit a key
+            </summary>
+            <param name="key">key name</param>
+            <param name="v">value</param>
+        </member>
+        <member name="M:Luigi.accu.Set.DeleteParameter(System.String)">
+            <summary>
+            Delete a key
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Luigi.accu.Set.ToString(System.Int32,Accu.Accu,Printer.PrinterVariable)">
+            <summary>
+            Converts accumulator to a string representation
+            </summary>
+            <param name="index">iterator</param>
+            <param name="child">child</param>
+            <param name="subPv">printer variable</param>
+        </member>
+        <member name="M:Luigi.accu.Set.ToString">
+            <summary>
+            Converts this object into a string representation (source code)
+            </summary>
+            <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Set.Root">
+            <summary>
+            Gets the root parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Set.Parent">
+            <summary>
+            Gets the parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Set.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Set.Count">
+            <summary>
+            Gets the number of keys
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.TopLevel">
+            <summary>
+            Top level of the structure
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.TopLevel.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.TopLevel.types">
+            <summary>
+            Keys
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.TopLevel.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.TopLevel.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.TopLevel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.TopLevel.AddType(System.Object)">
+            <summary>
+            Add a key
+            </summary>
+            <param name="v">value</param>
+        </member>
+        <member name="M:Luigi.accu.TopLevel.EditType(System.Object)">
+            <summary>
+            Edit a key
+            </summary>
+            <param name="v">value</param>
+        </member>
+        <member name="M:Luigi.accu.TopLevel.DeleteType(System.String)">
+            <summary>
+            Delete a key
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Luigi.accu.TopLevel.Load(System.String)">
             <summary>
             Load a file from disk
             </summary>
             <param name="fileName">full path of fileName</param>
             <returns>object</returns>
         </member>
-        <member name="M:Luigi.LuigiElement.Save(Luigi.LuigiElement,System.String)">
+        <member name="M:Luigi.accu.TopLevel.Save(Luigi.accu.TopLevel,System.String)">
             <summary>
             Save a LuigiElement to disk
             </summary>
             <param name="obj">object to save</param>
             <param name="fileName">full path of fileName to save</param>
         </member>
-        <member name="M:Luigi.LuigiElement.Load(System.IO.Stream)">
+        <member name="M:Luigi.accu.TopLevel.Load(System.IO.Stream)">
             <summary>
             Load a file from memory
             You must close the stream after this method
@@ -93,7 +486,7 @@
             <param name="stream">stream buffer</param>
             <returns>object</returns>
         </member>
-        <member name="M:Luigi.LuigiElement.Save(Luigi.LuigiElement,System.IO.Stream)">
+        <member name="M:Luigi.accu.TopLevel.Save(Luigi.accu.TopLevel,System.IO.Stream)">
             <summary>
             Save a LuigiElement to memory
             You must close the stream after this method
@@ -101,1121 +494,30 @@
             <param name="obj">object to save</param>
             <param name="stream">stream buffer</param>
         </member>
-        <member name="M:Luigi.LuigiElement.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="M:Luigi.LuigiElement.Clone">
-            <summary>
-            Clone one element
-            </summary>
-            <returns>cloned object</returns>
-        </member>
-        <member name="P:Luigi.LuigiElement.Root">
-            <summary>
-            Gets the root of this program
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiElement.Parent">
-            <summary>
-            Gets the parent of this object
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiElement.Name">
-            <summary>
-            Gets or sets the name
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiElement.TypeName">
-            <summary>
-            Gets or sets the type name
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiElement.Value">
-            <summary>
-            Gets or sets the value
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiFunction">
-            <summary>
-            Operates functions
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiFunction.#ctor(System.String,Luigi.LuigiList,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of the function</param>
-            <param name="v">parameters</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.#ctor(System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of the function</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.AddParameter(Luigi.LuigiElement)">
-            <summary>
-            Add element list
-            </summary>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.InsertElement(System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Insert an element
-            </summary>
-            <param name="index">index position</param>
-            <param name="e"></param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.EditElement(System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Edit element list
-            </summary>
-            <param name="index">index position</param>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.RemoveElement(System.Int32)">
-            <summary>
-            Remove an element from the list
-            </summary>
-            <param name="index">index to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiFunction.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiFunction.EffectiveValues">
-            <summary>
-            List of effective parameters
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiFunction.BuiltIn">
-            <summary>
-            Implements built-in functions
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiDictionary">
-            <summary>
-            A list of luigi instance elements
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiDictionary.contentTypeName">
-            <summary>
-            Indicates the type of the content
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiDictionary.mixedContent">
-            <summary>
-            Indicates if this list can have mixed content
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.#ctor(System.String,System.Collections.Generic.IEnumerable{Luigi.LuigiElement},Luigi.LuigiElement)">
-            <summary>
-            Constructor with input list mixed content
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="v">input list</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{Luigi.LuigiElement},Luigi.LuigiElement)">
-            <summary>
-            Constructor with input list
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="inType">type name of the content</param>
-            <param name="v">input list</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.#ctor(System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor with an empty list mixed content
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor with an empty list
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="inType">type name of the content</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.AddElement(Luigi.LuigiElement)">
-            <summary>
-            Add element list
-            </summary>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.ChangeName(System.String,System.String)">
-            <summary>
-            Change the name of an item
-            </summary>
-            <param name="oldName">an existing item name</param>
-            <param name="newName">the new name of the same item</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.EditElement(Luigi.LuigiElement)">
-            <summary>
-            Edit element list
-            </summary>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.RemoveElement(System.String)">
-            <summary>
-            Remove an element from the list
-            </summary>
-            <param name="nameToRemove">name to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiDictionary.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiDictionary.CanHaveMixedContent">
-            <summary>
-            Gets the mixed content switch
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiDictionary.ContentTypeName">
-            <summary>
-            Gets the content type name
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiDictionary.Elements">
-            <summary>
-            Gets the elements object
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiList">
-            <summary>
-            A list of luigi instance elements
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiList.contentTypeName">
-            <summary>
-            Indicates the type of the content
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiList.mixedContent">
-            <summary>
-            Indicates if this list can have mixed content
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiList.#ctor(System.String,System.Collections.Generic.IEnumerable{Luigi.LuigiElement},Luigi.LuigiElement)">
-            <summary>
-            Constructor with input list mixed content
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="v">input list</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiList.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{Luigi.LuigiElement},Luigi.LuigiElement)">
-            <summary>
-            Constructor with input list
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="inType">type name of the content</param>
-            <param name="v">input list</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiList.#ctor(System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor with an empty list mixed content
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiList.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor with an empty list
-            </summary>
-            <param name="n">name of the list</param>
-            <param name="inType">type name of the content</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiList.AddElement(Luigi.LuigiElement)">
-            <summary>
-            Add element list
-            </summary>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiList.InsertElement(System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Insert an element
-            </summary>
-            <param name="index">index position</param>
-            <param name="e"></param>
-        </member>
-        <member name="M:Luigi.LuigiList.EditElement(System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Edit element list
-            </summary>
-            <param name="index">index position</param>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiList.RemoveElement(System.Int32)">
-            <summary>
-            Remove an element from the list
-            </summary>
-            <param name="index">index to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiList.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiList.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiList.CanHaveMixedContent">
-            <summary>
-            Gets the mixed content switch
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiList.ContentTypeName">
-            <summary>
-            Gets the content type name
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiList.Elements">
-            <summary>
-            Gets the elements object
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiLiteral">
-            <summary>
-            A literal into Luigi language
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiLiteral.delimiter">
-            <summary>
-            Delimiter
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiLiteral.immediate">
-            <summary>
-            Immediate switch
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiLiteral.automatic">
-            <summary>
-            no name switch
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiLiteral.#ctor(System.String,System.Boolean,System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Literal object
-            </summary>
-            <param name="n">type name of the object</param>
-            <param name="im">immediate switch</param>
-            <param name="d">delimiter</param>
-            <param name="v">value string</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiLiteral.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Literal object
-            </summary>
-            <param name="d">delimiter</param>
-            <param name="v">value string</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiLiteral.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiLiteral.ToString">
+        <member name="M:Luigi.accu.TopLevel.ToString">
             <summary>
             Converts this object into a string representation (source code)
             </summary>
             <returns>string representation as the source code</returns>
         </member>
-        <member name="M:Luigi.LuigiLiteral.CopyInto(Luigi.LuigiElement)">
+        <member name="P:Luigi.accu.TopLevel.Root">
             <summary>
-            Copy this into a new element
+            Gets the root parent
             </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
         </member>
-        <member name="P:Luigi.LuigiLiteral.IsAutomatic">
+        <member name="P:Luigi.accu.TopLevel.Parent">
             <summary>
-            Gets or sets the no name switch
+            Gets the parent
             </summary>
         </member>
-        <member name="P:Luigi.LuigiLiteral.IsImmediate">
+        <member name="P:Luigi.accu.TopLevel.Name">
             <summary>
-            Gets or sets the immediate switch
+            Gets the name
             </summary>
         </member>
-        <member name="P:Luigi.LuigiLiteral.Delimiter">
+        <member name="P:Luigi.accu.TopLevel.Count">
             <summary>
-            Gets or sets the delimiter
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiLiteral.Content">
-            <summary>
-            Gets or sets the content
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiMapper">
-            <summary>
-            A mapper into Luigi language
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiMapper.immediate">
-            <summary>
-            Immediate switch
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiMapper.automatic">
-            <summary>
-            no name switch
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiMapper.#ctor(System.String,System.Boolean,Luigi.LuigiDictionary,Luigi.LuigiElement)">
-            <summary>
-            Mapper object
-            </summary>
-            <param name="n">type name of the object</param>
-            <param name="imm">immediate switch</param>
-            <param name="v">dictionary of string</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.#ctor(Luigi.LuigiDictionary,Luigi.LuigiElement)">
-            <summary>
-            Mapper object
-            </summary>
-            <param name="v">dictionary of string</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.#ctor(System.String,System.Boolean,Luigi.LuigiElement)">
-            <summary>
-            Mapper object
-            </summary>
-            <param name="n">type name of the object</param>
-            <param name="imm">immediate switch</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.#ctor(Luigi.LuigiElement)">
-            <summary>
-            Mapper object
-            </summary>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.AddReference(Luigi.LuigiReference)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="r">reference to add</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.AddElement(Luigi.LuigiLiteral)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="lit">literal to add</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.EditReference(Luigi.LuigiReference)">
-            <summary>
-            Edit an element
-            </summary>
-            <param name="r">reference to add</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.EditElement(Luigi.LuigiLiteral)">
-            <summary>
-            Edit an element
-            </summary>
-            <param name="lit">literal to add</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.ChangeName(System.String,System.String)">
-            <summary>
-            Change the name of an element
-            </summary>
-            <param name="oldName">old name</param>
-            <param name="newName">new name</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.RemoveElement(System.String)">
-            <summary>
-            Remove an existing element
-            </summary>
-            <param name="nameToRemove">name to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiMapper.ToString">
-            <summary>
-            Converts this object into a string representation (source code)
-            </summary>
-            <returns>string representation as the source code</returns>
-        </member>
-        <member name="M:Luigi.LuigiMapper.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiMapper.IsAutomatic">
-            <summary>
-            Gets or sets the no name switch
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiMapper.IsImmediate">
-            <summary>
-            Gets or sets the immediate switch
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiMapper.Keys">
-            <summary>
-            Gets the keys of mapper
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiObject">
-            <summary>
-            Top-level class of Luigi language
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiObject.unique">
-            <summary>
-            creates unique strings
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiObject.typeNames">
-            <summary>
-            Types
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiObject.variables">
-            <summary>
-            Variables
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiObject.#ctor(System.String)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of the program</param>
-        </member>
-        <member name="M:Luigi.LuigiObject.ComputeNewString">
-            <summary>
-            Compute a new name as string
-            </summary>
-            <returns>a new name</returns>
-        </member>
-        <member name="M:Luigi.LuigiObject.Find(System.String)">
-            <summary>
-            Find any type name
-            </summary>
-            <param name="name">type name</param>
-            <returns>object if exists</returns>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">not exist</exception>
-        </member>
-        <member name="M:Luigi.LuigiObject.FindLiteral(System.String)">
-            <summary>
-            Find literal type name
-            </summary>
-            <param name="name">type name</param>
-            <returns>object if exists</returns>
-            <exception cref="T:System.InvalidCastException">not a literal</exception>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">not exist</exception>
-        </member>
-        <member name="M:Luigi.LuigiObject.FindMapper(System.String)">
-            <summary>
-            Find mapper type name
-            </summary>
-            <param name="name">type name</param>
-            <returns>object if exists</returns>
-            <exception cref="T:System.InvalidCastException">not a literal</exception>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">not exist</exception>
-        </member>
-        <member name="M:Luigi.LuigiObject.FindSet(System.String)">
-            <summary>
-            Find set type name
-            </summary>
-            <param name="name">type name</param>
-            <returns>object if exists</returns>
-            <exception cref="T:System.InvalidCastException">not a literal</exception>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">not exist</exception>
-        </member>
-        <member name="M:Luigi.LuigiObject.FindVariable(System.String)">
-            <summary>
-            Find variable instance
-            </summary>
-            <param name="name">variable name</param>
-            <returns>object if exists</returns>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">not exist</exception>
-        </member>
-        <member name="M:Luigi.LuigiObject.AddElement(Luigi.LuigiElement)">
-            <summary>
-            Add element list
-            </summary>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiObject.InsertElement(System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Insert an element
-            </summary>
-            <param name="index">index position</param>
-            <param name="e"></param>
-        </member>
-        <member name="M:Luigi.LuigiObject.EditElement(System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Edit element list
-            </summary>
-            <param name="index">index position</param>
-            <param name="e">element to add</param>
-        </member>
-        <member name="M:Luigi.LuigiObject.RemoveElement(System.Int32)">
-            <summary>
-            Remove an element from the list
-            </summary>
-            <param name="index">index to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiObject.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiObject.ToString">
-            <summary>
-            Converts this object into a string representation (source code)
-            </summary>
-            <returns>string representation as the source code</returns>
-        </member>
-        <member name="M:Luigi.LuigiObject.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiObject.Datas">
-            <summary>
-            Datas stored into this program
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiParameter">
-            <summary>
-            A parameter
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiParameter.#ctor(System.String,Luigi.LuigiElement,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of the parameter</param>
-            <param name="v">value</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiParameter.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiParameter.ToString">
-            <summary>
-            Converts this object into a string representation (source code)
-            </summary>
-            <returns>string representation as the source code</returns>
-        </member>
-        <member name="M:Luigi.LuigiParameter.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiParameter.ParameterValue">
-            <summary>
-            Gets the parameter value
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiPolymorph">
-            <summary>
-            Polymorph class
-            helps to work with literal, mapper, set and functions
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiPolymorph.pars">
-            <summary>
-            Parameters
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiPolymorph.innerType">
-            <summary>
-            Content
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiPolymorph.fileName">
-            <summary>
-            File name to call
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiPolymorph.selectedKey">
-            <summary>
-            Selected key
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiPolymorph.f">
-            <summary>
-            Luigi function
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiPolymorph.content">
-            <summary>
-            Content
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.#ctor(System.String,Luigi.LuigiElement,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">type name</param>
-            <param name="v">value</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.AddElement(Luigi.LuigiElement)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="e">literal to add</param>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.EditElement(Luigi.LuigiElement)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="e">literal to add</param>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.ChangeName(System.String,System.String)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="oldName">old name</param>
-            <param name="newName">new name</param>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.RemoveElement(System.String)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="nameToRemove">name to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute operation
-            </summary>
-            <param name="po">printer output</param>
-            <param name="indentValue">indent size</param>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent for the new element</param>
-            <returns>new element</returns>
-        </member>
-        <member name="M:Luigi.LuigiPolymorph.ToString">
-            <summary>
-            Converts this object in a string representation
-            </summary>
-            <returns>string</returns>
-        </member>
-        <member name="P:Luigi.LuigiPolymorph.Parameters">
-            <summary>
-            Gets the parameters of polymorph
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiPolymorph.SelectedKey">
-            <summary>
-            Gets or sets the selected key
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiPolymorph.Content">
-            <summary>
-            Gets or sets the content
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiPrint">
-            <summary>
-            Operator of printing element
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiPrint.#ctor(System.String,Luigi.LuigiElement,Luigi.LuigiElement)">
-            <summary>
-            Print object
-            </summary>
-            <param name="n">type name of the object</param>
-            <param name="v">value</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiPrint.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Print object
-            </summary>
-            <param name="n">type name of the object</param>
-            <param name="s">name of the element</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiPrint.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute operation
-            </summary>
-            <param name="po">printer output</param>
-            <param name="indentValue">indent size</param>
-        </member>
-        <member name="M:Luigi.LuigiPrint.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent for the new element</param>
-            <returns>new element</returns>
-        </member>
-        <member name="M:Luigi.LuigiPrint.ToString">
-            <summary>
-            Converts this object into a string representation (source code)
-            </summary>
-            <returns>string representation as the source code</returns>
-        </member>
-        <member name="P:Luigi.LuigiPrint.PolymorphObject">
-            <summary>
-            Gets a polymorph object
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiPrint.Object">
-            <summary>
-            Gets the inner object to print
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiPrint.ObjectName">
-            <summary>
-            Gets the name of the inner object to print
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiReference">
-            <summary>
-            A reference type into Luigi language
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiReference.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">object name</param>
-            <param name="v">reference type name</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiReference.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiReference.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiReference.ReferencedObject">
-            <summary>
-            Object that is referenced
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiResult">
-            <summary>
-            Result of a worked item
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiResult.stacked">
-            <summary>
-            String that's anterior
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiResult.#ctor(System.String,System.Int32,Luigi.LuigiElement)">
-            <summary>
-            Constructor for an integer
-            </summary>
-            <param name="n">aame</param>
-            <param name="init">value (string)</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiResult.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor for an integer
-            </summary>
-            <param name="n">aame</param>
-            <param name="init">value (integer)</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiResult.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute operation
-            </summary>
-            <param name="po">printer output</param>
-            <param name="indentValue">indent size</param>
-        </member>
-        <member name="M:Luigi.LuigiResult.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent for the new element</param>
-            <returns>new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiResult.Current">
-            <summary>
-            Gets or sets the current string
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiResult.Stacked">
-            <summary>
-            Gets the anterior's string
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiSet">
-            <summary>
-            A set into Luigi language
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiSet.immediate">
-            <summary>
-            Immediate switch
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiSet.automatic">
-            <summary>
-            no name switch
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiSet.fun">
-            <summary>
-            Function to exec
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiSet.#ctor(System.String,System.Boolean,Luigi.LuigiDictionary,Luigi.LuigiFunction,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">type name</param>
-            <param name="im">immediate switch</param>
-            <param name="v">list of parameters</param>
-            <param name="f">expression</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.#ctor(System.String,System.Boolean,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">type name</param>
-            <param name="im">immediate switch</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.#ctor(Luigi.LuigiDictionary,Luigi.LuigiFunction,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="v">list of parameters</param>
-            <param name="f">expression</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.#ctor(Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.AddElement(Luigi.LuigiElement)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="e">literal to add</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.EditElement(Luigi.LuigiElement)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="e">literal to add</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.ChangeName(System.String,System.String)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="oldName">old name</param>
-            <param name="newName">new name</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.RemoveElement(System.String)">
-            <summary>
-            Add a new element
-            </summary>
-            <param name="nameToRemove">name to remove</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiSet.ToString">
-            <summary>
-            Converts this object into a string representation (source code)
-            </summary>
-            <returns>string representation as the source code</returns>
-        </member>
-        <member name="M:Luigi.LuigiSet.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiSet.IsAutomatic">
-            <summary>
-            Gets or sets the no name switch
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiSet.IsImmediate">
-            <summary>
-            Gets or sets the immediate switch
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiSet.Parameters">
-            <summary>
-            Gets the parameters of set
-            </summary>
-        </member>
-        <member name="P:Luigi.LuigiSet.Function">
-            <summary>
-            Gets the function element
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiValue">
-            <summary>
-            A value for effective parameters
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiValue.result">
-            <summary>
-            resulted string representation
-            </summary>
-        </member>
-        <member name="F:Luigi.LuigiValue.done">
-            <summary>
-            Execute just one time
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiValue.#ctor(System.String,Luigi.LuigiElement,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of the function</param>
-            <param name="v">parameters</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiValue.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiValue.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiValue.Content">
-            <summary>
-            Gets the content of this value
-            </summary>
-        </member>
-        <member name="T:Luigi.LuigiVariable">
-            <summary>
-            A variable into Luigi language
-            </summary>
-        </member>
-        <member name="M:Luigi.LuigiVariable.#ctor(System.String,Luigi.LuigiElement,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of variable</param>
-            <param name="v">luigi element</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiVariable.#ctor(System.String,System.String,Luigi.LuigiElement)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="n">name of variable</param>
-            <param name="s">name of the content</param>
-            <param name="p">parent</param>
-        </member>
-        <member name="M:Luigi.LuigiVariable.Execute(Printer.PrinterObject,System.Int32@)">
-            <summary>
-            Execute the process of a list
-            </summary>
-            <param name="po">printer</param>
-            <param name="indentValue">indent</param>
-        </member>
-        <member name="M:Luigi.LuigiVariable.ToString">
-            <summary>
-            Converts this object into a string representation (source code)
-            </summary>
-            <returns>string representation as the source code</returns>
-        </member>
-        <member name="M:Luigi.LuigiVariable.CopyInto(Luigi.LuigiElement)">
-            <summary>
-            Copy this into a new element
-            </summary>
-            <param name="parent">parent</param>
-            <returns>a new element</returns>
-        </member>
-        <member name="P:Luigi.LuigiVariable.Content">
-            <summary>
-            Gets the content of this variable
+            Gets the number of keys
             </summary>
         </member>
         <member name="T:Luigi.Program">
