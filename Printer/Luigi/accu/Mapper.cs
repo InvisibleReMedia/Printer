@@ -50,16 +50,27 @@ namespace Luigi.accu
         {
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(false, false, n, this);
-            this.accu.AddElement(new Accu.Accu(false, true, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, "count", 0));
-            this.accu.AddElement(new Accu.Accu(false, true, "print", "result"));
+            this.accu = new Accu.Accu(false, false, false, n, this);
+            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "count", 0));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
             this.keys = new List<Literal>();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the accumulator
+        /// </summary>
+        public Accu.Accu Accumulator
+        {
+            get
+            {
+                return this.accu;
+            }
+        }
 
         /// <summary>
         /// Gets the root parent
@@ -129,7 +140,7 @@ namespace Luigi.accu
                 lit.Delimiter = delimiter;
                 lit.Text = text;
                 this.keys.Add(lit);
-                this.accu.AddElement(new Accu.Accu(false, false, key, lit));
+                this.accu.AddElement(new Accu.Accu(false, false, false, key, lit));
                 int n = this.accu.FindByIndex(1).Value;
                 this.accu.FindByIndex(1).Value = n + 1;
             }
@@ -155,7 +166,7 @@ namespace Luigi.accu
                 lit.Delimiter = delimiter;
                 lit.Text = text;
                 this.keys.Add(lit);
-                this.accu.AddElement(new Accu.Accu(false, false, key, lit));
+                this.accu.AddElement(new Accu.Accu(false, false, false, key, lit));
                 int n = this.accu.FindByIndex(1).Value;
                 this.accu.FindByIndex(1).Value = n + 1;
             }

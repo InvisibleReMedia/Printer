@@ -49,16 +49,27 @@ namespace Luigi.accu
         {
             this.parent = null;
             this.root = this;
-            this.accu = new Accu.Accu(false, false, "root", this);
-            this.accu.AddElement(new Accu.Accu(false, true, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, "count", 0));
-            this.accu.AddElement(new Accu.Accu(false, true, "print", "result"));
+            this.accu = new Accu.Accu(false, false, false, "root", this);
+            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "count", 0));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
             this.types = new List<Type>();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the accumulator
+        /// </summary>
+        public Accu.Accu Accumulator
+        {
+            get
+            {
+                return this.accu;
+            }
+        }
 
         /// <summary>
         /// Gets the root parent
@@ -123,7 +134,7 @@ namespace Luigi.accu
             {
                 Type t = new Type(v, this);
                 this.types.Add(t);
-                this.accu.AddElement(new Accu.Accu(false, false, v.Name, t));
+                this.accu.AddElement(new Accu.Accu(false, false, false, v.Name, t));
                 int n = this.accu.FindByIndex(1).Value;
                 this.accu.FindByIndex(1).Value = n + 1;
             }
@@ -144,7 +155,7 @@ namespace Luigi.accu
             {
                 Type t = new Type(v, this);
                 this.types.Add(t);
-                this.accu.AddElement(new Accu.Accu(false, false, v.Name, t));
+                this.accu.AddElement(new Accu.Accu(false, false, false, v.Name, t));
                 int n = this.accu.FindByIndex(1).Value;
                 this.accu.FindByIndex(1).Value = n + 1;
             }
@@ -260,6 +271,27 @@ namespace Luigi.accu
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Recursive find by id
+        /// </summary>
+        /// <param name="root">first accu</param>
+        /// <param name="name">name</param>
+        /// <returns>last accu</returns>
+        public static dynamic RecursiveFindByName(TopLevel root, string name)
+        {
+            string[] tab = name.Split('.');
+            Accu.Accu current = root.Accumulator;
+            foreach (string s in tab)
+            {
+                Accu.Accu a = current.FindByName(s);
+                if (!a.IsMethodCall)
+                {
+                    current = a.Value.Value.Accumulator;
+                }
+            }
+            return current;
         }
 
         /// <summary>

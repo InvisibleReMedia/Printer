@@ -27,8 +27,17 @@ namespace Accu
         {
             subPv.Include = true;
             Accu e = child.Children.ElementAt(index);
-            subPv.Value = Path.Combine("Accu", "child.prt");
-            subPv.AddVariable("ref", e.Name);
+            if (e.IsReference)
+            {
+                subPv.Value = Path.Combine("Accu", "ref-child.prt");
+                subPv.AddVariable("ref", e.Name);
+            }
+            else
+            {
+                subPv.Value = Path.Combine("Accu", "child.prt");
+                subPv.AddVariable("name", e.Name);
+                subPv.AddVariable("value", e.Value.ToString());
+            }
             if (index + 1 < child.Children.Count())
             {
                 PrinterVariable current = new PrinterVariable();

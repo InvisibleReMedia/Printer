@@ -49,6 +49,9 @@ namespace Luigi
                     v.AddParameter("r2", new Literal("p2", v));
                     v.AddParameter("r3", new Literal("p3", v));
                     top.AddType(v);
+
+                    Print p = new Print(new string[] { "v", "print" }, top);
+                    top.AddType(p);
                 }
 
 

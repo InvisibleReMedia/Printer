@@ -1,7 +1,5 @@
-﻿using Printer;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +7,10 @@ using System.Threading.Tasks;
 namespace Luigi.accu
 {
     /// <summary>
-    /// Is an element parameter of a set
+    /// Print action
     /// </summary>
     [Serializable]
-    public class Parameter
+    public class Print
     {
 
         #region Fields
@@ -39,34 +37,22 @@ namespace Luigi.accu
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="n">name</param>
-        /// <param name="v">value</param>
+        /// <param name="s">sequence of terms</param>
         /// <param name="p">parent</param>
-        public Parameter(string n, dynamic v, dynamic p)
+        public Print(IEnumerable<string> s, dynamic p)
         {
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(true, false, false, n, v.Name);
+            string path = String.Join(".", s);
+            this.accu = new Accu.Accu(false, false, true,
+                                      path,
+                                      TopLevel.RecursiveFindByName(p.Root, path));
             this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "innerType", v.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "value", v));
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the accumulator
-        /// </summary>
-        public Accu.Accu Accumulator
-        {
-            get
-            {
-                return this.accu;
-            }
-        }
 
         /// <summary>
         /// Gets the root parent
@@ -116,21 +102,6 @@ namespace Luigi.accu
             }
         }
 
-        /// <summary>
-        /// Gets or sets the inner type of inner object
-        /// </summary>
-        public string InnerType
-        {
-            get
-            {
-                return this.accu.FindByName("innerType").Value;
-            }
-            set
-            {
-                this.accu.FindByName("innerType").Value = value;
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -141,24 +112,7 @@ namespace Luigi.accu
         /// <returns>string representation as the source code</returns>
         public override string ToString()
         {
-            PrinterObject po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "param.prt"));
-            string paramSwitch = string.Empty;
-            switch (this.InnerType)
-            {
-                case "Literal":
-                    paramSwitch = "-";
-                    break;
-                case "Mapper":
-                    paramSwitch = "%";
-                    break;
-                case "Set":
-                    paramSwitch = "@";
-                    break;
-            }
-            po.Configuration.Add("paramSwitch", paramSwitch);
-            po.Configuration.Add("paramName", this.Name);
-            po.Configuration.Add("paramValue", this.Value.ToString());
-            return po.Execute();
+            return this.accu.ToString();
         }
 
         #endregion

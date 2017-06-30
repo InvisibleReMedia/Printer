@@ -50,19 +50,30 @@ namespace Luigi.accu
         {
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(false, false, n, this);
-            this.accu.AddElement(new Accu.Accu(false, true, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, "count", 0));
-            this.accu.AddElement(new Accu.Accu(false, true, "print", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, "add", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, "insert", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, "remove", "result"));
+            this.accu = new Accu.Accu(false, false, false, n, this);
+            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "count", 0));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "add", "result"));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "insert", "result"));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "remove", "result"));
             this.pars = new List<Parameter>();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the accumulator
+        /// </summary>
+        public Accu.Accu Accumulator
+        {
+            get
+            {
+                return this.accu;
+            }
+        }
 
         /// <summary>
         /// Gets the root parent
@@ -128,7 +139,7 @@ namespace Luigi.accu
             {
                 Parameter p = new Parameter(key, v, this);
                 this.pars.Add(p);
-                this.accu.AddElement(new Accu.Accu(false, false, key, p));
+                this.accu.AddElement(new Accu.Accu(false, false, false, key, p));
                 int n = this.accu.FindByIndex(1).Value;
                 this.accu.FindByIndex(1).Value = n + 1;
             }
@@ -150,7 +161,7 @@ namespace Luigi.accu
             {
                 Parameter p = new Parameter(key, v, this);
                 this.pars.Add(p);
-                this.accu.AddElement(new Accu.Accu(false, false, key, p));
+                this.accu.AddElement(new Accu.Accu(false, false, false, key, p));
                 int n = this.accu.FindByIndex(1).Value;
                 this.accu.FindByIndex(1).Value = n + 1;
             }

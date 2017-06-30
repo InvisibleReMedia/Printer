@@ -44,6 +44,11 @@
             </summary>
             <returns>string representation as the source code</returns>
         </member>
+        <member name="P:Luigi.accu.Literal.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
+        </member>
         <member name="P:Luigi.accu.Literal.Root">
             <summary>
             Gets the root parent
@@ -137,6 +142,11 @@
             </summary>
             <returns>string representation as the source code</returns>
         </member>
+        <member name="P:Luigi.accu.Mapper.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
+        </member>
         <member name="P:Luigi.accu.Mapper.Root">
             <summary>
             Gets the root parent
@@ -155,6 +165,59 @@
         <member name="P:Luigi.accu.Mapper.Count">
             <summary>
             Gets the number of keys
+            </summary>
+        </member>
+        <member name="T:Luigi.accu.Print">
+            <summary>
+            Print action
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Print.accu">
+            <summary>
+            Accumulator
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Print.root">
+            <summary>
+            Top level class (use for a get reference object)
+            </summary>
+        </member>
+        <member name="F:Luigi.accu.Print.parent">
+            <summary>
+            Parent object
+            </summary>
+        </member>
+        <member name="M:Luigi.accu.Print.#ctor(System.Collections.Generic.IEnumerable{System.String},System.Object)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="s">sequence of terms</param>
+            <param name="p">parent</param>
+        </member>
+        <member name="M:Luigi.accu.Print.ToString">
+            <summary>
+            Converts this object into a string representation (source code)
+            </summary>
+            <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Print.Root">
+            <summary>
+            Gets the root parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Print.Parent">
+            <summary>
+            Gets the parent
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Print.Name">
+            <summary>
+            Gets the name
+            </summary>
+        </member>
+        <member name="P:Luigi.accu.Print.Value">
+            <summary>
+            Gets or sets the value (inner object)
             </summary>
         </member>
         <member name="T:Luigi.accu.Reference">
@@ -197,6 +260,11 @@
             Converts this object into a string representation (source code)
             </summary>
             <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Reference.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
         </member>
         <member name="P:Luigi.accu.Reference.Root">
             <summary>
@@ -251,6 +319,11 @@
             </summary>
             <returns>string representation as the source code</returns>
         </member>
+        <member name="P:Luigi.accu.Type.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
+        </member>
         <member name="P:Luigi.accu.Type.Root">
             <summary>
             Gets the root parent
@@ -304,6 +377,11 @@
             Converts this object into a string representation (source code)
             </summary>
             <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Parameter.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
         </member>
         <member name="P:Luigi.accu.Parameter.Root">
             <summary>
@@ -395,6 +473,11 @@
             Converts this object into a string representation (source code)
             </summary>
             <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.Set.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
         </member>
         <member name="P:Luigi.accu.Set.Root">
             <summary>
@@ -494,11 +577,24 @@
             <param name="obj">object to save</param>
             <param name="stream">stream buffer</param>
         </member>
+        <member name="M:Luigi.accu.TopLevel.RecursiveFindByName(Luigi.accu.TopLevel,System.String)">
+            <summary>
+            Recursive find by id
+            </summary>
+            <param name="root">first accu</param>
+            <param name="name">name</param>
+            <returns>last accu</returns>
+        </member>
         <member name="M:Luigi.accu.TopLevel.ToString">
             <summary>
             Converts this object into a string representation (source code)
             </summary>
             <returns>string representation as the source code</returns>
+        </member>
+        <member name="P:Luigi.accu.TopLevel.Accumulator">
+            <summary>
+            Gets the accumulator
+            </summary>
         </member>
         <member name="P:Luigi.accu.TopLevel.Root">
             <summary>

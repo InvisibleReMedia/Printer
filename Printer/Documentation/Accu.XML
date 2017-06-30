@@ -34,6 +34,11 @@
             Method call switch
             </summary>
         </member>
+        <member name="F:Accu.Accu.runnable">
+            <summary>
+            sequence of terms
+            </summary>
+        </member>
         <member name="F:Accu.Accu.isRef">
             <summary>
             This element is a reference to an another by its name
@@ -45,21 +50,23 @@
             True if result has been computed
             </summary>
         </member>
-        <member name="M:Accu.Accu.#ctor(System.Boolean,System.Boolean,System.String,System.String)">
+        <member name="M:Accu.Accu.#ctor(System.Boolean,System.Boolean,System.Boolean,System.String,System.String)">
             <summary>
             Reference constructor
             </summary>
             <param name="f">make as reference</param>
             <param name="m">make as method call</param>
+            <param name="u">make as a sequence of terms</param>
             <param name="n">name</param>
             <param name="r">reference name</param>
         </member>
-        <member name="M:Accu.Accu.#ctor(System.Boolean,System.Boolean,System.String,System.Object)">
+        <member name="M:Accu.Accu.#ctor(System.Boolean,System.Boolean,System.Boolean,System.String,System.Object)">
             <summary>
             Default constructor
             </summary>
             <param name="f">make as reference</param>
             <param name="m">make as method call</param>
+            <param name="u">make as a sequence of terms</param>
             <param name="n">name</param>
             <param name="v">value</param>
         </member>
@@ -81,6 +88,20 @@
             Set a method call (cannot be undo)
             </summary>
             <param name="methodName">method name</param>
+        </member>
+        <member name="M:Accu.Accu.SetRunnable(Accu.Accu,System.String[])">
+            <summary>
+            Set a sequence of terms (cannot be undo)
+            </summary>
+            <param name="root">root accu</param>
+            <param name="name">sequence of terms</param>
+        </member>
+        <member name="M:Accu.Accu.SetRunnable(Accu.Accu,System.String)">
+            <summary>
+            Set a sequence of terms (cannot be undo)
+            </summary>
+            <param name="root">root accu</param>
+            <param name="path">path string</param>
         </member>
         <member name="M:Accu.Accu.AddElement(Accu.Accu)">
             <summary>
@@ -166,6 +187,12 @@
         <member name="P:Accu.Accu.IsMethodCall">
             <summary>
             Gets if its a method call
+            or not
+            </summary>
+        </member>
+        <member name="P:Accu.Accu.IsRunnable">
+            <summary>
+            Gets if a sequence of terms
             or not
             </summary>
         </member>

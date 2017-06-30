@@ -41,6 +41,11 @@ namespace Accu
         private bool methodCall;
 
         /// <summary>
+        /// sequence of terms
+        /// </summary>
+        private bool runnable;
+
+        /// <summary>
         /// This element is a reference to an another by its name
         /// value contains its name
         /// </summary>
@@ -60,13 +65,15 @@ namespace Accu
         /// </summary>
         /// <param name="f">make as reference</param>
         /// <param name="m">make as method call</param>
+        /// <param name="u">make as a sequence of terms</param>
         /// <param name="n">name</param>
         /// <param name="r">reference name</param>
-        public Accu(bool f, bool m, string n, string r)
+        public Accu(bool f, bool m, bool u, string n, string r)
         {
             this.done = false;
             this.isRef = f;
             this.methodCall = m;
+            this.runnable = u;
             this.name = n;
             this.value = r;
             this.childs = new List<Accu>();
@@ -77,13 +84,15 @@ namespace Accu
         /// </summary>
         /// <param name="f">make as reference</param>
         /// <param name="m">make as method call</param>
+        /// <param name="u">make as a sequence of terms</param>
         /// <param name="n">name</param>
         /// <param name="v">value</param>
-        public Accu(bool f, bool m, string n, dynamic v)
+        public Accu(bool f, bool m, bool u, string n, dynamic v)
         {
             this.done = false;
             this.isRef = f;
             this.methodCall = m;
+            this.runnable = u;
             this.name = n;
             this.value = v;
             this.childs = new List<Accu>();
@@ -151,6 +160,18 @@ namespace Accu
             get
             {
                 return this.methodCall;
+            }
+        }
+
+        /// <summary>
+        /// Gets if a sequence of terms
+        /// or not
+        /// </summary>
+        public bool IsRunnable
+        {
+            get
+            {
+                return this.runnable;
             }
         }
 
@@ -231,6 +252,8 @@ namespace Accu
         {
             this.value = referenceName;
             this.isRef = true;
+            this.methodCall = false;
+            this.runnable = false;
         }
 
         /// <summary>
@@ -241,7 +264,35 @@ namespace Accu
         {
             this.value = methodName;
             this.isRef = false;
+            this.runnable = false;
             this.methodCall = true;
+        }
+
+        /// <summary>
+        /// Set a sequence of terms (cannot be undo)
+        /// </summary>
+        /// <param name="root">root accu</param>
+        /// <param name="name">sequence of terms</param>
+        public void SetRunnable(Accu root, params string[] name)
+        {
+            string path = String.Join(".", name);
+            this.SetRunnable(root, path);
+        }
+
+        /// <summary>
+        /// Set a sequence of terms (cannot be undo)
+        /// </summary>
+        /// <param name="root">root accu</param>
+        /// <param name="path">path string</param>
+        public void SetRunnable(Accu root, string path)
+        {
+            this.name = path;
+            Accu v = Accu.RecursiveFindByName(root, path);
+            if (v != null) this.value = v;
+            else this.value = "NULL";
+            this.isRef = false;
+            this.methodCall = false;
+            this.runnable = true;
         }
 
         /// <summary>

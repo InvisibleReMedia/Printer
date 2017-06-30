@@ -45,16 +45,27 @@ namespace Luigi.accu
         {
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(false, false, n, this);
-            this.accu.AddElement(new Accu.Accu(true, false, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, "delimiter", "."));
-            this.accu.AddElement(new Accu.Accu(false, true, "text", "text"));
-            this.accu.AddElement(new Accu.Accu(false, true, "print", "result"));
+            this.accu = new Accu.Accu(false, false, false, n, this);
+            this.accu.AddElement(new Accu.Accu(true, false, false, "type", this.GetType().Name));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "delimiter", "."));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "text", "text"));
+            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the accumulator
+        /// </summary>
+        public Accu.Accu Accumulator
+        {
+            get
+            {
+                return this.accu;
+            }
+        }
 
         /// <summary>
         /// Gets the root parent
