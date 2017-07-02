@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Xsl;
 
-namespace Printer
+namespace Accu
 {
     /// <summary>
-    /// A printer variable
+    /// A accu variable
     /// </summary>
     [Serializable]
-    public class PrinterVariable : ICloneable
+    public class AccuVariable : ICloneable
     {
 
         #region Fields

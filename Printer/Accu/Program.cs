@@ -13,10 +13,10 @@ namespace Accu
             Accu root = new Accu(false, false, false, "t", 0);
             root.AddElement(new Accu(false, false, false, "r", 1));
             Accu r2 = new Accu(false, false, false, "r2", 2);
+            r2.AddElement(new Accu(false, false, false, "s1", 21));
             Accu s2 = new Accu(false, false, false, "s2", 22);
             s2.AddElement(new Accu(true, false, false, "t1", "s1"));
             s2.AddElement(new Accu(true, false, false, "t2", "s2"));
-            r2.AddElement(new Accu(false, false, false, "s1", 21));
             r2.AddElement(s2);
             r2.AddElement(new Accu(false, false, false, "s3", 23));
             root.AddElement(r2);

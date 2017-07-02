@@ -64,6 +64,21 @@ namespace Luigi
 
                 Console.WriteLine(top.ToString());
 
+                Console.WriteLine(Accu.AccuWorker.Execute(top, (d, l) =>
+                {
+                    string output = string.Empty;
+                    switch (d.TypeName as string)
+                    {
+                        case "Type":
+                            output = "";
+                            break;
+                        default:
+                            output = "";
+                            break;
+                    }
+                    return output;
+                }));
+
             }
             catch (Exception ex)
             {

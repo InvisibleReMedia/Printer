@@ -13,15 +13,10 @@ namespace Luigi.accu
     /// Top level of the structure
     /// </summary>
     [Serializable]
-    public class TopLevel
+    public class TopLevel : Accu.Accu
     {
 
         #region Fields
-
-        /// <summary>
-        /// Accumulator
-        /// </summary>
-        private Accu.Accu accu;
 
         /// <summary>
         /// Keys
@@ -46,30 +41,19 @@ namespace Luigi.accu
         /// Default constructor
         /// </summary>
         public TopLevel()
+            : base(false, false, false, "root", null)
         {
             this.parent = null;
             this.root = this;
-            this.accu = new Accu.Accu(false, false, false, "root", this);
-            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "count", 0));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
+            this.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.AddElement(new Accu.Accu(false, true, false, "count", 0));
+            this.AddElement(new Accu.Accu(false, true, false, "print", string.Empty));
             this.types = new List<Type>();
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the accumulator
-        /// </summary>
-        public Accu.Accu Accumulator
-        {
-            get
-            {
-                return this.accu;
-            }
-        }
 
         /// <summary>
         /// Gets the root parent
@@ -94,24 +78,13 @@ namespace Luigi.accu
         }
 
         /// <summary>
-        /// Gets the name
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.accu.Name;
-            }
-        }
-
-        /// <summary>
         /// Gets the number of keys
         /// </summary>
         public int Count
         {
             get
             {
-                return this.accu.FindByIndex(1).Value;
+                return this.FindByIndex(1).Value;
             }
         }
 
@@ -134,9 +107,9 @@ namespace Luigi.accu
             {
                 Type t = new Type(v, this);
                 this.types.Add(t);
-                this.accu.AddElement(new Accu.Accu(false, false, false, v.Name, t));
-                int n = this.accu.FindByIndex(1).Value;
-                this.accu.FindByIndex(1).Value = n + 1;
+                this.AddElement(new Accu.Accu(false, false, false, v.Name, t));
+                int n = this.FindByIndex(1).Value;
+                this.FindByIndex(1).Value = n + 1;
             }
         }
 
@@ -155,9 +128,9 @@ namespace Luigi.accu
             {
                 Type t = new Type(v, this);
                 this.types.Add(t);
-                this.accu.AddElement(new Accu.Accu(false, false, false, v.Name, t));
-                int n = this.accu.FindByIndex(1).Value;
-                this.accu.FindByIndex(1).Value = n + 1;
+                this.AddElement(new Accu.Accu(false, false, false, v.Name, t));
+                int n = this.FindByIndex(1).Value;
+                this.FindByIndex(1).Value = n + 1;
             }
         }
 
@@ -171,9 +144,9 @@ namespace Luigi.accu
             if (pos != -1)
             {
                 this.types.RemoveAt(pos);
-                this.accu.DeleteElement(pos + 3);
-                int n = this.accu.FindByIndex(1).Value;
-                this.accu.FindByIndex(1).Value = n - 1;
+                this.DeleteElement(pos + 3);
+                int n = this.FindByIndex(1).Value;
+                this.FindByIndex(1).Value = n - 1;
             }
         }
 
@@ -282,16 +255,26 @@ namespace Luigi.accu
         public static dynamic RecursiveFindByName(TopLevel root, string name)
         {
             string[] tab = name.Split('.');
-            Accu.Accu current = root.Accumulator;
+            Accu.Accu current = root;
             foreach (string s in tab)
             {
                 Accu.Accu a = current.FindByName(s);
                 if (!a.IsMethodCall)
                 {
-                    current = a.Value.Value.Accumulator;
+                    current = a;
                 }
             }
             return current;
+        }
+
+        /// <summary>
+        /// Apply
+        /// </summary>
+        /// <param name="pars">parameters</param>
+        /// <returns>string result</returns>
+        public string Apply(Dictionary<string, string> pars)
+        {
+            return "";
         }
 
         /// <summary>
@@ -300,7 +283,7 @@ namespace Luigi.accu
         /// <returns>string representation as the source code</returns>
         public override string ToString()
         {
-            return Accu.AccuWorker.ToString(this.accu);
+            return Accu.AccuWorker.ToString(this);
         }
 
         #endregion

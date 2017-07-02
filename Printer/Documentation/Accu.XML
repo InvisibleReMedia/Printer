@@ -163,6 +163,13 @@
             <param name="name">name</param>
             <returns>last accu</returns>
         </member>
+        <member name="M:Accu.Accu.ToString(Printer.PrinterVariable)">
+            <summary>
+            Converts Accumulator to a string
+            </summary>
+            <param name="pv">variable for printing</param>
+            <returns>string result</returns>
+        </member>
         <member name="P:Accu.Accu.Name">
             <summary>
             Gets the name

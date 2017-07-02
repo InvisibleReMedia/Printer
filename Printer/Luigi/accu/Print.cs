@@ -10,15 +10,10 @@ namespace Luigi.accu
     /// Print action
     /// </summary>
     [Serializable]
-    public class Print
+    public class Print : Accu.Accu
     {
 
         #region Fields
-
-        /// <summary>
-        /// Accumulator
-        /// </summary>
-        private Accu.Accu accu;
 
         /// <summary>
         /// Top level class (use for a get reference object)
@@ -40,14 +35,12 @@ namespace Luigi.accu
         /// <param name="s">sequence of terms</param>
         /// <param name="p">parent</param>
         public Print(IEnumerable<string> s, dynamic p)
+            : base(false, false, true, "", null)
         {
             this.parent = p;
             this.root = p.Root;
-            string path = String.Join(".", s);
-            this.accu = new Accu.Accu(false, false, true,
-                                      path,
-                                      TopLevel.RecursiveFindByName(p.Root, path));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.name = String.Join(".", s);
+            this.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
         }
 
         #endregion
@@ -77,28 +70,13 @@ namespace Luigi.accu
         }
 
         /// <summary>
-        /// Gets the name
+        /// Gets the type name
         /// </summary>
-        public string Name
+        public string TypeName
         {
             get
             {
-                return this.accu.Name;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the value (inner object)
-        /// </summary>
-        public dynamic Value
-        {
-            get
-            {
-                return this.accu.FindByName("value").Value;
-            }
-            set
-            {
-                this.accu.FindByName("value").Value = value;
+                return this.FindByName("type").Value;
             }
         }
 
@@ -107,12 +85,22 @@ namespace Luigi.accu
         #region Methods
 
         /// <summary>
+        /// Apply
+        /// </summary>
+        /// <param name="pars">parameters</param>
+        /// <returns>string result</returns>
+        public string Apply(Dictionary<string, string> pars)
+        {
+            return "";
+        }
+
+        /// <summary>
         /// Converts this object into a string representation (source code)
         /// </summary>
         /// <returns>string representation as the source code</returns>
         public override string ToString()
         {
-            return this.accu.ToString();
+            return this.Name;
         }
 
         #endregion

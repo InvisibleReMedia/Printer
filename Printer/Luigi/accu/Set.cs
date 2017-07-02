@@ -12,15 +12,10 @@ namespace Luigi.accu
     /// Statement for a set
     /// </summary>
     [Serializable]
-    public class Set
+    public class Set : Accu.Accu
     {
 
         #region Fields
-
-        /// <summary>
-        /// Accumulator
-        /// </summary>
-        private Accu.Accu accu;
 
         /// <summary>
         /// Keys
@@ -47,33 +42,22 @@ namespace Luigi.accu
         /// <param name="n">name</param>
         /// <param name="p">parent</param>
         public Set(string n, dynamic p)
+            : base(false, false, false, n, null)
         {
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(false, false, false, n, this);
-            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "count", 0));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "add", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "insert", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "remove", "result"));
+            this.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.AddElement(new Accu.Accu(false, true, false, "count", 0));
+            this.AddElement(new Accu.Accu(false, true, false, "print", "result"));
+            this.AddElement(new Accu.Accu(false, true, false, "add", "result"));
+            this.AddElement(new Accu.Accu(false, true, false, "insert", "result"));
+            this.AddElement(new Accu.Accu(false, true, false, "remove", "result"));
             this.pars = new List<Parameter>();
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the accumulator
-        /// </summary>
-        public Accu.Accu Accumulator
-        {
-            get
-            {
-                return this.accu;
-            }
-        }
 
         /// <summary>
         /// Gets the root parent
@@ -98,13 +82,13 @@ namespace Luigi.accu
         }
 
         /// <summary>
-        /// Gets the name
+        /// Gets the type name
         /// </summary>
-        public string Name
+        public string TypeName
         {
             get
             {
-                return this.accu.Name;
+                return this.FindByName("type").Value;
             }
         }
 
@@ -115,7 +99,7 @@ namespace Luigi.accu
         {
             get
             {
-                return this.accu.FindByIndex(1).Value;
+                return this.FindByIndex(1).Value;
             }
         }
 
@@ -139,9 +123,9 @@ namespace Luigi.accu
             {
                 Parameter p = new Parameter(key, v, this);
                 this.pars.Add(p);
-                this.accu.AddElement(new Accu.Accu(false, false, false, key, p));
-                int n = this.accu.FindByIndex(1).Value;
-                this.accu.FindByIndex(1).Value = n + 1;
+                this.AddElement(new Accu.Accu(false, false, false, key, p));
+                int n = this.FindByIndex(1).Value;
+                this.FindByIndex(1).Value = n + 1;
             }
         }
 
@@ -161,9 +145,9 @@ namespace Luigi.accu
             {
                 Parameter p = new Parameter(key, v, this);
                 this.pars.Add(p);
-                this.accu.AddElement(new Accu.Accu(false, false, false, key, p));
-                int n = this.accu.FindByIndex(1).Value;
-                this.accu.FindByIndex(1).Value = n + 1;
+                this.AddElement(new Accu.Accu(false, false, false, key, p));
+                int n = this.FindByIndex(1).Value;
+                this.FindByIndex(1).Value = n + 1;
             }
         }
 
@@ -177,9 +161,9 @@ namespace Luigi.accu
             if (pos != -1)
             {
                 this.pars.RemoveAt(pos);
-                this.accu.DeleteElement(pos + 6);
-                int n = this.accu.FindByIndex(1).Value;
-                this.accu.FindByIndex(1).Value = n - 1;
+                this.DeleteElement(pos + 6);
+                int n = this.FindByIndex(1).Value;
+                this.FindByIndex(1).Value = n - 1;
             }
         }
 
@@ -226,7 +210,7 @@ namespace Luigi.accu
                 PrinterVariable current = new PrinterVariable();
                 current.Name = "node";
                 current.Indent = true;
-                Set.ToString(6, this.accu, current);
+                Set.ToString(6, this, current);
                 pv.AddVariable("node", current);
 
                 po.AddVariable("items", pv);

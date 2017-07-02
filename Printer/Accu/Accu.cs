@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Printer;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,12 +26,12 @@ namespace Accu
         /// <summary>
         /// Name
         /// </summary>
-        private string name;
+        protected string name;
 
         /// <summary>
-        /// Value
+        /// This is a file name of a .prt file
         /// </summary>
-        private dynamic value;
+        private string fileName;
 
         /// <summary>
         /// Result when operated value
@@ -36,20 +39,9 @@ namespace Accu
         private string res;
 
         /// <summary>
-        /// Method call switch
+        /// Type of accu object
         /// </summary>
-        private bool methodCall;
-
-        /// <summary>
-        /// sequence of terms
-        /// </summary>
-        private bool runnable;
-
-        /// <summary>
-        /// This element is a reference to an another by its name
-        /// value contains its name
-        /// </summary>
-        private bool isRef;
+        private AccuType type;
 
         /// <summary>
         /// True if result has been computed
@@ -58,44 +50,134 @@ namespace Accu
 
         #endregion
 
+        #region Inner Class
+
+        /// <summary>
+        /// Accu type
+        /// </summary>
+        public enum AccuType
+        {
+            /// <summary>
+            /// Normal
+            /// </summary>
+            NORMAL,
+            /// <summary>
+            /// As reference
+            /// </summary>
+            REFERENCE,
+            /// <summary>
+            /// As method
+            /// </summary>
+            METHOD,
+            /// <summary>
+            /// Runnable
+            /// </summary>
+            RUN,
+            /// <summary>
+            /// Constant
+            /// </summary>
+            CONST,
+            /// <summary>
+            /// Printer with no file
+            /// </summary>
+            INLINE
+        }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
-        /// Reference constructor
+        /// Constant or filename constructor
         /// </summary>
-        /// <param name="f">make as reference</param>
-        /// <param name="m">make as method call</param>
-        /// <param name="u">make as a sequence of terms</param>
+        /// <param name="t">type</param>
         /// <param name="n">name</param>
-        /// <param name="r">reference name</param>
-        public Accu(bool f, bool m, bool u, string n, string r)
+        /// <param name="s">file name or value</param>
+        public Accu(AccuType t, string n, string s)
         {
-            this.done = false;
-            this.isRef = f;
-            this.methodCall = m;
-            this.runnable = u;
+            this.type = t;
             this.name = n;
-            this.value = r;
             this.childs = new List<Accu>();
+            if (t == AccuType.CONST)
+            {
+                this.res = s;
+                this.done = true;
+            }
+            else
+            {
+                this.done = false;
+                if (t != AccuType.INLINE)
+                {
+                    this.fileName = s;
+                    PrinterObject po = PrinterObject.Load(s);
+                    ImportParameters(po, this);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Cannot have a file name caused by an inline state");
+                }
+            }
         }
 
         /// <summary>
-        /// Default constructor
+        /// Constructor with a printer object
         /// </summary>
-        /// <param name="f">make as reference</param>
-        /// <param name="m">make as method call</param>
-        /// <param name="u">make as a sequence of terms</param>
+        /// <param name="t">type</param>
         /// <param name="n">name</param>
-        /// <param name="v">value</param>
-        public Accu(bool f, bool m, bool u, string n, dynamic v)
+        /// <param name="po">printer object</param>
+        public Accu(AccuType t, string n, PrinterObject po)
         {
-            this.done = false;
-            this.isRef = f;
-            this.methodCall = m;
-            this.runnable = u;
+            this.type = t;
             this.name = n;
-            this.value = v;
             this.childs = new List<Accu>();
+            if (t == AccuType.CONST)
+            {
+                this.res = po.Execute();
+                this.done = true;
+            }
+            else
+            {
+                this.done = false;
+                if (t == AccuType.INLINE)
+                {
+                    ImportParameters(po, this);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Cannot make an import without an inline state");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Constructor with an included printer variable
+        /// </summary>
+        /// <param name="t">type</param>
+        /// <param name="n">name</param>
+        /// <param name="pv">printer variable</param>
+        /// <param name="src">source printer object</param>
+        public Accu(AccuType t, string n, PrinterVariable pv, PrinterObject src)
+        {
+            this.type = t;
+            this.name = n;
+            this.childs = new List<Accu>();
+            if (t == AccuType.CONST)
+            {
+                this.res = pv.Execute(src.Configuration, src.CurrentDirectory);
+                this.done = true;
+            }
+            else
+            {
+                this.done = false;
+                if (t == AccuType.INLINE)
+                {
+                    ImportParameters(pv, this, src);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Cannot make an import without an inline state");
+                }
+            }
         }
 
         #endregion
@@ -114,17 +196,17 @@ namespace Accu
         }
 
         /// <summary>
-        /// Gets or sets the value
+        /// Gets or sets the file name
         /// </summary>
-        public dynamic Value
+        public dynamic FileName
         {
             get
             {
-                return this.value;
+                return this.fileName;
             }
             set
             {
-                this.value = value;
+                this.fileName = value;
             }
         }
 
@@ -143,11 +225,23 @@ namespace Accu
         /// Gets if its a reference
         /// or not
         /// </summary>
+        public bool IsStandardUse
+        {
+            get
+            {
+                return this.type == AccuType.NORMAL;
+            }
+        }
+
+        /// <summary>
+        /// Gets if its a reference
+        /// or not
+        /// </summary>
         public bool IsReference
         {
             get
             {
-                return this.isRef;
+                return this.type == AccuType.REFERENCE;
             }
         }
 
@@ -159,7 +253,7 @@ namespace Accu
         {
             get
             {
-                return this.methodCall;
+                return this.type == AccuType.METHOD;
             }
         }
 
@@ -171,7 +265,19 @@ namespace Accu
         {
             get
             {
-                return this.runnable;
+                return this.type == AccuType.RUN;
+            }
+        }
+
+        /// <summary>
+        /// Gets if a constant string
+        /// or not
+        /// </summary>
+        public bool IsConstant
+        {
+            get
+            {
+                return this.type == AccuType.CONST;
             }
         }
 
@@ -235,9 +341,14 @@ namespace Accu
                         }
                     }
                 }
-                else
+                else if (!this.IsMethodCall)
                 {
                     this.Result = workingFun(this.Value, this.Children);
+                    this.HasResult = true;
+                }
+                else
+                {
+                    this.Result = string.Empty;
                     this.HasResult = true;
                 }
             }
@@ -250,10 +361,8 @@ namespace Accu
         /// <param name="referenceName">reference name</param>
         public void SetReference(string referenceName)
         {
-            this.value = referenceName;
-            this.isRef = true;
-            this.methodCall = false;
-            this.runnable = false;
+            this.name = referenceName;
+            this.type = AccuType.REFERENCE;
         }
 
         /// <summary>
@@ -262,10 +371,8 @@ namespace Accu
         /// <param name="methodName">method name</param>
         public void SetMethodCall(string methodName)
         {
-            this.value = methodName;
-            this.isRef = false;
-            this.runnable = false;
-            this.methodCall = true;
+            this.name = methodName;
+            this.type = AccuType.METHOD;
         }
 
         /// <summary>
@@ -282,17 +389,11 @@ namespace Accu
         /// <summary>
         /// Set a sequence of terms (cannot be undo)
         /// </summary>
-        /// <param name="root">root accu</param>
         /// <param name="path">path string</param>
-        public void SetRunnable(Accu root, string path)
+        public void SetRunnable(string path)
         {
             this.name = path;
-            Accu v = Accu.RecursiveFindByName(root, path);
-            if (v != null) this.value = v;
-            else this.value = "NULL";
-            this.isRef = false;
-            this.methodCall = false;
-            this.runnable = true;
+            this.type = AccuType.RUN;
         }
 
         /// <summary>
@@ -358,15 +459,26 @@ namespace Accu
         /// <exception cref="KeyNotFoundException">if the name was not found</exception>
         public Accu FindByName(string name)
         {
-            Accu a = this.childs.Find(x => x.Name == name);
+            Accu a = this.childs.FindLast(x => x.Name == name);
             if (a != null)
             {
                 return a;
             }
             else
             {
-                throw new KeyNotFoundException(String.Format("{0} n'est pas trouvé", name));
+                throw new KeyNotFoundException(String.Format("{0} not found", name));
             }
+        }
+
+        /// <summary>
+        /// Find a specific accu with the same name
+        /// that's supplied
+        /// </summary>
+        /// <param name="name">supplied name</param>
+        /// <returns>true of false</returns>
+        public bool ExistByName(string name)
+        {
+            return this.childs.FindLast(x => x.Name == name) != null;
         }
 
         /// <summary>
@@ -414,6 +526,268 @@ namespace Accu
                 current = current.FindByIndex(pos);
             }
             return current;
+        }
+
+        /// <summary>
+        /// Load a file from disk
+        /// </summary>
+        /// <param name="fileName">full path of fileName</param>
+        /// <returns>object</returns>
+        public static Accu Load(string fileName)
+        {
+            Accu a = null;
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                try
+                {
+                    a = bf.Deserialize(fs) as Accu;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    fs.Close();
+                }
+            }
+
+            return a;
+        }
+
+
+        /// <summary>
+        /// Save a PrinterObject to disk
+        /// </summary>
+        /// <param name="a">object to save</param>
+        /// <param name="fileName">full path of fileName to save</param>
+        public static void Save(Accu a, string fileName)
+        {
+            using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                try
+                {
+                    bf.Serialize(fs, a);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    fs.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load a file from memory
+        /// You must close the stream after this method
+        /// </summary>
+        /// <param name="stream">stream buffer</param>
+        /// <returns>object</returns>
+        public static Accu Load(Stream stream)
+        {
+            Accu a = null;
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                a = bf.Deserialize(stream) as Accu;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return a;
+        }
+
+
+        /// <summary>
+        /// Save a PrinterObject to memory
+        /// You must close the stream after this method
+        /// </summary>
+        /// <param name="a">object to save</param>
+        /// <param name="stream">stream buffer</param>
+        public static void Save(Accu a, Stream stream)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                bf.Serialize(stream, a);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Copy parameters from Accu object
+        /// into a printer object
+        /// </summary>
+        /// <param name="a">accu</param>
+        /// <param name="pv">Accu variable</param>
+        /// <param name="src">source printer object</param>
+        public static void CopyParameters(Accu a, PrinterVariable pv, PrinterObject src)
+        {
+
+            foreach (Accu child in a.Children)
+            {
+                if (child.type == AccuType.CONST)
+                {
+                    pv.AddVariable(child.Name, child.Result);
+                }
+                else if (child.type == AccuType.INLINE)
+                {
+                    PrinterVariable pv = 
+                    CopyParameters(child, pv, src);
+                }
+                pv.AddVariable(child.Name, child.FileName);
+                if (!pv.)
+                {
+
+                    if (sub.Include)
+                    {
+                        Accu child = new Accu(AccuType.INLINE, sub.Name, sub, src);
+                        ImportParameters(sub, child, src);
+                        a.AddElement(child);
+                    }
+                    else
+                    {
+                        a.AddElement(new Accu(AccuType.CONST, sub.Name, sub.Value));
+                    }
+                }
+                else
+                {
+                    if (sub.Include)
+                    {
+                        Accu child = a.FindByName(sub.Name);
+                        ImportParameters(sub, child, src);
+                        a.EditElement(child);
+                    }
+                    else
+                    {
+                        Accu child = a.FindByName(sub.Name);
+                        ImportParameters(sub, child, src);
+                        a.EditElement(child);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Import parameters from printer object
+        /// and creates them into accu
+        /// </summary>
+        /// <param name="pv">printer variable</param>
+        /// <param name="a">accu</param>
+        /// <param name="src">source printer object</param>
+        public static void ImportParameters(PrinterVariable pv, Accu a, PrinterObject src) {
+
+            foreach(PrinterVariable sub in pv.Values)
+            {
+                if (!a.ExistByName(sub.Name))
+                {
+
+                    if (sub.Include)
+                    {
+                        Accu child = new Accu(AccuType.INLINE, sub.Name, sub, src);
+                        ImportParameters(sub, child, src);
+                        a.AddElement(child);
+                    }
+                    else
+                    {
+                        a.AddElement(new Accu(AccuType.CONST, sub.Name, sub.Value));
+                    }
+                }
+                else
+                {
+                    if (sub.Include)
+                    {
+                        Accu child = a.FindByName(sub.Name);
+                        ImportParameters(sub, child, src);
+                        a.EditElement(child);
+                    }
+                    else
+                    {
+                        Accu child = a.FindByName(sub.Name);
+                        ImportParameters(sub, child, src);
+                        a.EditElement(child);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Import parameters from printer object
+        /// and creates them into accu
+        /// </summary>
+        /// <param name="po">printer object</param>
+        /// <param name="a">accu</param>
+        public static void ImportParameters(PrinterObject po, Accu a) {
+
+            foreach(PrinterVariable pv in po.Values)
+            {
+                if (!a.ExistByName(pv.Name)) {
+
+                    if (pv.Include)
+                    {
+                        Accu child = new Accu(AccuType.INLINE, pv.Name, pv, po);
+                        ImportParameters(pv, child, po);
+                        a.AddElement(child);
+                    }
+                    else
+                    {
+                        a.AddElement(new Accu(AccuType.CONST, pv.Name, pv.Value));
+                    }
+                }
+                else
+                {
+                    if (pv.Include)
+                    {
+                        Accu child = a.FindByName(pv.Name);
+                        ImportParameters(pv, child, po);
+                        a.EditElement(child);
+                    }
+                    else
+                    {
+                        Accu child = a.FindByName(pv.Name);
+                        ImportParameters(pv, child, po);
+                        a.EditElement(child);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Converts Accumulator to a string
+        /// </summary>
+        /// <param name="pv">variable for printing</param>
+        /// <returns>string result</returns>
+        public virtual void ToString(PrinterVariable pv)
+        {
+            if (this.IsReference)
+            {
+                pv.Value = Path.Combine("Accu", "ref-child.prt");
+                pv.AddVariable("name", this.Name);
+                pv.AddVariable("value", this.Value);
+            }
+            else if (this.IsRunnable)
+            {
+                pv.Value = Path.Combine("Accu", "run-child.prt");
+                pv.AddVariable("name", this.Name);
+                pv.AddVariable("value", this.Value.ToString());
+            }
+            else
+            {
+                pv.Value = Path.Combine("Accu", "child.prt");
+                pv.AddVariable("name", this.Name);
+                pv.AddVariable("value", this.Value.ToString());
+            }
+            pv.AddVariable("next", string.Empty);
         }
 
         #endregion

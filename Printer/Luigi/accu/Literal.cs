@@ -12,15 +12,10 @@ namespace Luigi.accu
     /// State a literal
     /// </summary>
     [Serializable]
-    public class Literal
+    public class Literal : Accu.Accu
     {
 
         #region Fields
-
-        /// <summary>
-        /// Accumulator
-        /// </summary>
-        private Accu.Accu accu;
 
         /// <summary>
         /// Top level class (use for a get reference object)
@@ -42,30 +37,19 @@ namespace Luigi.accu
         /// <param name="n"></param>
         /// <param name="p">parent</param>
         public Literal(string n, dynamic p)
+            : base(false, false, false, n, null)
         {
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(false, false, false, n, this);
-            this.accu.AddElement(new Accu.Accu(true, false, false, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "delimiter", "."));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "text", "text"));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
+            this.AddElement(new Accu.Accu(true, false, false, "type", this.GetType().Name));
+            this.AddElement(new Accu.Accu(false, true, false, "delimiter", "."));
+            this.AddElement(new Accu.Accu(false, true, false, "text", "text"));
+            this.AddElement(new Accu.Accu(false, true, false, "print", "result"));
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the accumulator
-        /// </summary>
-        public Accu.Accu Accumulator
-        {
-            get
-            {
-                return this.accu;
-            }
-        }
 
         /// <summary>
         /// Gets the root parent
@@ -90,13 +74,13 @@ namespace Luigi.accu
         }
 
         /// <summary>
-        /// Gets the name
+        /// Gets the type name
         /// </summary>
-        public string Name
+        public string TypeName
         {
             get
             {
-                return this.accu.Name;
+                return this.FindByName("type").Value;
             }
         }
 
@@ -107,11 +91,11 @@ namespace Luigi.accu
         {
             get
             {
-                return this.accu.FindByName("delimiter").Value;
+                return this.FindByName("delimiter").Value;
             }
             set
             {
-                this.accu.FindByName("delimiter").Value = value;
+                this.FindByName("delimiter").Value = value;
             }
         }
 
@@ -122,11 +106,11 @@ namespace Luigi.accu
         {
             get
             {
-                return this.accu.FindByName("text").Value;
+                return this.FindByName("text").Value;
             }
             set
             {
-                this.accu.FindByName("text").Value = value;
+                this.FindByName("text").Value = value;
             }
         }
 
@@ -165,6 +149,7 @@ namespace Luigi.accu
         public override string ToString()
         {
             PrinterObject po = PrinterObject.Load(Path.Combine(PrinterObject.PrinterDirectory, "languages", "Luigi", "literal.prt"));
+            po.Configuration.Add("typeName", this.Name);
             po.Configuration.Add("delimiter", this.Delimiter);
             po.Configuration.Add("value", this.Text);
             return po.Execute();

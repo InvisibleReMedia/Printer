@@ -27,17 +27,7 @@ namespace Accu
         {
             subPv.Include = true;
             Accu e = child.Children.ElementAt(index);
-            if (e.IsReference)
-            {
-                subPv.Value = Path.Combine("Accu", "ref-child.prt");
-                subPv.AddVariable("ref", e.Name);
-            }
-            else
-            {
-                subPv.Value = Path.Combine("Accu", "child.prt");
-                subPv.AddVariable("name", e.Name);
-                subPv.AddVariable("value", e.Value.ToString());
-            }
+            e.ToString(subPv);
             if (index + 1 < child.Children.Count())
             {
                 PrinterVariable current = new PrinterVariable();
@@ -63,7 +53,10 @@ namespace Accu
             foreach (Accu subChild in child.Children)
             {
                 if (subChild.IsMethodCall) continue;
-                AccuWorker.ToString(subChild, po);
+                if (!subChild.IsReference)
+                    AccuWorker.ToString(subChild, po);
+                else
+                    AccuWorker.ToString(subChild.Value, po);
                 PrinterVariable pv = new PrinterVariable();
                 pv.Include = true;
                 if (subChild.Children.Count() > 0)
@@ -80,9 +73,7 @@ namespace Accu
                 else
                 {
                     pv.Name = subChild.Name;
-                    pv.Value = Path.Combine("Accu", "val.prt");
-                    pv.AddVariable("name", subChild.Name);
-                    pv.AddVariable("value", subChild.Value.ToString());
+                    subChild.ToString(pv);
                 }
                 po.AddVariable(subChild.Name, pv);
                 po.UseVariable(subChild.Name);

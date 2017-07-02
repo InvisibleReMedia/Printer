@@ -12,15 +12,10 @@ namespace Luigi.accu
     /// Is an object referencing an another object by its names
     /// </summary>
     [Serializable]
-    public class Reference
+    public class Reference : Accu.Accu
     {
 
         #region Fields
-
-        /// <summary>
-        /// Accumulator
-        /// </summary>
-        private Accu.Accu accu;
 
         /// <summary>
         /// Top level class (use for a get reference object)
@@ -43,30 +38,20 @@ namespace Luigi.accu
         /// <param name="v">value</param>
         /// <param name="p">parent</param>
         public Reference(string n, dynamic v, dynamic p)
+            : base(true, false, false, n, null)
         {
+            this.Value = v;
             this.parent = p;
             this.root = p.Root;
-            this.accu = new Accu.Accu(true, false, false, n, v.Name);
-            this.accu.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "print", "result"));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "innerType", v.GetType().Name));
-            this.accu.AddElement(new Accu.Accu(false, true, false, "value", v));
+            this.AddElement(new Accu.Accu(false, true, false, "type", this.GetType().Name));
+            this.AddElement(new Accu.Accu(false, true, false, "print", "result"));
+            this.AddElement(new Accu.Accu(false, true, false, "innerType", v.GetType().Name));
+            this.AddElement(new Accu.Accu(false, true, false, "value", v));
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the accumulator
-        /// </summary>
-        public Accu.Accu Accumulator
-        {
-            get
-            {
-                return this.accu;
-            }
-        }
 
         /// <summary>
         /// Gets the root parent
@@ -91,13 +76,13 @@ namespace Luigi.accu
         }
 
         /// <summary>
-        /// Gets the name
+        /// Gets the type name
         /// </summary>
-        public string Name
+        public string TypeName
         {
             get
             {
-                return this.accu.Name;
+                return this.FindByName("type").Value;
             }
         }
 
@@ -108,7 +93,7 @@ namespace Luigi.accu
         {
             get
             {
-                return this.accu.FindByName("value").Value;
+                return this.FindByName("value").Value;
             }
         }
 
