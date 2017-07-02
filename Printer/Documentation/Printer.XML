@@ -463,6 +463,14 @@
             <param name="config">configuration</param>
             <param name="dir">directory</param>
         </member>
+        <member name="M:Printer.PrinterVariable.Execute(Printer.Configuration,System.String)">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <param name="conf">configuration</param>
+            <param name="dir">directory</param>
+            <returns>output</returns>
+        </member>
         <member name="M:Printer.PrinterVariable.ToString(System.Xml.XmlWriter)">
             <summary>
             Converts the source into a string representation
