@@ -22,23 +22,23 @@ namespace Printer
         /// <summary>
         /// include switch
         /// </summary>
-        private bool include;
+        protected bool include;
         /// <summary>
         /// Indent switch
         /// </summary>
-        private bool shouldIndent;
+        protected bool shouldIndent;
         /// <summary>
         /// Name of the variable
         /// </summary>
-        private string name;
+        protected string name;
         /// <summary>
         /// Value of the variable
         /// </summary>
-        private string value;
+        protected string value;
         /// <summary>
         /// Included variables
         /// </summary>
-        private Dictionary<string, PrinterVariable> includedVars;
+        protected Dictionary<string, PrinterVariable> includedVars;
 
         #endregion
 

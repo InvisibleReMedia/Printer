@@ -9,14 +9,15 @@ using System.Xml;
 using System.Xml.Xsl;
 using System.Text.RegularExpressions;
 
-namespace Printer
+namespace Luigi
 {
     /// <summary>
     /// Printer class
     /// </summary>
     [Serializable]
-    public class PrinterObject : ICloneable
+    public class LuigiObject : ICloneable
     {
+
         #region Fields
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace Printer
         /// <summary>
         /// Data variable
         /// </summary>
-        protected Dictionary<string, PrinterVariable> variables;
+        protected Dictionary<string, LuigiVariable> variables;
 
         /// <summary>
         /// List of data to prints
@@ -36,12 +37,12 @@ namespace Printer
         /// <summary>
         /// Generates unique strings
         /// </summary>
-        private UniqueStrings unique;
+        private Printer.UniqueStrings unique;
 
         /// <summary>
         /// Configuration object
         /// </summary>
-        protected Configuration config;
+        protected Dictionary<string, Accumulate.Accu> types;
 
         /// <summary>
         /// Size indent space char
@@ -57,7 +58,7 @@ namespace Printer
         /// <summary>
         /// Current program document directory
         /// </summary>
-        public static readonly string PrinterDirectory = Path.Combine(PersonalDirectory, "Printer");
+        public static readonly string LuigiDirectory = Path.Combine(PersonalDirectory, "Luigi");
 
         #endregion
 
@@ -66,8 +67,8 @@ namespace Printer
         /// <summary>
         /// Default constructor
         /// </summary>
-        public PrinterObject()
-            : this(Path.Combine(PrinterDirectory, "languages"))
+        public LuigiObject()
+            : this(Path.Combine(LuigiDirectory, "sources"))
         {
         }
 
@@ -75,14 +76,14 @@ namespace Printer
         /// Constructor with currentDirectory setted
         /// </summary>
         /// <param name="cd">current directory</param>
-        public PrinterObject(string cd)
+        public LuigiObject(string cd)
         {
-            PrinterObject.InitializePersonalDirectory();
-            this.currentDirectory = cd;
-            this.variables = new Dictionary<string, PrinterVariable>();
+            LuigiObject.InitializePersonalDirectory();
+            this.variables = new Dictionary<string, LuigiVariable>();
             this.datas = new List<string>();
-            this.unique = new UniqueStrings();
-            this.config = new Configuration();
+            this.unique = new Printer.UniqueStrings();
+            this.types = new Dictionary<string, Accumulate.Accu>();
+            this.currentDirectory = cd;
         }
 
         #endregion
@@ -92,7 +93,7 @@ namespace Printer
         /// <summary>
         /// Gets all values
         /// </summary>
-        public IEnumerable<PrinterVariable> Values
+        public IEnumerable<LuigiVariable> Values
         {
             get { return this.variables.Values; }
         }
@@ -108,17 +109,15 @@ namespace Printer
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
-        public Configuration Configuration
+        public Dictionary<string, Accumulate.Accu> Types
         {
             get
             {
-                if (this.config == null) this.config = new Configuration();
-                return this.config;
+                return this.types;
             }
             set
             {
-                if (value != null)
-                    this.config = value;
+                this.types = value;
             }
         }
 
@@ -191,10 +190,10 @@ namespace Printer
         /// </summary>
         private static void InitializePersonalDirectory()
         {
-            DirectoryInfo di = new DirectoryInfo(PrinterObject.PersonalDirectory);
+            DirectoryInfo di = new DirectoryInfo(LuigiObject.PersonalDirectory);
             if (di.Exists)
             {
-                DirectoryInfo diRootDir = new DirectoryInfo(Path.Combine(PrinterObject.PersonalDirectory, "Printer"));
+                DirectoryInfo diRootDir = new DirectoryInfo(Path.Combine(LuigiObject.PersonalDirectory, "Luigi"));
                 if (!diRootDir.Exists)
                 {
                     diRootDir.Create();
@@ -237,6 +236,16 @@ namespace Printer
         }
 
         /// <summary>
+        /// Test if existing type
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <returns>true if exist</returns>
+        public bool ExistTestType(string key)
+        {
+            return this.types.ContainsKey(key);
+        }
+
+        /// <summary>
         /// Test if existing variable
         /// </summary>
         /// <param name="key">key name</param>
@@ -259,7 +268,7 @@ namespace Printer
             }
             else
             {
-                PrinterVariable p = new PrinterVariable();
+                LuigiVariable p = new LuigiVariable();
                 p.Name = key;
                 p.Value = val;
                 this.variables.Add(key, p);
@@ -270,16 +279,67 @@ namespace Printer
         /// Edit a variable
         /// </summary>
         /// <param name="key">key name</param>
-        /// <param name="obj">object value</param>
-        public void EditVariable(string key, PrinterVariable obj)
+        /// <param name="fi">file name value</param>
+        public void EditType(string key, string fi)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.types.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as PrinterVariable;
+                this.types[key] = new Accumulate.Accu(key, fi);
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as PrinterVariable);
+                this.types.Add(key, new Accumulate.Accu(key, fi));
+            }
+        }
+
+        /// <summary>
+        /// Edit a variable
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <param name="obj">object value</param>
+        public void EditVariable(string key, LuigiVariable obj)
+        {
+            if (this.variables.ContainsKey(key))
+            {
+                this.variables[key] = obj.Clone() as LuigiVariable;
+            }
+            else
+            {
+                this.variables.Add(key, obj.Clone() as LuigiVariable);
+            }
+        }
+
+        /// <summary>
+        /// Add a type
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <param name="obj">object value</param>
+        public void AddType(string key, Accumulate.Accu obj)
+        {
+            if (this.types.ContainsKey(key))
+            {
+                this.types[key] = obj.Clone() as Accumulate.Accu;
+            }
+            else
+            {
+                this.types.Add(key, obj.Clone() as Accumulate.Accu);
+            }
+        }
+
+        /// <summary>
+        /// Add a type
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <param name="obj">file name</param>
+        public void AddType(string key, string fi)
+        {
+            if (this.types.ContainsKey(key))
+            {
+                this.types[key] = new Accumulate.Accu(key, fi);
+            }
+            else
+            {
+                this.types.Add(key, new Accumulate.Accu(key, fi));
             }
         }
 
@@ -288,15 +348,15 @@ namespace Printer
         /// </summary>
         /// <param name="key">key name</param>
         /// <param name="obj">object value</param>
-        public void AddVariable(string key, PrinterVariable obj)
+        public void AddVariable(string key, LuigiVariable obj)
         {
             if (this.variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as PrinterVariable;
+                this.variables[key] = obj.Clone() as LuigiVariable;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as PrinterVariable);
+                this.variables.Add(key, obj.Clone() as LuigiVariable);
             }
         }
 
@@ -313,10 +373,22 @@ namespace Printer
             }
             else
             {
-                PrinterVariable p = new PrinterVariable();
+                LuigiVariable p = new LuigiVariable();
                 p.Name = key;
                 p.Value = val;
                 this.variables.Add(key, p);
+            }
+        }
+
+        /// <summary>
+        /// Delete a type
+        /// </summary>
+        /// <param name="key">key name</param>
+        public void DeleteType(string key)
+        {
+            if (this.types.ContainsKey(key))
+            {
+                this.types.Remove(key);
             }
         }
 
@@ -474,21 +546,19 @@ namespace Printer
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
         /// <param name="currentLine">in-progress line add</param>
-        /// <param name="config">configuration</param>
-        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config)
+        /// <param name="t">types</param>
+        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Dictionary<string, Accumulate.Accu> t)
         {
             foreach (string e in this.datas)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
-                    r = config.Execute(r);
-                    this.variables[r].Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
+                    this.variables[r].Execute(w, ref indentValue, ref currentLine, t, this.CurrentDirectory);
                 }
                 else
                 {
-                    string val = config.Execute(e);
-                    PrinterObject.IndentSource(w, indentValue, ref currentLine, val);
+                    LuigiObject.IndentSource(w, indentValue, ref currentLine, e);
                 }
             }
         }
@@ -504,7 +574,7 @@ namespace Printer
             StringBuilder sb = new StringBuilder();
             using (TextWriter tw = new StringWriter(sb))
             {
-                this.Execute(tw, ref indentValue, ref currentLine, this.Configuration);
+                this.Execute(tw, ref indentValue, ref currentLine, this.types);
                 tw.Close();
             }
             if (!String.IsNullOrEmpty(currentLine))
@@ -513,14 +583,14 @@ namespace Printer
         }
 
         /// <summary>
-        /// Import a configuration values
+        /// Import types
         /// </summary>
-        /// <param name="from">configuration values</param>
-        public void ImportConfiguration(Configuration from)
+        /// <param name="from">types</param>
+        public void ImportTypes(Dictionary<string, Accumulate.Accu> from)
         {
-            foreach (string key in from)
+            foreach (string key in from.Keys)
             {
-                this.Configuration.Add(key, from[key]);
+                this.types.Add(key, from[key]);
             }
         }
 
@@ -529,15 +599,15 @@ namespace Printer
         /// </summary>
         /// <param name="fileName">full path of fileName</param>
         /// <returns>object</returns>
-        public static PrinterObject Load(string fileName)
+        public static LuigiObject Load(string fileName)
         {
-            PrinterObject po = null;
+            LuigiObject po = null;
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 try
                 {
-                    po = bf.Deserialize(fs) as PrinterObject;
+                    po = bf.Deserialize(fs) as LuigiObject;
                     if (String.IsNullOrEmpty(po.CurrentDirectory))
                     {
                         po.CurrentDirectory = Path.GetDirectoryName(fileName);
@@ -558,11 +628,11 @@ namespace Printer
 
 
         /// <summary>
-        /// Save a PrinterObject to disk
+        /// Save a LuigiObject to disk
         /// </summary>
         /// <param name="obj">object to save</param>
         /// <param name="fileName">full path of fileName to save</param>
-        public static void Save(PrinterObject obj, string fileName)
+        public static void Save(LuigiObject obj, string fileName)
         {
             using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
@@ -589,13 +659,13 @@ namespace Printer
         /// </summary>
         /// <param name="stream">stream buffer</param>
         /// <returns>object</returns>
-        public static PrinterObject Load(Stream stream)
+        public static LuigiObject Load(Stream stream)
         {
-            PrinterObject po = null;
+            LuigiObject po = null;
             BinaryFormatter bf = new BinaryFormatter();
             try
             {
-                po = bf.Deserialize(stream) as PrinterObject;
+                po = bf.Deserialize(stream) as LuigiObject;
             }
             catch (Exception)
             {
@@ -607,12 +677,12 @@ namespace Printer
 
 
         /// <summary>
-        /// Save a PrinterObject to memory
+        /// Save a LuigiObject to memory
         /// You must close the stream after this method
         /// </summary>
         /// <param name="obj">object to save</param>
         /// <param name="stream">stream buffer</param>
-        public static void Save(PrinterObject obj, Stream stream)
+        public static void Save(LuigiObject obj, Stream stream)
         {
             BinaryFormatter bf = new BinaryFormatter();
             try
@@ -648,11 +718,16 @@ namespace Printer
 
                 xml.WriteStartDocument();
                 xml.WriteStartElement("Program");
-                this.Configuration.ToString(xml);
-                xml.WriteStartElement("vars");
-                foreach (KeyValuePair<string, PrinterVariable> kv in this.variables)
+                xml.WriteStartElement("defs");
+                foreach (string key in this.types.Keys)
                 {
-                    kv.Value.ToString(xml);
+                    this.types[key].ToString(xml);
+                }
+                xml.WriteEndElement();
+                xml.WriteStartElement("vars");
+                foreach (LuigiVariable l in this.Values)
+                {
+                    l.ToString(xml);
                 }
                 xml.WriteEndElement();
                 xml.WriteStartElement("text");
@@ -678,7 +753,7 @@ namespace Printer
 
                 stream.Seek(0, SeekOrigin.Begin);
 #if DEBUG
-                using (FileStream fs = new FileStream("printer-output.xml", FileMode.Create))
+                using (FileStream fs = new FileStream("luigi-output.xml", FileMode.Create))
                 {
                     stream.CopyTo(fs);
                     fs.Close();
@@ -687,7 +762,7 @@ namespace Printer
 #endif
 
                 XslCompiledTransform xsl = new XslCompiledTransform();
-                xsl.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "printer.xsl"));
+                xsl.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "luigi.xsl"));
                 using (XmlReader reader = XmlReader.Create(stream))
                 using (TextWriter writer = new StringWriter(output))
                 {
@@ -707,15 +782,15 @@ namespace Printer
         /// <returns>new object</returns>
         public object Clone()
         {
-            PrinterObject newPo = new PrinterObject();
+            LuigiObject newPo = new LuigiObject();
             foreach (string s in this.datas)
             {
                 newPo.datas.Add(s.Clone() as string);
             }
-            newPo.unique = new UniqueStrings(this.unique.Counter);
-            foreach (PrinterVariable pv in this.Values)
+            newPo.unique = new Printer.UniqueStrings(this.unique.Counter);
+            foreach (LuigiVariable pv in this.Values)
             {
-                newPo.variables.Add(pv.Name, pv.Clone() as PrinterVariable);
+                newPo.variables.Add(pv.Name, pv.Clone() as LuigiVariable);
             }
             return newPo;
         }
