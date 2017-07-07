@@ -14,6 +14,8 @@
   </xsl:template>
 
   <xsl:template match="defs" mode="code">
+    <xsl:param name="offset"/>
+    <xsl:param name="align"/>
     <xsl:text><![CDATA[defs
 ]]></xsl:text>
     <xsl:apply-templates select="*" mode="code"/>
@@ -38,52 +40,50 @@
     <xsl:param name="align"/>
     <xsl:text><![CDATA[vars
 ]]></xsl:text>
-    <xsl:apply-templates select="*" mode="code">
-      <xsl:with-param name="offset">
-        <xsl:value-of select="$offset"/>
-      </xsl:with-param>
-      <xsl:with-param name="align">
-        <xsl:value-of select="0"/>
-      </xsl:with-param>
-    </xsl:apply-templates>
+    <xsl:apply-templates select="*" mode="codevar"/>
   </xsl:template>
 
-  <xsl:template match="affect" mode="code">
+  <xsl:template match="accu" mode="codevar">
+    <xsl:variable name="varName">
+      <xsl:value-of select="@typeName"/>
+    </xsl:variable>
+    <xsl:variable name="refName">
+      <xsl:value-of select="@fileName"/>
+    </xsl:variable>
+    <xsl:value-of select="$varName"/>
+    <xsl:text><![CDATA[ = ]]></xsl:text>
+    <xsl:value-of select="$refName"/>
+    <xsl:text><![CDATA[
+]]></xsl:text>
+  </xsl:template>
+
+  <xsl:template match="copy" mode="code">
     <xsl:param name="offset"/>
     <xsl:param name="align"/>
-    <xsl:variable name="name">
-      <xsl:value-of select="@name"/>
+    <xsl:text><![CDATA[copy
+]]></xsl:text>
+    <xsl:apply-templates select="*" mode="code"/>
+  </xsl:template>
+
+  <xsl:template match="keyval" mode="code">
+    <xsl:variable name="varName">
+      <xsl:value-of select="@varName"/>
     </xsl:variable>
-    <xsl:variable name="left">
-      <xsl:value-of select="@leftValue"/>
+    <xsl:variable name="refPointer">
+      <xsl:value-of select="@refPointer"/>
     </xsl:variable>
-    <xsl:variable name="right">
-      <xsl:value-of select="@rightValue"/>
+    <xsl:variable name="varRef">
+      <xsl:value-of select="@varRef"/>
     </xsl:variable>
-    <xsl:variable name="value">
-      <xsl:value-of select="@value"/>
+    <xsl:variable name="refValue">
+      <xsl:value-of select="@refValue"/>
     </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="$left='VAR'">
-        <xsl:text><![CDATA[$]]></xsl:text>
-      </xsl:when>
-    </xsl:choose>
-    <xsl:value-of select="$name"/>
-    <xsl:text><![CDATA[ = ]]></xsl:text>
-    <xsl:choose>
-      <xsl:when test="$right='VAR'">
-        <xsl:text><![CDATA[$]]></xsl:text>
-      </xsl:when>
-      <xsl:when test="$right='CONST'">
-        <xsl:text><![CDATA["]]></xsl:text>
-      </xsl:when>
-    </xsl:choose>
-    <xsl:value-of select="$value"/>
-    <xsl:choose>
-      <xsl:when test="$right='CONST'">
-        <xsl:text><![CDATA["]]></xsl:text>
-      </xsl:when>
-    </xsl:choose>
+    <xsl:text><![CDATA[$]]></xsl:text>
+    <xsl:value-of select="$varName"/>
+    <xsl:value-of select="$refPointer"/>
+    <xsl:text><![CDATA[ = $]]></xsl:text>
+    <xsl:value-of select="$varRef"/>
+    <xsl:value-of select="$refValue"/>
     <xsl:text><![CDATA[
 ]]></xsl:text>
   </xsl:template>

@@ -56,7 +56,11 @@ namespace Luigi
             /// <summary>
             /// Indicates a constant (only right-value allowed)
             /// </summary>
-            CONST
+            CONST,
+            /// <summary>
+            /// Indicates a new instance of an accu
+            /// </summary>
+            NEW
         }
 
 #endregion
@@ -129,6 +133,41 @@ namespace Luigi
         #region Methods
 
         /// <summary>
+        /// Recursive find by name starting by a reference
+        /// </summary>
+        /// <param name="vars">all variables</param>
+        /// <param name="types">all types</param>
+        /// <param name="name">name to find</param>
+        /// <returns>an accu child</returns>
+        public static Accumulate.AccuChild RecursiveFindByName(Dictionary<string, LuigiVariable> vars, Dictionary<string, Accumulate.Accu> types, string name)
+        {
+            string[] seq = name.Split('.');
+            if (seq.Length > 1)
+            {
+                if (vars.ContainsKey(seq[0].Substring(1)))
+                {
+                    LuigiVariable v = vars[seq[0].Substring(1)];
+                    if (v.LeftValueType == LuigiVariableType.VAR && v.RightValueType == LuigiVariableType.NEW)
+                    {
+                        // value est une reference sur un accu
+                        Accumulate.Accu a = Accumulate.Accu.FindByName(types, v.Value);
+                        Accumulate.AccuChild c = Accumulate.AccuChild.RecursiveFindByName(a, 1, seq);
+                    }
+                    else
+                    {
+                        throw new FormatException(String.Format("{0} is not a reference accu", seq[0]));
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException(String.Format("Variable name {0} not found", seq[0]));
+                }
+            }
+            else
+                throw new ArgumentException("bad name", "name");
+        }
+
+        /// <summary>
         /// Execute the variable
         /// </summary>
         /// <param name="w">writer</param>
@@ -136,25 +175,29 @@ namespace Luigi
         /// <param name="currentLine">in-progress line add</param>
         /// <param name="config">configuration</param>
         /// <param name="dir">directory</param>
-        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Dictionary<string,Accumulate.Accu> types, string dir)
+        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Dictionary<string, LuigiVariable> vars, Dictionary<string,Accumulate.Accu> types, string dir)
         {
             if (LeftValueType == LuigiVariableType.VAR)
             {
-                // gets the variable element
-                // sets the variable value
             }
             else if (LeftValueType == LuigiVariableType.REF)
             {
                 Accumulate.AccuChild a = Accumulate.Accu.RecursiveFindByName(types, this.name);
                 if (RightValueType == LuigiVariableType.VAR)
                 {
-                    // gets the variable element
-                    // set the accuchild with a variable
+                    if (vars.ContainsKey(this.value))
+                    {
+                        a.Value = vars[this.value].Value;
+                    }
                 }
                 else if (RightValueType == LuigiVariableType.CONST)
                 {
-                    // gets the variable element
-                    // set the accuchild with a const
+                    a.Value = this.Value;
+                }
+                else if (RightValueType == LuigiVariableType.NEW)
+                {
+                    Accumulate.Accu n = Accumulate.Accu.FindByName(types, this.Value);
+                    a.SetReference(n.TypeName);
                 }
                 else
                 {
@@ -172,14 +215,14 @@ namespace Luigi
         /// <param name="types">types</param>
         /// <param name="dir">directory</param>
         /// <returns>output</returns>
-        public string Execute(Dictionary<string, Accumulate.Accu> types, string dir)
+        public string Execute(Dictionary<string, LuigiVariable> vars, Dictionary<string, Accumulate.Accu> types, string dir)
         {
             int indentValue = 0;
             string currentLine = string.Empty;
             StringBuilder sb = new StringBuilder();
             using (TextWriter tw = new StringWriter(sb))
             {
-                this.Execute(tw, ref indentValue, ref currentLine, types, dir);
+                this.Execute(tw, ref indentValue, ref currentLine, vars, types, dir);
                 tw.Close();
             }
             if (!String.IsNullOrEmpty(currentLine))

@@ -45,7 +45,6 @@
     <Compile Include="Accu.cs" />
     <Compile Include="AccuChild.cs" />
     <Compile Include="LuigiObject.cs" />
-    <Compile Include="LuigiVariable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

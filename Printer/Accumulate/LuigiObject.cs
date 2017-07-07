@@ -27,34 +27,36 @@ namespace Luigi
         /// <summary>
         /// Data variable
         /// </summary>
-        protected Dictionary<string, LuigiVariable> variables;
-
+        protected Dictionary<string, Accumulate.Accu> variables;
+        /// <summary>
+        /// Elements of copying
+        /// </summary>
+        protected List<KeyValuePair<string, string>> copy;
         /// <summary>
         /// List of data to prints
         /// </summary>
         protected List<string> datas;
-
         /// <summary>
         /// Generates unique strings
         /// </summary>
         private Printer.UniqueStrings unique;
-
         /// <summary>
         /// Configuration object
         /// </summary>
+        private Printer.Configuration config;
+        /// <summary>
+        /// Types
+        /// </summary>
         protected Dictionary<string, Accumulate.Accu> types;
-
         /// <summary>
         /// Size indent space char
         /// </summary>
         public static readonly string IndentString = "  ";
-
         /// <summary>
         /// Current user directory
         /// stores languages, sources, compiled and temp
         /// </summary>
         public static readonly string PersonalDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\";
-
         /// <summary>
         /// Current program document directory
         /// </summary>
@@ -79,10 +81,12 @@ namespace Luigi
         public LuigiObject(string cd)
         {
             LuigiObject.InitializePersonalDirectory();
-            this.variables = new Dictionary<string, LuigiVariable>();
+            this.variables = new Dictionary<string, Accumulate.Accu>();
             this.datas = new List<string>();
             this.unique = new Printer.UniqueStrings();
+            this.config = new Printer.Configuration();
             this.types = new Dictionary<string, Accumulate.Accu>();
+            this.copy = new List<KeyValuePair<string, string>>();
             this.currentDirectory = cd;
         }
 
@@ -91,9 +95,17 @@ namespace Luigi
         #region Properties
 
         /// <summary>
+        /// Gets all copy ops
+        /// </summary>
+        public IEnumerable<KeyValuePair<string,string>> Copy
+        {
+            get { return this.copy; }
+        }
+
+        /// <summary>
         /// Gets all values
         /// </summary>
-        public IEnumerable<LuigiVariable> Values
+        public IEnumerable<Accumulate.Accu> Values
         {
             get { return this.variables.Values; }
         }
@@ -109,15 +121,26 @@ namespace Luigi
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
+        public Printer.Configuration Configuration
+        {
+            get
+            {
+                return this.config;
+            }
+            set
+            {
+                this.config = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of types
+        /// </summary>
         public Dictionary<string, Accumulate.Accu> Types
         {
             get
             {
                 return this.types;
-            }
-            set
-            {
-                this.types = value;
             }
         }
 
@@ -227,11 +250,31 @@ namespace Luigi
                         diTemp.Create();
                     }
                 }
-
             }
             else
             {
                 throw new NotSupportedException("Your personal directory doesn't exist. Assumes to have one");
+            }
+        }
+
+        /// <summary>
+        /// Create an instance from an accu type name
+        /// </summary>
+        /// <param name="varName">name of variable</param>
+        /// <param name="typeName">type of accu</param>
+        /// <returns>accu</returns>
+        public Accumulate.Accu CreateInstanceFromType(string varName, string typeName)
+        {
+            if (this.types.ContainsKey(typeName))
+            {
+                Accumulate.Accu a = this.types[typeName].Clone() as Accumulate.Accu;
+                a.TypeName = varName;
+                a.ValueOrFileName = typeName;
+                return a;
+            }
+            else
+            {
+                throw new KeyNotFoundException(String.Format("{0} is not a type", typeName));
             }
         }
 
@@ -256,6 +299,16 @@ namespace Luigi
         }
 
         /// <summary>
+        /// Test if existing variable and using arround it
+        /// </summary>
+        /// <param name="key">key name</param>
+        /// <returns>true if exist</returns>
+        public bool ExistTestCopy(string key)
+        {
+            return ExistTestVariable(key) && this.copy.Exists(x => x.Key == key);
+        }
+
+        /// <summary>
         /// Edit a variable
         /// </summary>
         /// <param name="key">key name</param>
@@ -264,19 +317,22 @@ namespace Luigi
         {
             if (this.variables.ContainsKey(key))
             {
-                this.variables[key].Value = val;
+                Accumulate.Accu a = this.variables[key];
+                Accumulate.AccuChild child = a.Values.Last(x => x.Name == "value") as Accumulate.AccuChild;
+                child.Value = val;
             }
             else
             {
-                LuigiVariable p = new LuigiVariable();
-                p.Name = key;
-                p.Value = val;
-                this.variables.Add(key, p);
+                Accumulate.Accu a = new Accumulate.Accu(key, Path.Combine("Luigi", "value.prt"));
+                a.TypeName = key;
+                Accumulate.AccuChild child = a.Values.Last(x => x.Name == "value") as Accumulate.AccuChild;
+                child.Value = val;
+                this.variables.Add(key, a);
             }
         }
 
         /// <summary>
-        /// Edit a variable
+        /// Edit a type
         /// </summary>
         /// <param name="key">key name</param>
         /// <param name="fi">file name value</param>
@@ -297,15 +353,15 @@ namespace Luigi
         /// </summary>
         /// <param name="key">key name</param>
         /// <param name="obj">object value</param>
-        public void EditVariable(string key, LuigiVariable obj)
+        public void EditVariable(string key, Accumulate.Accu obj)
         {
             if (this.variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as LuigiVariable;
+                this.variables[key] = obj.Clone() as Accumulate.Accu;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as LuigiVariable);
+                this.variables.Add(key, obj.Clone() as Accumulate.Accu);
             }
         }
 
@@ -327,10 +383,22 @@ namespace Luigi
         }
 
         /// <summary>
+        /// Add a copy performance
+        /// </summary>
+        /// <param name="varName">variable name</param>
+        /// <param name="refObject">reference sequence object</param>
+        /// <param name="varRef">variable reference</param>
+        /// <param name="valObject">reference sequence val</param>
+        public void AddCopy(string varName, string refObject, string varRef, string valObject)
+        {
+            this.copy.Add(new KeyValuePair<string, string>("$" + varName + "." + refObject, "$" + varRef + "." + valObject));
+        }
+
+        /// <summary>
         /// Add a type
         /// </summary>
         /// <param name="key">key name</param>
-        /// <param name="obj">file name</param>
+        /// <param name="fi">file name</param>
         public void AddType(string key, string fi)
         {
             if (this.types.ContainsKey(key))
@@ -348,15 +416,15 @@ namespace Luigi
         /// </summary>
         /// <param name="key">key name</param>
         /// <param name="obj">object value</param>
-        public void AddVariable(string key, LuigiVariable obj)
+        public void AddVariable(string key, Accumulate.Accu obj)
         {
             if (this.variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as LuigiVariable;
+                this.variables[key] = obj;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as LuigiVariable);
+                this.variables.Add(key, obj);
             }
         }
 
@@ -369,14 +437,17 @@ namespace Luigi
         {
             if (this.variables.ContainsKey(key))
             {
-                this.variables[key].Value = val;
+                Accumulate.Accu a = this.variables[key];
+                Accumulate.AccuChild child = a.Values.Last(x => x.Name == "value") as Accumulate.AccuChild;
+                child.Value = val;
             }
             else
             {
-                LuigiVariable p = new LuigiVariable();
-                p.Name = key;
-                p.Value = val;
-                this.variables.Add(key, p);
+                Accumulate.Accu a = new Accumulate.Accu(key, Path.Combine("Luigi", "value.prt"));
+                a.TypeName = key;
+                Accumulate.AccuChild child = a.Values.Last(x => x.Name == "value") as Accumulate.AccuChild;
+                child.Value = val;
+                this.variables.Add(key, a);
             }
         }
 
@@ -405,6 +476,33 @@ namespace Luigi
         }
 
         /// <summary>
+        /// Delete a copy line
+        /// </summary>
+        /// <param name="index">index position</param>
+        public void DeleteCopy(int index)
+        {
+            if (index < this.copy.Count)
+                this.copy.RemoveAt(index);
+        }
+
+        public void DeleteCopy(string varName)
+        {
+            this.DeleteVariable(varName);
+            for (int index = this.copy.Count - 1; index >= 0; --index)
+            {
+                KeyValuePair<string, string> kv = this.copy[index];
+                if (kv.Key.StartsWith("$" + varName + "."))
+                {
+                    this.copy.RemoveAt(index);
+                }
+                else if (kv.Value.StartsWith("$" + varName + "."))
+                {
+                    this.copy.RemoveAt(index);
+                }
+            }
+        }
+
+        /// <summary>
         /// Use a variable
         /// </summary>
         /// <param name="name">variable name</param>
@@ -420,7 +518,10 @@ namespace Luigi
         /// <param name="name">variable name</param>
         public void UseChangeVariable(int index, string name)
         {
-            this.datas[index] = "[" + name + "]";
+            if (index >= 0 && index < this.datas.Count)
+                this.datas[index] = "[" + name + "]";
+            else
+                this.UseVariable(name);
         }
 
         /// <summary>
@@ -430,7 +531,10 @@ namespace Luigi
         /// <param name="name">variable name</param>
         public void InsertUseVariableBefore(int index, string name)
         {
-            this.datas.Insert(index, "[" + name + "]");
+            if (index > 0)
+                this.datas.Insert(index, "[" + name + "]");
+            else
+                this.datas.Insert(0, "[" + name + "]");
         }
 
         /// <summary>
@@ -472,17 +576,22 @@ namespace Luigi
         /// <param name="s">change</param>
         public void EditData(int index, string s)
         {
-            if (s.StartsWith("[") && s.EndsWith("]"))
+            if (index >= 0 && index < this.datas.Count)
             {
-                string name = this.unique.ComputeNewString();
-                string p = s.Substring(1, s.Length - 2);
-                this.AddVariable(name, p);
-                this.datas[index] = "[" + name + "]";
+                if (s.StartsWith("[") && s.EndsWith("]"))
+                {
+                    string name = this.unique.ComputeNewString();
+                    string p = s.Substring(1, s.Length - 2);
+                    this.AddVariable(name, p);
+                    this.datas[index] = "[" + name + "]";
+                }
+                else
+                {
+                    this.datas[index] = s;
+                }
             }
             else
-            {
-                this.datas[index] = s;
-            }
+                this.AddData(s);
         }
 
         /// <summary>
@@ -497,11 +606,17 @@ namespace Luigi
                 string name = this.unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
                 this.AddVariable(name, p);
-                this.datas.Insert(index, "[" + name + "]");
+                if (index > 0 && index < this.datas.Count)
+                    this.datas.Insert(index, "[" + name + "]");
+                else
+                    this.datas.Insert(0, "[" + name + "]");
             }
             else
             {
-                this.datas.Insert(index, s);
+                if (index > 0 && index < this.datas.Count)
+                    this.datas.Insert(index, s);
+                else
+                    this.datas.Insert(0, s);
             }
         }
 
@@ -517,14 +632,14 @@ namespace Luigi
                 string name = this.unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
                 this.AddVariable(name, p);
-                if (index + 1 < this.datas.Count)
+                if (index >= 0 && index + 1 < this.datas.Count)
                     this.datas.Insert(index + 1, "[" + name + "]");
                 else
                     this.datas.Add("[" + name + "]");
             }
             else
             {
-                if (index + 1 < this.datas.Count)
+                if (index >= 0 && index + 1 < this.datas.Count)
                     this.datas.Insert(index + 1, s);
                 else
                     this.datas.Add(s);
@@ -546,19 +661,31 @@ namespace Luigi
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
         /// <param name="currentLine">in-progress line add</param>
-        /// <param name="t">types</param>
-        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Dictionary<string, Accumulate.Accu> t)
+        /// <param name="conf">configuration data</param>
+        public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Printer.Configuration conf)
         {
+            foreach (KeyValuePair<string, string> kv in this.copy)
+            {
+                Accumulate.AccuChild a = Accumulate.Accu.RecursiveFindByName(this.types, this.variables, kv.Key);
+                Accumulate.AccuChild b = Accumulate.Accu.RecursiveFindByName(this.types, this.variables, kv.Value);
+                a.Value = b.Execute(conf, this.CurrentDirectory);
+            }
             foreach (string e in this.datas)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
-                    this.variables[r].Execute(w, ref indentValue, ref currentLine, t, this.CurrentDirectory);
+                    r = conf.Execute(r);
+                    // TO DO : execute an accu with its values
+                    if (this.variables.ContainsKey(r))
+                    {
+                        this.variables[r].Execute(w, ref indentValue, ref currentLine, config);
+                    }
                 }
                 else
                 {
-                    LuigiObject.IndentSource(w, indentValue, ref currentLine, e);
+                    string res = conf.Execute(e);
+                    LuigiObject.IndentSource(w, indentValue, ref currentLine, res);
                 }
             }
         }
@@ -574,12 +701,24 @@ namespace Luigi
             StringBuilder sb = new StringBuilder();
             using (TextWriter tw = new StringWriter(sb))
             {
-                this.Execute(tw, ref indentValue, ref currentLine, this.types);
+                this.Execute(tw, ref indentValue, ref currentLine, this.config);
                 tw.Close();
             }
             if (!String.IsNullOrEmpty(currentLine))
                 sb.Append(currentLine);
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Import a configuration values
+        /// </summary>
+        /// <param name="from">configuration values</param>
+        public void ImportConfiguration(Printer.Configuration from)
+        {
+            foreach (string key in from)
+            {
+                this.Configuration.Add(key, from[key]);
+            }
         }
 
         /// <summary>
@@ -591,6 +730,18 @@ namespace Luigi
             foreach (string key in from.Keys)
             {
                 this.types.Add(key, from[key]);
+            }
+        }
+
+        /// <summary>
+        /// Import copying
+        /// </summary>
+        /// <param name="copy">copy list</param>
+        public void ImportCopy(IEnumerable<KeyValuePair<string, string>> copy)
+        {
+            foreach (KeyValuePair<string, string> kv in copy)
+            {
+                this.copy.Add(kv);
             }
         }
 
@@ -725,9 +876,30 @@ namespace Luigi
                 }
                 xml.WriteEndElement();
                 xml.WriteStartElement("vars");
-                foreach (LuigiVariable l in this.Values)
+                foreach (Accumulate.Accu a in this.Values)
                 {
-                    l.ToString(xml);
+                    a.ToString(xml);
+                }
+                xml.WriteEndElement();
+                xml.WriteStartElement("copy");
+                foreach (KeyValuePair<string, string> kv in this.Copy)
+                {
+                    xml.WriteStartElement("keyval");
+                    string patternIdent = @"([a-zA-Z][a-zA-Z\-_0-9]*)";
+                    Regex reg = new Regex(@"^\$" + patternIdent + @"(\." + patternIdent + ")+$");
+                    Match m = reg.Match(kv.Key);
+                    if (m.Success)
+                    {
+                        xml.WriteAttributeString("varName", m.Groups[1].Value);
+                        xml.WriteAttributeString("refPointer", m.Groups[2].Value);
+                    }
+                    m = reg.Match(kv.Value);
+                    if (m.Success)
+                    {
+                        xml.WriteAttributeString("varRef", m.Groups[1].Value);
+                        xml.WriteAttributeString("refValue", m.Groups[2].Value);
+                    }
+                    xml.WriteEndElement();
                 }
                 xml.WriteEndElement();
                 xml.WriteStartElement("text");
@@ -783,14 +955,19 @@ namespace Luigi
         public object Clone()
         {
             LuigiObject newPo = new LuigiObject();
+            newPo.Configuration = this.Configuration.Clone() as Printer.Configuration;
+            foreach (string key in this.types.Keys)
+            {
+                newPo.types.Add(key, this.types[key].Clone() as Accumulate.Accu);
+            }
             foreach (string s in this.datas)
             {
                 newPo.datas.Add(s.Clone() as string);
             }
             newPo.unique = new Printer.UniqueStrings(this.unique.Counter);
-            foreach (LuigiVariable pv in this.Values)
+            foreach (string key in this.variables.Keys)
             {
-                newPo.variables.Add(pv.Name, pv.Clone() as LuigiVariable);
+                newPo.variables.Add(key, this.variables[key].Clone() as Accumulate.Accu);
             }
             return newPo;
         }

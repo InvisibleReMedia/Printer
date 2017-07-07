@@ -31,31 +31,14 @@ namespace Accumulate
                     po.AddType("code", new Accu("code", "C/add.prt"));
 
                     po.AddData("if (");
-                    Luigi.LuigiVariable lv1 = new Luigi.LuigiVariable();
-                    lv1.Name = "t";
-                    lv1.LeftValueType = Luigi.LuigiVariable.LuigiVariableType.VAR;
-                    lv1.RightValueType = Luigi.LuigiVariable.LuigiVariableType.REF;
-                    lv1.Value = "expr-bool";
-                    po.AddVariable("t", lv1);
-                    po.UseVariable("t");
-                    po.AddData(") {" + Environment.NewLine);
-                    Luigi.LuigiVariable lv2 = new Luigi.LuigiVariable();
-                    lv2.Name = "c";
-                    lv2.LeftValueType = Luigi.LuigiVariable.LuigiVariableType.VAR;
-                    lv2.RightValueType = Luigi.LuigiVariable.LuigiVariableType.REF;
-                    lv2.Value = "code";
-                    po.AddVariable("c", lv2);
-                    po.UseVariable("c");
-                    po.AddData(@"}
-else {" + Environment.NewLine);
-                    Luigi.LuigiVariable lv3 = new Luigi.LuigiVariable();
-                    lv3.Name = "d";
-                    lv3.LeftValueType = Luigi.LuigiVariable.LuigiVariableType.VAR;
-                    lv3.RightValueType = Luigi.LuigiVariable.LuigiVariableType.REF;
-                    lv3.Value = "code";
-                    po.AddVariable("d", lv3);
-                    po.UseVariable("d");
-                    po.AddData(Environment.NewLine + "}" + Environment.NewLine);
+                    po.AddVariable("expr", po.CreateInstanceFromType("expr", "expr-bool"));
+                    po.UseVariable("expr");
+                    po.AddData(")" + Environment.NewLine);
+                    po.AddVariable("then", po.CreateInstanceFromType("then", "code"));
+                    po.UseVariable("then");
+                    po.AddData(" else " + Environment.NewLine);
+                    po.AddVariable("else", po.CreateInstanceFromType("else", "code"));
+                    po.UseVariable("else");
 
                 }
 

@@ -63,13 +63,32 @@ namespace Accumulate
         }
 
         /// <summary>
-        /// Gets the name of the type accu
+        /// Gets or sets the name of the type accu
         /// </summary>
         public string TypeName
         {
             get
             {
                 return this.typeName;
+            }
+            set
+            {
+                this.typeName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the file name or its value
+        /// </summary>
+        public string ValueOrFileName
+        {
+            get
+            {
+                return this.fileName;
+            }
+            set
+            {
+                this.fileName = value;
             }
         }
 
@@ -129,12 +148,11 @@ namespace Accumulate
         /// <summary>
         /// Write output as interpretation result
         /// </summary>
-        /// <param name="dict">gives all dictionaries of accu</param>
         /// <param name="w">writer</param>
         /// <param name="indentValue">space size</param>
         /// <param name="currentLine">in-progress line add</param>
         /// <param name="config">configuration</param>
-        public void Execute(Dictionary<string, Accu> dict, TextWriter w, ref int indentValue, ref string currentLine, Configuration config)
+        public new void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config)
         {
             foreach (string e in this.datas)
             {
@@ -142,7 +160,7 @@ namespace Accumulate
                 {
                     string r = e.Substring(1, e.Length - 2);
                     r = config.Execute(r);
-                    (this.variables[r] as AccuChild).Execute(dict, w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
+                    (this.variables[r] as AccuChild).Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
                 }
                 else
                 {
@@ -153,29 +171,29 @@ namespace Accumulate
         }
 
         /// <summary>
-        /// Write output as interpretation result
+        /// Find a child by its name
         /// </summary>
-        /// <param name="dict">gives all dictionaries of accu</param>
-        /// <returns>output</returns>
-        public string Execute(Dictionary<string, Accu> dict)
+        /// <param name="types">accu types</param>
+        /// <param name="vars">accu variables</param>
+        /// <param name="name">structured multiple names separated by a dot</param>
+        /// <returns>element found</returns>
+        public static AccuChild RecursiveFindByName(Dictionary<string, Accu> types, Dictionary<string, Accu> vars, string name)
         {
-            int indentValue = 0;
-            string currentLine = string.Empty;
-            StringBuilder sb = new StringBuilder();
-            using (TextWriter tw = new StringWriter(sb))
+            if (name.StartsWith("$"))
             {
-                this.Execute(dict, tw, ref indentValue, ref currentLine, this.Configuration);
-                tw.Close();
+                name = name.Substring(1);
+                return Accu.RecursiveFindByName(vars, name);
             }
-            if (!String.IsNullOrEmpty(currentLine))
-                sb.Append(currentLine);
-            return sb.ToString();
+            else
+            {
+                return Accu.RecursiveFindByName(types, name);
+            }
         }
 
         /// <summary>
         /// Find a child by its name
         /// </summary>
-        /// <param name="dict">accu names</param>
+        /// <param name="dict">accu sets</param>
         /// <param name="name">structured multiple names separated by a dot</param>
         /// <returns>element found</returns>
         public static AccuChild RecursiveFindByName(Dictionary<string, Accu> dict, string name)
@@ -203,7 +221,6 @@ namespace Accumulate
             else
                 throw new ArgumentException("bad name", "name");
         }
-
 
         /// <summary>
         /// Find accu by its name
