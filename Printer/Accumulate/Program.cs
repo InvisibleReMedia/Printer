@@ -26,9 +26,12 @@ namespace Accumulate
                 else
                 {
                     po = new Luigi.LuigiObject();
+                    po.AddType("const", new Accu("const", "C/const.prt"));
                     po.AddType("expr-bool", new Accu("expr-bool", "C/bool.prt"));
                     po.AddType("var", new Accu("var", "C/var.prt"));
                     po.AddType("code", new Accu("code", "C/add.prt"));
+
+                    po.AddVariable("const", po.CreateInstanceFromType("const", "const"));
 
                     po.AddData("if (");
                     po.AddVariable("expr", po.CreateInstanceFromType("expr", "expr-bool"));
@@ -39,6 +42,10 @@ namespace Accumulate
                     po.AddData(" else " + Environment.NewLine);
                     po.AddVariable("else", po.CreateInstanceFromType("else", "code"));
                     po.UseVariable("else");
+
+                    po.AddCopy("expr", "left", "const", "a");
+                    po.AddCopy("expr", "operator", "const", "||");
+                    po.AddCopy("expr", "right", "const", "b");
 
                 }
 

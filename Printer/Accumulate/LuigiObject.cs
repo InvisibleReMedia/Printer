@@ -667,8 +667,18 @@ namespace Luigi
             foreach (KeyValuePair<string, string> kv in this.copy)
             {
                 Accumulate.AccuChild a = Accumulate.Accu.RecursiveFindByName(this.types, this.variables, kv.Key);
-                Accumulate.AccuChild b = Accumulate.Accu.RecursiveFindByName(this.types, this.variables, kv.Value);
-                a.Value = b.Execute(conf, this.CurrentDirectory);
+                if (kv.Value.StartsWith("$const."))
+                {
+                    string val = kv.Value.Substring(7);
+                    Accumulate.AccuChild b = Accumulate.Accu.RecursiveFindByName(this.types, this.variables, "$const.value");
+                    b.Value = val;
+                    a.Value = b.Execute(conf, this.CurrentDirectory);
+                }
+                else
+                {
+                    Accumulate.AccuChild b = Accumulate.Accu.RecursiveFindByName(this.types, this.variables, kv.Value);
+                    a.Value = b.Execute(conf, this.CurrentDirectory);
+                }
             }
             foreach (string e in this.datas)
             {
@@ -893,13 +903,24 @@ namespace Luigi
                         xml.WriteAttributeString("varName", m.Groups[1].Value);
                         xml.WriteAttributeString("refPointer", m.Groups[2].Value);
                     }
-                    m = reg.Match(kv.Value);
-                    if (m.Success)
+                    Regex testConst = new Regex(@"^\$const(\..*)");
+                    Match mc = testConst.Match(kv.Value);
+                    if (mc.Success)
                     {
-                        xml.WriteAttributeString("varRef", m.Groups[1].Value);
-                        xml.WriteAttributeString("refValue", m.Groups[2].Value);
+                        xml.WriteAttributeString("varRef", "const");
+                        xml.WriteAttributeString("refValue", mc.Groups[1].Value);
+                        xml.WriteEndElement();
                     }
-                    xml.WriteEndElement();
+                    else
+                    {
+                        m = reg.Match(kv.Value);
+                        if (m.Success)
+                        {
+                            xml.WriteAttributeString("varRef", m.Groups[1].Value);
+                            xml.WriteAttributeString("refValue", m.Groups[2].Value);
+                        }
+                        xml.WriteEndElement();
+                    }
                 }
                 xml.WriteEndElement();
                 xml.WriteStartElement("text");
