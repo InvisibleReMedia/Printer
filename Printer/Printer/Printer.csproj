@@ -80,8 +80,13 @@
     </EmbeddedResource>
     <None Include="languages\Accu\child.prt" />
     <None Include="languages\Accu\node.prt" />
+    <None Include="languages\Accu\ref-child.prt" />
     <None Include="languages\Accu\val.prt" />
+    <None Include="languages\C\add.prt" />
+    <None Include="languages\C\bool.prt" />
+    <None Include="languages\C\const.prt" />
     <None Include="languages\C\if.prt" />
+    <None Include="languages\C\var.prt" />
     <None Include="languages\Luigi\literal-au.prt" />
     <None Include="languages\Luigi\literal-im.prt" />
     <None Include="languages\Luigi\literal-key.prt" />
@@ -90,16 +95,21 @@
     <None Include="languages\Luigi\literal-src.prt" />
     <None Include="languages\Luigi\literal.prt" />
     <None Include="languages\Luigi\mapper-au.prt" />
+    <None Include="languages\Luigi\mapper-child.prt" />
     <None Include="languages\Luigi\mapper-im.prt" />
     <None Include="languages\Luigi\mapper-key.prt" />
     <None Include="languages\Luigi\mapper-param-src.prt" />
     <None Include="languages\Luigi\mapper-src.prt" />
     <None Include="languages\Luigi\mapper.prt" />
+    <None Include="languages\Luigi\node.prt" />
     <None Include="languages\Luigi\param-name.prt" />
+    <None Include="languages\Luigi\param.prt" />
     <None Include="languages\Luigi\print.prt" />
     <None Include="languages\Luigi\set-au.prt" />
+    <None Include="languages\Luigi\set-child.prt" />
     <None Include="languages\Luigi\set-im.prt" />
     <None Include="languages\Luigi\set-src.prt" />
+    <None Include="languages\Luigi\set.prt" />
     <None Include="languages\Luigi\var.prt" />
   </ItemGroup>
   <ItemGroup>
