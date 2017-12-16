@@ -17,15 +17,18 @@ namespace Printer
     /// variables definition
     /// </summary>
     [Serializable]
-    public class Configuration : ICloneable
+    public class Configuration : PersistentDataObject, ICloneable
     {
         #region Fields
 
+        /// <summary>
+        /// Identifier
+        /// </summary>
         private static readonly string Indentifier = "@";
         /// <summary>
-        /// Values
+        /// Index name for values
         /// </summary>
-        private Dictionary<string, string> values;
+        protected static readonly string valuesName = "values";
 
         #endregion
 
@@ -36,10 +39,9 @@ namespace Printer
         /// </summary>
         public Configuration()
         {
-            this.values = new Dictionary<string, string>();
-            this.values.Add("author", Environment.GetEnvironmentVariable("USERNAME"));
-            this.values.Add("date", DateTime.Now.ToShortDateString());
-            this.values.Add("programmingLanguage", "C");
+            this.Set(valuesName, new Dictionary<string, string>());
+            this.Values.Add("author", Environment.GetEnvironmentVariable("USERNAME"));
+            this.Values.Add("date", DateTime.Now.ToShortDateString());
         }
 
         #endregion
@@ -47,11 +49,26 @@ namespace Printer
         #region Properties
 
         /// <summary>
+        /// Gets or sets all values
+        /// </summary>
+        protected Dictionary<string, string> Values
+        {
+            get
+            {
+                return this.Get(valuesName, new Dictionary<string, string>());
+            }
+            set
+            {
+                this.Set(valuesName, value);
+            }
+        }
+
+        /// <summary>
         /// Count the number of conf
         /// </summary>
         public int Count
         {
-            get { return this.values.Count; }
+            get { return this.Values.Count; }
         }
 
         /// <summary>
@@ -63,8 +80,8 @@ namespace Printer
         {
             get
             {
-                if (this.values.ContainsKey(key))
-                    return this.values[key];
+                if (this.ExistKey(key))
+                    return this.Values[key];
                 else
                     return string.Empty;
             }
@@ -85,13 +102,13 @@ namespace Printer
         /// <param name="value">value</param>
         public void Add(string key, string value)
         {
-            if (this.values.ContainsKey(key))
+            if (this.ExistKey(key))
             {
-                this.values[key] = value;
+                this.Values[key] = value;
             }
             else
             {
-                this.values.Add(key, value);
+                this.Values.Add(key, value);
             }
         }
 
@@ -102,14 +119,24 @@ namespace Printer
         /// <param name="value">value</param>
         public void Edit(string key, string value)
         {
-            if (this.values.ContainsKey(key))
+            if (this.ExistKey(key))
             {
-                this.values[key] = value;
+                this.Values[key] = value;
             }
             else
             {
-                this.values.Add(key, value);
+                this.Values.Add(key, value);
             }
+        }
+
+        /// <summary>
+        /// Test of existence
+        /// </summary>
+        /// <param name="key">key to test</param>
+        /// <returns>true or false</returns>
+        public bool ExistKey(string key)
+        {
+            return this.Values.ContainsKey(key);
         }
 
         /// <summary>
@@ -118,8 +145,8 @@ namespace Printer
         /// <param name="key">key</param>
         public void Delete(string key)
         {
-            if (this.values.ContainsKey(key))
-                this.values.Remove(key);
+            if (this.ExistKey(key))
+                this.Values.Remove(key);
         }
 
         /// <summary>
@@ -130,7 +157,7 @@ namespace Printer
         public IEnumerable<string> Find(string s)
         {
             List<string> find = new List<string>();
-            foreach (string key in this.values.Keys)
+            foreach (string key in this.Values.Keys)
             {
                 if (s.StartsWith(key))
                 {
@@ -147,7 +174,7 @@ namespace Printer
         /// <returns></returns>
         public IEnumerator<string> GetEnumerator()
         {
-            return this.values.Keys.GetEnumerator();
+            return this.Values.Keys.GetEnumerator();
         }
 
         /// <summary>
@@ -157,7 +184,7 @@ namespace Printer
         public object Clone()
         {
             Configuration newConf = new Configuration();
-            newConf.values = new Dictionary<string, string>(this.values);
+            newConf.Values = new Dictionary<string, string>(this.Values);
             return newConf;
         }
 
@@ -178,7 +205,10 @@ namespace Printer
                     IEnumerable<string> selected = this.Find(m.Groups[2].Value);
                     int gSize = selected.Max(x => x.Length);
                     string f = selected.First(x => x.Length == gSize);
-                    sb.Append(this[f]);
+                    if (this.Exists(f))
+                        sb.Append(this[f]);
+                    else
+                        sb.Append(f);
                 }
                 else
                 {
@@ -197,11 +227,13 @@ namespace Printer
         public void ToString(XmlWriter xml)
         {
             xml.WriteStartElement("conf");
-            foreach (string key in this.values.Keys)
+            foreach (string key in this.Values.Keys)
             {
                 xml.WriteStartElement("itemConf");
                 xml.WriteAttributeString("name", key);
-                xml.WriteString(this.values[key]);
+                string v = this.Values[key].Replace(":", ":dbdot;");
+                v = v.Replace("\"", ":dbquot;");
+                xml.WriteString(v);
                 xml.WriteEndElement();
             }
             xml.WriteEndElement();
@@ -258,25 +290,13 @@ namespace Printer
         /// <returns>object</returns>
         public static Configuration Load(string fileName)
         {
-            Configuration c = null;
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                try
-                {
-                    c = bf.Deserialize(fs) as Configuration;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                finally
-                {
-                    fs.Close();
-                }
-            }
+            PersistentDataObject conf = null;
+            FileInfo fi = new FileInfo(fileName);
+            if (fi.Exists)
+                if (PersistentDataObject.Load(fi, out conf))
+                    return conf as Configuration;
 
-            return c;
+            return null;
         }
 
 
@@ -287,22 +307,8 @@ namespace Printer
         /// <param name="fileName">full path of fileName to save</param>
         public static void Save(Configuration obj, string fileName)
         {
-            using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                try
-                {
-                    bf.Serialize(fs, obj);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                finally
-                {
-                    fs.Close();
-                }
-            }
+            FileInfo fi = new FileInfo(fileName);
+            PersistentDataObject.Save(fi, obj);
         }
 
         #endregion

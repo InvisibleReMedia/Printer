@@ -10,14 +10,24 @@
             variables definition
             </summary>
         </member>
-        <member name="F:Printer.Configuration.values">
+        <member name="F:Printer.Configuration.Indentifier">
             <summary>
-            Values
+            Identifier
+            </summary>
+        </member>
+        <member name="F:Printer.Configuration.valuesName">
+            <summary>
+            Index name for values
             </summary>
         </member>
         <member name="M:Printer.Configuration.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.Configuration.Values">
+            <summary>
+            Gets or sets all values
             </summary>
         </member>
         <member name="P:Printer.Configuration.Count">
@@ -45,6 +55,13 @@
             </summary>
             <param name="key">key</param>
             <param name="value">value</param>
+        </member>
+        <member name="M:Printer.Configuration.ExistKey(System.String)">
+            <summary>
+            Test of existence
+            </summary>
+            <param name="key">key to test</param>
+            <returns>true or false</returns>
         </member>
         <member name="M:Printer.Configuration.Delete(System.String)">
             <summary>
@@ -108,34 +125,114 @@
             <param name="obj">object to save</param>
             <param name="fileName">full path of fileName to save</param>
         </member>
+        <member name="T:Printer.PersistentDataObject">
+            <summary>
+            Classe contenant la séquence
+            de sérialisation/déserialisation
+            </summary>
+        </member>
+        <member name="F:Printer.PersistentDataObject.dict">
+            <summary>
+            Field to store data information to serialize
+            </summary>
+        </member>
+        <member name="M:Printer.PersistentDataObject.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:Printer.PersistentDataObject.Data">
+            <summary>
+            Data to be used
+            </summary>
+        </member>
+        <member name="P:Printer.PersistentDataObject.Keys">
+            <summary>
+            Gets all direct keys
+            </summary>
+        </member>
+        <member name="M:Printer.PersistentDataObject.Exists(System.String)">
+            <summary>
+            Test if a key exists
+            </summary>
+            <param name="name">key name</param>
+            <returns>true if exists</returns>
+        </member>
+        <member name="M:Printer.PersistentDataObject.Set(System.String,System.Object)">
+            <summary>
+            Sets a value into the dictionary
+            </summary>
+            <param name="name">name of the field</param>
+            <param name="value">value of field</param>
+        </member>
+        <member name="M:Printer.PersistentDataObject.Get(System.String,System.Object)">
+            <summary>
+            Gets a value from the dictionary
+            </summary>
+            <param name="name">name of the field</param>
+            <param name="init">default value</param>
+            <returns>value</returns>
+        </member>
+        <member name="M:Printer.PersistentDataObject.Remove(System.String)">
+            <summary>
+            Remove a key
+            </summary>
+            <param name="name">key name</param>
+        </member>
+        <member name="M:Printer.PersistentDataObject.Load(System.IO.FileInfo,Printer.PersistentDataObject@)">
+            <summary>
+            Lecture d'un document
+            </summary>
+            <param name="file">information de fichier</param>
+            <param name="result">objet obtenu</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Printer.PersistentDataObject.Save(System.IO.FileInfo,Printer.PersistentDataObject)">
+            <summary>
+            Sauvegarde d'un document
+            </summary>
+            <param name="file">information de fichier</param>
+            <param name="data">objet à sérialiser</param>
+            <returns>true if success</returns>
+        </member>
         <member name="T:Printer.PrinterObject">
             <summary>
             Printer class
             </summary>
         </member>
-        <member name="F:Printer.PrinterObject.currentDirectory">
+        <member name="F:Printer.PrinterObject.versionName">
             <summary>
-            Current directory where objects resides
+            Index name for version
             </summary>
         </member>
-        <member name="F:Printer.PrinterObject.variables">
+        <member name="F:Printer.PrinterObject.revisionName">
             <summary>
-            Data variable
+            Index name for revision
             </summary>
         </member>
-        <member name="F:Printer.PrinterObject.datas">
+        <member name="F:Printer.PrinterObject.currentDirectoryName">
             <summary>
-            List of data to prints
+            Index name for current directory
             </summary>
         </member>
-        <member name="F:Printer.PrinterObject.unique">
+        <member name="F:Printer.PrinterObject.variablesName">
             <summary>
-            Generates unique strings
+            Index name for variables
             </summary>
         </member>
-        <member name="F:Printer.PrinterObject.config">
+        <member name="F:Printer.PrinterObject.dataName">
             <summary>
-            Configuration object
+            Index name for data
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.uniqueName">
+            <summary>
+            Index name for unique strings
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterObject.configurationName">
+            <summary>
+            Index name for configuration
             </summary>
         </member>
         <member name="F:Printer.PrinterObject.IndentString">
@@ -154,25 +251,51 @@
             Current program document directory
             </summary>
         </member>
+        <member name="F:Printer.PrinterObject.DefaultOutputLanguage">
+            <summary>
+            Default output language
+            </summary>
+        </member>
         <member name="M:Printer.PrinterObject.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:Printer.PrinterObject.#ctor(System.String)">
+        <member name="M:Printer.PrinterObject.#ctor(System.String,System.String)">
             <summary>
             Constructor with currentDirectory setted
             </summary>
             <param name="cd">current directory</param>
+            <param name="version">version</param>
         </member>
-        <member name="P:Printer.PrinterObject.Values">
+        <member name="P:Printer.PrinterObject.Version">
             <summary>
-            Gets all values
+            Gets or sets the version
             </summary>
         </member>
-        <member name="P:Printer.PrinterObject.Data">
+        <member name="P:Printer.PrinterObject.Revision">
             <summary>
-            Gets all data sequence
+            Gets or sets the revision number
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.CurrentDirectory">
+            <summary>
+            Gets or sets the current directory
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Variables">
+            <summary>
+            Gets all variables
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Strings">
+            <summary>
+            Gets all data
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Unique">
+            <summary>
+            Gets or sets all unique
             </summary>
         </member>
         <member name="P:Printer.PrinterObject.Configuration">
@@ -180,9 +303,14 @@
             Gets or sets the configuration object
             </summary>
         </member>
-        <member name="P:Printer.PrinterObject.CurrentDirectory">
+        <member name="P:Printer.PrinterObject.Values">
             <summary>
-            Gets or sets the current directory
+            Gets all values
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterObject.Datas">
+            <summary>
+            Gets all data sequence
             </summary>
         </member>
         <member name="M:Printer.PrinterObject.IndentSource(System.IO.TextWriter,System.Int32,System.String@,System.String)">
@@ -377,34 +505,41 @@
             </summary>
             <returns>new object</returns>
         </member>
+        <member name="M:Printer.PrinterObject.Create(Printer.PrinterVersion)">
+            <summary>
+            Create
+            </summary>
+            <param name="pv">printer version</param>
+            <returns>printer object</returns>
+        </member>
         <member name="T:Printer.PrinterVariable">
             <summary>
             A printer variable
             </summary>
         </member>
-        <member name="F:Printer.PrinterVariable.include">
+        <member name="F:Printer.PrinterVariable.includeName">
             <summary>
-            include switch
+            Index name for include switch
             </summary>
         </member>
-        <member name="F:Printer.PrinterVariable.shouldIndent">
+        <member name="F:Printer.PrinterVariable.shouldIndentName">
             <summary>
-            Indent switch
+            Index name for indent switch
             </summary>
         </member>
-        <member name="F:Printer.PrinterVariable.name">
+        <member name="F:Printer.PrinterVariable.nameName">
             <summary>
-            Name of the variable
+            Index name for variable name
             </summary>
         </member>
-        <member name="F:Printer.PrinterVariable.value">
+        <member name="F:Printer.PrinterVariable.valueName">
             <summary>
-            Value of the variable
+            Index name for value
             </summary>
         </member>
-        <member name="F:Printer.PrinterVariable.includedVars">
+        <member name="F:Printer.PrinterVariable.includedVarsName">
             <summary>
-            Included variables
+            Index name for included vars
             </summary>
         </member>
         <member name="M:Printer.PrinterVariable.#ctor">
@@ -430,6 +565,11 @@
         <member name="P:Printer.PrinterVariable.Value">
             <summary>
             Gets or sets the value
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVariable.IncludedVariables">
+            <summary>
+            Gets all included variables
             </summary>
         </member>
         <member name="P:Printer.PrinterVariable.Values">
@@ -513,6 +653,82 @@
             Clone this object
             </summary>
             <returns>new object</returns>
+        </member>
+        <member name="T:Printer.PrinterVersion">
+            <summary>
+            A set of versions as a printer file
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVersion.currentMajorVersion">
+            <summary>
+            Latest major version number
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVersion.currentMinorVersion">
+            <summary>
+            Latest minor version number
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVersion.path">
+            <summary>
+            Path file
+            </summary>
+        </member>
+        <member name="F:Printer.PrinterVersion.fileName">
+            <summary>
+            File name prefix
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterVersion.#ctor(System.String,System.String)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="path">path file</param>
+            <param name="name">file name</param>
+        </member>
+        <member name="P:Printer.PrinterVersion.FullName">
+            <summary>
+            Gets the full name of the file
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVersion.FileName">
+            <summary>
+            Gets the file name without its extension
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVersion.LatestVersion">
+            <summary>
+            Gets the latest version ID
+            </summary>
+        </member>
+        <member name="P:Printer.PrinterVersion.Versions">
+            <summary>
+            Gets all relative versions
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterVersion.FindLatestVersion">
+            <summary>
+            Find latest version
+            </summary>
+        </member>
+        <member name="M:Printer.PrinterVersion.Select(System.String)">
+            <summary>
+            Select a specific version
+            </summary>
+            <param name="version"></param>
+            <returns>printer object selected</returns>
+        </member>
+        <member name="M:Printer.PrinterVersion.Create">
+            <summary>
+            Create a new printer object
+            </summary>
+            <returns>printer object</returns>
+        </member>
+        <member name="M:Printer.PrinterVersion.AddVersion(Printer.PrinterObject)">
+            <summary>
+            Add a new version
+            </summary>
+            <param name="po">printer object</param>
         </member>
         <member name="T:Printer.UniqueStrings">
             <summary>

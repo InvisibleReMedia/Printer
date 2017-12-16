@@ -1,13 +1,11 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Linq;
 using System.Xml;
 using System.Xml.Xsl;
-using System.Text.RegularExpressions;
+
 
 namespace Printer
 {
@@ -15,33 +13,38 @@ namespace Printer
     /// Printer class
     /// </summary>
     [Serializable]
-    public class PrinterObject : ICloneable
+    public class PrinterObject : PersistentDataObject, ICloneable
     {
         #region Fields
 
         /// <summary>
-        /// Current directory where objects resides
+        /// Index name for version
         /// </summary>
-        protected string currentDirectory;
+        protected static readonly string versionName = "version";
         /// <summary>
-        /// Data variable
+        /// Index name for revision
         /// </summary>
-        protected Dictionary<string, PrinterVariable> variables;
-
+        protected static readonly string revisionName = "revision";
         /// <summary>
-        /// List of data to prints
+        /// Index name for current directory
         /// </summary>
-        protected List<string> datas;
-
+        protected static readonly string currentDirectoryName = "currentDirectory";
         /// <summary>
-        /// Generates unique strings
+        /// Index name for variables
         /// </summary>
-        private UniqueStrings unique;
-
+        protected static readonly string variablesName = "variables";
         /// <summary>
-        /// Configuration object
+        /// Index name for data
         /// </summary>
-        protected Configuration config;
+        protected static readonly string dataName = "data";
+        /// <summary>
+        /// Index name for unique strings
+        /// </summary>
+        protected static readonly string uniqueName = "uniqueStrings";
+        /// <summary>
+        /// Index name for configuration
+        /// </summary>
+        protected static readonly string configurationName = "configuration";
 
         /// <summary>
         /// Size indent space char
@@ -59,6 +62,11 @@ namespace Printer
         /// </summary>
         public static readonly string PrinterDirectory = Path.Combine(PersonalDirectory, "Printer");
 
+        /// <summary>
+        /// Default output language
+        /// </summary>
+        public static readonly string DefaultOutputLanguage = "C#.NET";
+
         #endregion
 
         #region Constructors
@@ -66,8 +74,8 @@ namespace Printer
         /// <summary>
         /// Default constructor
         /// </summary>
-        public PrinterObject()
-            : this(Path.Combine(PrinterDirectory, "languages"))
+        protected PrinterObject()
+            : this(Path.Combine(PrinterDirectory, "languages", DefaultOutputLanguage), "1-0")
         {
         }
 
@@ -75,14 +83,17 @@ namespace Printer
         /// Constructor with currentDirectory setted
         /// </summary>
         /// <param name="cd">current directory</param>
-        public PrinterObject(string cd)
+        /// <param name="version">version</param>
+        protected PrinterObject(string cd, string version)
         {
             PrinterObject.InitializePersonalDirectory();
-            this.currentDirectory = cd;
-            this.variables = new Dictionary<string, PrinterVariable>();
-            this.datas = new List<string>();
-            this.unique = new UniqueStrings();
-            this.config = new Configuration();
+            this.Set(versionName, version);
+            this.Set(revisionName, 0);
+            this.Set(currentDirectoryName, cd);
+            this.Set(variablesName, new Dictionary<string, PrinterVariable>());
+            this.Set(dataName, new List<string>());
+            this.Set(uniqueName, new UniqueStrings());
+            this.Set(configurationName, new Configuration());
         }
 
         #endregion
@@ -90,35 +101,32 @@ namespace Printer
         #region Properties
 
         /// <summary>
-        /// Gets all values
+        /// Gets or sets the version
         /// </summary>
-        public IEnumerable<PrinterVariable> Values
-        {
-            get { return this.variables.Values; }
-        }
-
-        /// <summary>
-        /// Gets all data sequence
-        /// </summary>
-        public IEnumerable<string> Data
-        {
-            get { return this.datas; }
-        }
-
-        /// <summary>
-        /// Gets or sets the configuration object
-        /// </summary>
-        public Configuration Configuration
+        public string Version
         {
             get
             {
-                if (this.config == null) this.config = new Configuration();
-                return this.config;
+                return this.Get(versionName, "1-0");
             }
             set
             {
-                if (value != null)
-                    this.config = value;
+                this.Set(versionName, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the revision number
+        /// </summary>
+        public int Revision
+        {
+            get
+            {
+                return this.Get(revisionName, 0);
+            }
+            set
+            {
+                this.Set(revisionName, value);
             }
         }
 
@@ -129,12 +137,81 @@ namespace Printer
         {
             get
             {
-                return this.currentDirectory;
+                return this.Get(currentDirectoryName, "");
             }
             set
             {
-                this.currentDirectory = value;
+                this.Set(currentDirectoryName, value);
             }
+        }
+
+        /// <summary>
+        /// Gets all variables
+        /// </summary>
+        protected Dictionary<string, PrinterVariable> Variables
+        {
+            get
+            {
+                return this.Get(variablesName, new Dictionary<string, PrinterVariable>());
+            }
+        }
+
+        /// <summary>
+        /// Gets all data
+        /// </summary>
+        protected List<string> Strings
+        {
+            get
+            {
+                return this.Get(dataName, new List<string>());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets all unique
+        /// </summary>
+        protected UniqueStrings Unique
+        {
+            get
+            {
+                return this.Get(uniqueName, new UniqueStrings());
+            }
+            set
+            {
+                this.Set(uniqueName, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the configuration object
+        /// </summary>
+        public Configuration Configuration
+        {
+            get
+            {
+                return this.Get(configurationName, new Configuration());
+            }
+            set
+            {
+                if (value != null)
+                    this.Set(configurationName, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets all values
+        /// </summary>
+        public IEnumerable<PrinterVariable> Values
+        {
+            get { return this.Variables.Values; }
+        }
+
+        /// <summary>
+        /// Gets all data sequence
+        /// </summary>
+        public IEnumerable<string> Datas
+        {
+            get { return this.Strings; }
         }
 
         #endregion
@@ -194,7 +271,7 @@ namespace Printer
             DirectoryInfo di = new DirectoryInfo(PrinterObject.PersonalDirectory);
             if (di.Exists)
             {
-                DirectoryInfo diRootDir = new DirectoryInfo(Path.Combine(PrinterObject.PersonalDirectory, "Printer"));
+                DirectoryInfo diRootDir = new DirectoryInfo(PrinterObject.PrinterDirectory);
                 if (!diRootDir.Exists)
                 {
                     diRootDir.Create();
@@ -243,7 +320,7 @@ namespace Printer
         /// <returns>true if exist</returns>
         public bool ExistTestVariable(string key)
         {
-            return this.variables.ContainsKey(key);
+            return this.Variables.ContainsKey(key);
         }
 
         /// <summary>
@@ -253,16 +330,16 @@ namespace Printer
         /// <param name="val">string value</param>
         public void EditVariable(string key, string val)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables[key].Value = val;
+                this.Variables[key].Value = val;
             }
             else
             {
                 PrinterVariable p = new PrinterVariable();
                 p.Name = key;
                 p.Value = val;
-                this.variables.Add(key, p);
+                this.Variables.Add(key, p);
             }
         }
 
@@ -273,13 +350,13 @@ namespace Printer
         /// <param name="obj">object value</param>
         public void EditVariable(string key, PrinterVariable obj)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as PrinterVariable;
+                this.Variables[key] = obj.Clone() as PrinterVariable;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as PrinterVariable);
+                this.Variables.Add(key, obj.Clone() as PrinterVariable);
             }
         }
 
@@ -290,13 +367,13 @@ namespace Printer
         /// <param name="obj">object value</param>
         public void AddVariable(string key, PrinterVariable obj)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as PrinterVariable;
+                this.Variables[key] = obj.Clone() as PrinterVariable;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as PrinterVariable);
+                this.Variables.Add(key, obj.Clone() as PrinterVariable);
             }
         }
 
@@ -307,16 +384,16 @@ namespace Printer
         /// <param name="val">string value</param>
         public void AddVariable(string key, string val)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables[key].Value = val;
+                this.Variables[key].Value = val;
             }
             else
             {
                 PrinterVariable p = new PrinterVariable();
                 p.Name = key;
                 p.Value = val;
-                this.variables.Add(key, p);
+                this.Variables.Add(key, p);
             }
         }
 
@@ -326,9 +403,9 @@ namespace Printer
         /// <param name="key">key name</param>
         public void DeleteVariable(string key)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables.Remove(key);
+                this.Variables.Remove(key);
             }
         }
 
@@ -338,7 +415,7 @@ namespace Printer
         /// <param name="name">variable name</param>
         public void UseVariable(string name)
         {
-            this.datas.Add("[" + name + "]");
+            this.Strings.Add("[" + name + "]");
         }
 
         /// <summary>
@@ -348,7 +425,7 @@ namespace Printer
         /// <param name="name">variable name</param>
         public void UseChangeVariable(int index, string name)
         {
-            this.datas[index] = "[" + name + "]";
+            this.Strings[index] = "[" + name + "]";
         }
 
         /// <summary>
@@ -358,7 +435,7 @@ namespace Printer
         /// <param name="name">variable name</param>
         public void InsertUseVariableBefore(int index, string name)
         {
-            this.datas.Insert(index, "[" + name + "]");
+            this.Strings.Insert(index, "[" + name + "]");
         }
 
         /// <summary>
@@ -368,7 +445,7 @@ namespace Printer
         /// <param name="name">variable name</param>
         public void InsertUseVariableAfter(int index, string name)
         {
-            if (index + 1 < this.datas.Count)
+            if (index + 1 < this.Strings.Count)
                 this.InsertUseVariableBefore(index + 1, name);
             else
                 this.UseVariable(name);
@@ -382,14 +459,14 @@ namespace Printer
         {
             if (s.StartsWith("[") && s.EndsWith("]"))
             {
-                string name = this.unique.ComputeNewString();
+                string name = this.Unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
                 this.AddVariable(name, p);
-                this.datas.Add("[" + name + "]");
+                this.Strings.Add("[" + name + "]");
             }
             else
             {
-                this.datas.Add(s);
+                this.Strings.Add(s);
             }
         }
 
@@ -402,14 +479,14 @@ namespace Printer
         {
             if (s.StartsWith("[") && s.EndsWith("]"))
             {
-                string name = this.unique.ComputeNewString();
+                string name = this.Unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
                 this.AddVariable(name, p);
-                this.datas[index] = "[" + name + "]";
+                this.Strings[index] = "[" + name + "]";
             }
             else
             {
-                this.datas[index] = s;
+                this.Strings[index] = s;
             }
         }
 
@@ -422,14 +499,14 @@ namespace Printer
         {
             if (s.StartsWith("[") && s.EndsWith("]"))
             {
-                string name = this.unique.ComputeNewString();
+                string name = this.Unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
                 this.AddVariable(name, p);
-                this.datas.Insert(index, "[" + name + "]");
+                this.Strings.Insert(index, "[" + name + "]");
             }
             else
             {
-                this.datas.Insert(index, s);
+                this.Strings.Insert(index, s);
             }
         }
 
@@ -442,20 +519,20 @@ namespace Printer
         {
             if (s.StartsWith("[") && s.EndsWith("]"))
             {
-                string name = this.unique.ComputeNewString();
+                string name = this.Unique.ComputeNewString();
                 string p = s.Substring(1, s.Length - 2);
                 this.AddVariable(name, p);
-                if (index + 1 < this.datas.Count)
-                    this.datas.Insert(index + 1, "[" + name + "]");
+                if (index + 1 < this.Strings.Count)
+                    this.Strings.Insert(index + 1, "[" + name + "]");
                 else
-                    this.datas.Add("[" + name + "]");
+                    this.Strings.Add("[" + name + "]");
             }
             else
             {
-                if (index + 1 < this.datas.Count)
-                    this.datas.Insert(index + 1, s);
+                if (index + 1 < this.Strings.Count)
+                    this.Strings.Insert(index + 1, s);
                 else
-                    this.datas.Add(s);
+                    this.Strings.Add(s);
             }
         }
 
@@ -465,7 +542,7 @@ namespace Printer
         /// <param name="index">position</param>
         public void DeleteData(int index)
         {
-            this.datas.RemoveAt(index);
+            this.Strings.RemoveAt(index);
         }
 
         /// <summary>
@@ -477,13 +554,14 @@ namespace Printer
         /// <param name="config">configuration</param>
         public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config)
         {
-            foreach (string e in this.datas)
+            foreach (string e in this.Strings)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
                     r = config.Execute(r);
-                    this.variables[r].Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
+                    if (this.ExistTestVariable(r))
+                        this.Variables[r].Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
                 }
                 else
                 {
@@ -531,29 +609,13 @@ namespace Printer
         /// <returns>object</returns>
         public static PrinterObject Load(string fileName)
         {
-            PrinterObject po = null;
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                try
-                {
-                    po = bf.Deserialize(fs) as PrinterObject;
-                    if (String.IsNullOrEmpty(po.CurrentDirectory))
-                    {
-                        po.CurrentDirectory = Path.GetDirectoryName(fileName);
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                finally
-                {
-                    fs.Close();
-                }
-            }
+            PersistentDataObject po = null;
+            FileInfo fi = new FileInfo(fileName);
+            if (fi.Exists)
+                if (PersistentDataObject.Load(fi, out po))
+                    return po as PrinterObject;
 
-            return po;
+            return null;
         }
 
 
@@ -564,23 +626,9 @@ namespace Printer
         /// <param name="fileName">full path of fileName to save</param>
         public static void Save(PrinterObject obj, string fileName)
         {
-            using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                try
-                {
-                    obj.CurrentDirectory = Path.GetDirectoryName(fileName);
-                    bf.Serialize(fs, obj);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                finally
-                {
-                    fs.Close();
-                }
-            }
+            FileInfo fi = new FileInfo(fileName);
+            obj.CurrentDirectory = fi.DirectoryName;
+            PersistentDataObject.Save(fi, obj);
         }
 
         /// <summary>
@@ -631,7 +679,7 @@ namespace Printer
         /// <returns>a new name</returns>
         public string ComputeNewString()
         {
-            return this.unique.ComputeNewString();
+            return this.Unique.ComputeNewString();
         }
 
         /// <summary>
@@ -650,13 +698,13 @@ namespace Printer
                 xml.WriteStartElement("Program");
                 this.Configuration.ToString(xml);
                 xml.WriteStartElement("vars");
-                foreach (KeyValuePair<string, PrinterVariable> kv in this.variables)
+                foreach (KeyValuePair<string, PrinterVariable> kv in this.Variables)
                 {
                     kv.Value.ToString(xml);
                 }
                 xml.WriteEndElement();
                 xml.WriteStartElement("text");
-                foreach (string s in this.datas)
+                foreach (string s in this.Strings)
                 {
                     if (s.StartsWith("[") && s.EndsWith("]"))
                     {
@@ -708,16 +756,28 @@ namespace Printer
         public object Clone()
         {
             PrinterObject newPo = new PrinterObject();
-            foreach (string s in this.datas)
+            foreach (string s in this.Datas)
             {
-                newPo.datas.Add(s.Clone() as string);
+                newPo.Strings.Add(s.Clone() as string);
             }
-            newPo.unique = new UniqueStrings(this.unique.Counter);
+            newPo.Unique = new UniqueStrings(this.Unique.Counter);
             foreach (PrinterVariable pv in this.Values)
             {
-                newPo.variables.Add(pv.Name, pv.Clone() as PrinterVariable);
+                newPo.Variables.Add(pv.Name, pv.Clone() as PrinterVariable);
             }
             return newPo;
+        }
+
+        /// <summary>
+        /// Create
+        /// </summary>
+        /// <param name="pv">printer version</param>
+        /// <returns>printer object</returns>
+        public static PrinterObject Create(PrinterVersion pv)
+        {
+            PrinterObject po = new PrinterObject(Path.GetDirectoryName(pv.FullName), pv.LatestVersion);
+            PrinterObject.Save(po, pv.FullName);
+            return po;
         }
 
         #endregion

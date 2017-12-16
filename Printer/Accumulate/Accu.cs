@@ -106,9 +106,9 @@ namespace Accumulate
             for (int index = 0; index < po.Values.Count(); ++index)
             {
                 PrinterVariable pv = po.Values.ElementAt(index);
-                this.variables.Add(pv.Name, new AccuChild(pv));
+                this.Variables.Add(pv.Name, new AccuChild(pv));
             }
-            this.datas.AddRange(po.Data);
+            this.Strings.AddRange(po.Datas);
         }
 
         /// <summary>
@@ -118,13 +118,13 @@ namespace Accumulate
         /// <param name="obj">object value</param>
         public new void EditVariable(string key, PrinterVariable obj)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as AccuChild;
+                this.Variables[key] = obj.Clone() as AccuChild;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as AccuChild);
+                this.Variables.Add(key, obj.Clone() as AccuChild);
             }
         }
 
@@ -135,13 +135,13 @@ namespace Accumulate
         /// <param name="obj">object value</param>
         public new void AddVariable(string key, PrinterVariable obj)
         {
-            if (this.variables.ContainsKey(key))
+            if (this.Variables.ContainsKey(key))
             {
-                this.variables[key] = obj.Clone() as AccuChild;
+                this.Variables[key] = obj.Clone() as AccuChild;
             }
             else
             {
-                this.variables.Add(key, obj.Clone() as AccuChild);
+                this.Variables.Add(key, obj.Clone() as AccuChild);
             }
         }
 
@@ -154,13 +154,13 @@ namespace Accumulate
         /// <param name="config">configuration</param>
         public new void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config)
         {
-            foreach (string e in this.datas)
+            foreach (string e in this.Datas)
             {
                 if (e.StartsWith("[") && e.EndsWith("]"))
                 {
                     string r = e.Substring(1, e.Length - 2);
                     r = config.Execute(r);
-                    (this.variables[r] as AccuChild).Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
+                    (this.Variables[r] as AccuChild).Execute(w, ref indentValue, ref currentLine, config, this.CurrentDirectory);
                 }
                 else
                 {
@@ -204,9 +204,9 @@ namespace Accumulate
                 if (dict.ContainsKey(seq[0]))
                 {
                     Accu a = dict[seq[0]];
-                    if (a.variables.ContainsKey(seq[1]))
+                    if (a.Variables.ContainsKey(seq[1]))
                     {
-                        return AccuChild.RecursiveFindByName(a.variables[seq[1]] as AccuChild, 2, seq);
+                        return AccuChild.RecursiveFindByName(a.Variables[seq[1]] as AccuChild, 2, seq);
                     }
                     else
                     {

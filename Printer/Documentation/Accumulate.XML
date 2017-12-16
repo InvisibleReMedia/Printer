@@ -1,0 +1,545 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accumulate</name>
+    </assembly>
+    <members>
+        <member name="T:Accumulate.Accu">
+            <summary>
+            Accumulator : read a printer object
+            as an accumulator that's works as setted values
+            </summary>
+        </member>
+        <member name="F:Accumulate.Accu.typeName">
+            <summary>
+            Name of this accu type
+            </summary>
+        </member>
+        <member name="F:Accumulate.Accu.fileName">
+            <summary>
+            Name of the file
+            </summary>
+        </member>
+        <member name="M:Accumulate.Accu.#ctor(System.String,System.String)">
+            <summary>
+            Constructor from a printer object
+            </summary>
+            <param name="tn">type name of this accu</param>
+            <param name="fi">file name to load</param>
+        </member>
+        <member name="P:Accumulate.Accu.Result">
+            <summary>
+            Gives the result string
+            after setted values
+            </summary>
+        </member>
+        <member name="P:Accumulate.Accu.TypeName">
+            <summary>
+            Gets or sets the name of the type accu
+            </summary>
+        </member>
+        <member name="P:Accumulate.Accu.ValueOrFileName">
+            <summary>
+            Gets or sets the file name or its value
+            </summary>
+        </member>
+        <member name="M:Accumulate.Accu.Cast(Printer.PrinterObject)">
+            <summary>
+            Cast a printer object (base class)
+            to a Accu object
+            </summary>
+            <param name="po">printer object</param>
+        </member>
+        <member name="M:Accumulate.Accu.EditVariable(System.String,Printer.PrinterVariable)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Accumulate.Accu.AddVariable(System.String,Printer.PrinterVariable)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Accumulate.Accu.Execute(System.IO.TextWriter,System.Int32@,System.String@,Printer.Configuration)">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <param name="w">writer</param>
+            <param name="indentValue">space size</param>
+            <param name="currentLine">in-progress line add</param>
+            <param name="config">configuration</param>
+        </member>
+        <member name="M:Accumulate.Accu.RecursiveFindByName(System.Collections.Generic.Dictionary{System.String,Accumulate.Accu},System.Collections.Generic.Dictionary{System.String,Accumulate.Accu},System.String)">
+            <summary>
+            Find a child by its name
+            </summary>
+            <param name="types">accu types</param>
+            <param name="vars">accu variables</param>
+            <param name="name">structured multiple names separated by a dot</param>
+            <returns>element found</returns>
+        </member>
+        <member name="M:Accumulate.Accu.RecursiveFindByName(System.Collections.Generic.Dictionary{System.String,Accumulate.Accu},System.String)">
+            <summary>
+            Find a child by its name
+            </summary>
+            <param name="dict">accu sets</param>
+            <param name="name">structured multiple names separated by a dot</param>
+            <returns>element found</returns>
+        </member>
+        <member name="M:Accumulate.Accu.FindByName(System.Collections.Generic.Dictionary{System.String,Accumulate.Accu},System.String)">
+            <summary>
+            Find accu by its name
+            </summary>
+            <param name="dict">accu names</param>
+            <param name="name">name to find</param>
+            <returns>element found</returns>
+        </member>
+        <member name="M:Accumulate.Accu.ToString(System.Xml.XmlWriter)">
+            <summary>
+            Converts the source into a string representation
+            </summary>
+            <param name="xml">xml document</param>
+        </member>
+        <member name="M:Accumulate.Accu.ToString">
+            <summary>
+            Generates the source code
+            of this Accu
+            </summary>
+            <returns>the string representation</returns>
+        </member>
+        <member name="M:Accumulate.Accu.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>new object</returns>
+        </member>
+        <member name="T:Accumulate.AccuChild">
+            <summary>
+            Handles a variable as an accu child
+            </summary>
+        </member>
+        <member name="M:Accumulate.AccuChild.#ctor(Printer.PrinterVariable)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="pv">source</param>
+        </member>
+        <member name="M:Accumulate.AccuChild.Cast(Printer.PrinterVariable)">
+            <summary>
+            Cast a printer object (base class)
+            to a Accu object
+            </summary>
+            <param name="pv">printer variable</param>
+        </member>
+        <member name="M:Accumulate.AccuChild.Execute(System.Collections.Generic.Dictionary{System.String,Accumulate.Accu},Printer.Configuration,System.String)">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <param name="dict">gives all dictionaries of accu</param>
+            <param name="conf">configuration</param>
+            <param name="dir">directory</param>
+            <returns>output</returns>
+        </member>
+        <member name="M:Accumulate.AccuChild.FindByName(Accumulate.AccuChild,System.String)">
+            <summary>
+            Find a child by its name
+            </summary>
+            <param name="child">child accu</param>
+            <param name="name">name to find</param>
+            <returns>element found</returns>
+        </member>
+        <member name="M:Accumulate.AccuChild.RecursiveFindByName(Accumulate.AccuChild,System.Int32,System.String[])">
+            <summary>
+            Find a child by its name
+            </summary>
+            <param name="child">root accu</param>
+            <param name="index">index position</param>
+            <param name="seq">sequence name</param>
+            <returns>element found</returns>
+        </member>
+        <member name="M:Accumulate.AccuChild.RecursiveFindByName(Accumulate.Accu,System.Int32,System.String[])">
+            <summary>
+            Find a child by its name
+            </summary>
+            <param name="root">root accu</param>
+            <param name="index">index position</param>
+            <param name="seq">sequence name</param>
+            <returns>element found</returns>
+        </member>
+        <member name="T:Luigi.LuigiObject">
+            <summary>
+            Printer class
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.currentDirectory">
+            <summary>
+            Current directory where objects resides
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.variables">
+            <summary>
+            Data variable
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.copy">
+            <summary>
+            Elements of copying
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.datas">
+            <summary>
+            List of data to prints
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.unique">
+            <summary>
+            Generates unique strings
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.config">
+            <summary>
+            Configuration object
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.types">
+            <summary>
+            Types
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.IndentString">
+            <summary>
+            Size indent space char
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.PersonalDirectory">
+            <summary>
+            Current user directory
+            stores languages, sources, compiled and temp
+            </summary>
+        </member>
+        <member name="F:Luigi.LuigiObject.LuigiDirectory">
+            <summary>
+            Current program document directory
+            </summary>
+        </member>
+        <member name="M:Luigi.LuigiObject.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Luigi.LuigiObject.#ctor(System.String)">
+            <summary>
+            Constructor with currentDirectory setted
+            </summary>
+            <param name="cd">current directory</param>
+        </member>
+        <member name="P:Luigi.LuigiObject.Copy">
+            <summary>
+            Gets all copy ops
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiObject.Values">
+            <summary>
+            Gets all values
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiObject.Data">
+            <summary>
+            Gets all data sequence
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiObject.Configuration">
+            <summary>
+            Gets or sets the configuration object
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiObject.Types">
+            <summary>
+            Gets the list of types
+            </summary>
+        </member>
+        <member name="P:Luigi.LuigiObject.CurrentDirectory">
+            <summary>
+            Gets or sets the current directory
+            </summary>
+        </member>
+        <member name="M:Luigi.LuigiObject.IndentSource(System.IO.TextWriter,System.Int32,System.String@,System.String)">
+            <summary>
+            Indentation before each line
+            </summary>
+            <param name="sw">writer</param>
+            <param name="n">number of indentation</param>
+            <param name="source">string to write indented (can contains \r\n)</param>
+            <param name="add">add chars</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.CopyDirectory(System.IO.DirectoryInfo,System.String)">
+            <summary>
+            Copy an entire directory to an existing destination directory
+            </summary>
+            <param name="di">directory to copy</param>
+            <param name="destination">destination path</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.InitializePersonalDirectory">
+            <summary>
+            Initialize personal directory
+            </summary>
+        </member>
+        <member name="M:Luigi.LuigiObject.CreateInstanceFromType(System.String,System.String)">
+            <summary>
+            Create an instance from an accu type name
+            </summary>
+            <param name="varName">name of variable</param>
+            <param name="typeName">type of accu</param>
+            <returns>accu</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.ExistTestType(System.String)">
+            <summary>
+            Test if existing type
+            </summary>
+            <param name="key">key name</param>
+            <returns>true if exist</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.ExistTestVariable(System.String)">
+            <summary>
+            Test if existing variable
+            </summary>
+            <param name="key">key name</param>
+            <returns>true if exist</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.ExistTestCopy(System.String)">
+            <summary>
+            Test if existing variable and using arround it
+            </summary>
+            <param name="key">key name</param>
+            <returns>true if exist</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.EditVariable(System.String,System.String)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="val">string value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.EditType(System.String,System.String)">
+            <summary>
+            Edit a type
+            </summary>
+            <param name="key">key name</param>
+            <param name="fi">file name value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.EditVariable(System.String,Accumulate.Accu)">
+            <summary>
+            Edit a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.AddType(System.String,Accumulate.Accu)">
+            <summary>
+            Add a type
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.AddCopy(System.String,System.String,System.String,System.String)">
+            <summary>
+            Add a copy performance
+            </summary>
+            <param name="varName">variable name</param>
+            <param name="refObject">reference sequence object</param>
+            <param name="varRef">variable reference</param>
+            <param name="valObject">reference sequence val</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.AddType(System.String,System.String)">
+            <summary>
+            Add a type
+            </summary>
+            <param name="key">key name</param>
+            <param name="fi">file name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.AddVariable(System.String,Accumulate.Accu)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="obj">object value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.AddVariable(System.String,System.String)">
+            <summary>
+            Add a variable
+            </summary>
+            <param name="key">key name</param>
+            <param name="val">string value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.DeleteType(System.String)">
+            <summary>
+            Delete a type
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.DeleteVariable(System.String)">
+            <summary>
+            Delete a variable
+            </summary>
+            <param name="key">key name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.DeleteCopy(System.Int32)">
+            <summary>
+            Delete a copy line
+            </summary>
+            <param name="index">index position</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.DeleteCopy(System.String)">
+            <summary>
+            Delete a variable
+            </summary>
+            <param name="varName">variable name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.UseVariable(System.String)">
+            <summary>
+            Use a variable
+            </summary>
+            <param name="name">variable name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.UseChangeVariable(System.Int32,System.String)">
+            <summary>
+            Change the use of a variable
+            </summary>
+            <param name="index">position</param>
+            <param name="name">variable name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.InsertUseVariableBefore(System.Int32,System.String)">
+            <summary>
+            Insert the use of a variable before
+            </summary>
+            <param name="index">position</param>
+            <param name="name">variable name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.InsertUseVariableAfter(System.Int32,System.String)">
+            <summary>
+            Insert the use of a variable after
+            </summary>
+            <param name="index">position</param>
+            <param name="name">variable name</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.AddData(System.String)">
+            <summary>
+            Add data into list
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="M:Luigi.LuigiObject.EditData(System.Int32,System.String)">
+            <summary>
+            Edit data at index
+            </summary>
+            <param name="index">position</param>
+            <param name="s">change</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.InsertDataBefore(System.Int32,System.String)">
+            <summary>
+            Insert data at index before
+            </summary>
+            <param name="index">position</param>
+            <param name="s">value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.InsertDataAfter(System.Int32,System.String)">
+            <summary>
+            Insert data at index after
+            </summary>
+            <param name="index">position</param>
+            <param name="s">value</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.DeleteData(System.Int32)">
+            <summary>
+            Delete data at index
+            </summary>
+            <param name="index">position</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.Execute(System.IO.TextWriter,System.Int32@,System.String@,Printer.Configuration)">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <param name="w">writer</param>
+            <param name="indentValue">space size</param>
+            <param name="currentLine">in-progress line add</param>
+            <param name="conf">configuration data</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.Execute">
+            <summary>
+            Write output as interpretation result
+            </summary>
+            <returns>output</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.ImportConfiguration(Printer.Configuration)">
+            <summary>
+            Import a configuration values
+            </summary>
+            <param name="from">configuration values</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.ImportTypes(System.Collections.Generic.Dictionary{System.String,Accumulate.Accu})">
+            <summary>
+            Import types
+            </summary>
+            <param name="from">types</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.ImportCopy(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Import copying
+            </summary>
+            <param name="copy">copy list</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.Load(System.String)">
+            <summary>
+            Load a file from disk
+            </summary>
+            <param name="fileName">full path of fileName</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.Save(Luigi.LuigiObject,System.String)">
+            <summary>
+            Save a LuigiObject to disk
+            </summary>
+            <param name="obj">object to save</param>
+            <param name="fileName">full path of fileName to save</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.Load(System.IO.Stream)">
+            <summary>
+            Load a file from memory
+            You must close the stream after this method
+            </summary>
+            <param name="stream">stream buffer</param>
+            <returns>object</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.Save(Luigi.LuigiObject,System.IO.Stream)">
+            <summary>
+            Save a LuigiObject to memory
+            You must close the stream after this method
+            </summary>
+            <param name="obj">object to save</param>
+            <param name="stream">stream buffer</param>
+        </member>
+        <member name="M:Luigi.LuigiObject.ComputeNewString">
+            <summary>
+            Computes a new name 
+            </summary>
+            <returns>a new name</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.ToString">
+            <summary>
+            Generates the source code
+            of this PrinterObject
+            </summary>
+            <returns>the string representation</returns>
+        </member>
+        <member name="M:Luigi.LuigiObject.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>new object</returns>
+        </member>
+    </members>
+</doc>

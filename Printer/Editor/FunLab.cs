@@ -138,7 +138,7 @@ namespace Editor
         /// <param name="po">printer object</param>
         public static void New(ref PrinterObject po)
         {
-            po = new PrinterObject();
+            po = PrinterObject.Create(new PrinterVersion(po.CurrentDirectory, "new.prt"));
             alreadyOpen = false;
         }
 
@@ -561,7 +561,7 @@ namespace Editor
                 {
                     po.AddData(d.Controls["txtConst"].Text);
                 }
-                list.Items.Add(po.Data.Last());
+                list.Items.Add(po.Datas.Last());
                 list.Refresh();
                 hasModified = true;
                 return true;
@@ -580,7 +580,7 @@ namespace Editor
             if (list.SelectedIndices.Count == 1)
             {
                 int pos = list.SelectedIndices[0];
-                string s = po.Data.ElementAt(pos);
+                string s = po.Datas.ElementAt(pos);
                 Data d = new Data();
                 FillVars(d.Controls["vars"] as ListBox, po);
                 if (s.StartsWith("[") && s.EndsWith("]"))
@@ -605,7 +605,7 @@ namespace Editor
                     {
                         po.EditData(pos, d.Controls["txtConst"].Text);
                     }
-                    list.Items[pos] = po.Data.ElementAt(pos);
+                    list.Items[pos] = po.Datas.ElementAt(pos);
                     list.Refresh();
                     hasModified = true;
                     return true;
@@ -640,7 +640,7 @@ namespace Editor
                     {
                         po.InsertDataBefore(pos, d.Controls["txtConst"].Text);
                     }
-                    list.Items.Insert(pos, po.Data.ElementAt(pos));
+                    list.Items.Insert(pos, po.Datas.ElementAt(pos));
                     list.Refresh();
                     hasModified = true;
                     return true;
@@ -675,9 +675,9 @@ namespace Editor
                         po.InsertDataAfter(pos, d.Controls["txtConst"].Text);
                     }
                     if (pos + 1 < list.Items.Count)
-                        list.Items.Insert(pos + 1, po.Data.ElementAt(pos + 1));
+                        list.Items.Insert(pos + 1, po.Datas.ElementAt(pos + 1));
                     else
-                        list.Items.Add(po.Data.ElementAt(pos + 1));
+                        list.Items.Add(po.Datas.ElementAt(pos + 1));
                     list.Refresh();
                     hasModified = true;
                     return true;
@@ -719,7 +719,7 @@ namespace Editor
             for (int index = 0; index < list.SelectedIndices.Count; ++index)
             {
                 int pos = list.SelectedIndices[index];
-                string s = po.Data.ElementAt(pos);
+                string s = po.Datas.ElementAt(pos);
                 if (s.StartsWith("[") && s.EndsWith("]"))
                 {
                     po.UseVariable(s.Substring(1, s.Length - 2));
@@ -727,7 +727,7 @@ namespace Editor
                 {
                     po.AddData(s);
                 }
-                list.Items.Add(po.Data.Last());
+                list.Items.Add(po.Datas.Last());
                 hasModified = true;
                 atLeastOne = true;
             }
@@ -780,7 +780,7 @@ namespace Editor
         /// <param name="po">printer object</param>
         public static void FillData(ListBox list, PrinterObject po)
         {
-            foreach (string s in po.Data)
+            foreach (string s in po.Datas)
             {
                 if (s.StartsWith("[") && s.EndsWith("]"))
                 {
@@ -794,7 +794,7 @@ namespace Editor
                         list.Items.Add(s);
                 }
             }
-            if (po.Data.Count() > 0)
+            if (po.Datas.Count() > 0)
             {
                 list.SetSelected(0, true);
             }

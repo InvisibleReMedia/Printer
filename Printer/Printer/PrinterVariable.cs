@@ -14,31 +14,31 @@ namespace Printer
     /// A printer variable
     /// </summary>
     [Serializable]
-    public class PrinterVariable : ICloneable
+    public class PrinterVariable : PersistentDataObject, ICloneable
     {
 
         #region Fields
 
         /// <summary>
-        /// include switch
+        /// Index name for include switch
         /// </summary>
-        protected bool include;
+        protected static readonly string includeName = "include";
         /// <summary>
-        /// Indent switch
+        /// Index name for indent switch
         /// </summary>
-        protected bool shouldIndent;
+        protected static readonly string shouldIndentName = "shouldIndent";
         /// <summary>
-        /// Name of the variable
+        /// Index name for variable name
         /// </summary>
-        protected string name;
+        protected static readonly string nameName = "varName";
         /// <summary>
-        /// Value of the variable
+        /// Index name for value
         /// </summary>
-        protected string value;
+        protected static readonly string valueName = "value";
         /// <summary>
-        /// Included variables
+        /// Index name for included vars
         /// </summary>
-        protected Dictionary<string, PrinterVariable> includedVars;
+        protected static readonly string includedVarsName = "includedVars";
 
         #endregion
 
@@ -49,7 +49,11 @@ namespace Printer
         /// </summary>
         public PrinterVariable()
         {
-            this.includedVars = new Dictionary<string, PrinterVariable>();
+            this.Set(includeName, false);
+            this.Set(shouldIndentName, false);
+            this.Set(nameName, "");
+            this.Set(valueName, "");
+            this.Set(includedVarsName, new Dictionary<string, PrinterVariable>());
         }
 
         #endregion
@@ -61,8 +65,8 @@ namespace Printer
         /// </summary>
         public bool Indent
         {
-            get { return this.shouldIndent; }
-            set { this.shouldIndent = value; }
+            get { return this.Get(shouldIndentName, false); }
+            set { this.Set(shouldIndentName, value); }
         }
 
         /// <summary>
@@ -70,8 +74,8 @@ namespace Printer
         /// </summary>
         public bool Include
         {
-            get { return this.include; }
-            set { this.include = value; }
+            get { return this.Get(includeName, false); }
+            set { this.Set(includeName, value); }
         }
 
         /// <summary>
@@ -79,8 +83,8 @@ namespace Printer
         /// </summary>
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.Get(nameName, ""); }
+            set { this.Set(nameName, value); }
         }
 
         /// <summary>
@@ -88,8 +92,19 @@ namespace Printer
         /// </summary>
         public string Value
         {
-            get { return this.value; }
-            set { this.value = value; }
+            get { return this.Get(valueName, ""); }
+            set { this.Set(valueName, value); }
+        }
+
+        /// <summary>
+        /// Gets all included variables
+        /// </summary>
+        protected Dictionary<string, PrinterVariable> IncludedVariables
+        {
+            get
+            {
+                return this.Get(includedVarsName, new Dictionary<string, PrinterVariable>());
+            }
         }
 
         /// <summary>
@@ -97,7 +112,7 @@ namespace Printer
         /// </summary>
         public IEnumerable<PrinterVariable> Values
         {
-            get { return this.includedVars.Values; }
+            get { return this.IncludedVariables.Values; }
         }
 
         #endregion
@@ -111,7 +126,7 @@ namespace Printer
         /// <returns>true if exist</returns>
         public bool ExistTestVariable(string key)
         {
-            return this.includedVars.ContainsKey(key);
+            return this.IncludedVariables.ContainsKey(key);
         }
 
         /// <summary>
@@ -121,13 +136,13 @@ namespace Printer
         /// <param name="obj">object value</param>
         public void EditVariable(string key, PrinterVariable obj)
         {
-            if (this.includedVars.ContainsKey(key))
+            if (this.ExistTestVariable(key))
             {
-                this.includedVars[key] = obj;
+                this.IncludedVariables[key] = obj;
             }
             else
             {
-                this.includedVars.Add(key, obj);
+                this.IncludedVariables.Add(key, obj);
             }
         }
 
@@ -138,16 +153,16 @@ namespace Printer
         /// <param name="val">string value</param>
         public void EditVariable(string key, string val)
         {
-            if (this.includedVars.ContainsKey(key))
+            if (this.ExistTestVariable(key))
             {
-                this.includedVars[key].Value = val;
+                this.IncludedVariables[key].Value = val;
             }
             else
             {
                 PrinterVariable p = new PrinterVariable();
                 p.Name = key;
                 p.Value = val;
-                this.includedVars.Add(key, p);
+                this.IncludedVariables.Add(key, p);
             }
         }
 
@@ -158,13 +173,13 @@ namespace Printer
         /// <param name="obj">object value</param>
         public void AddVariable(string key, PrinterVariable obj)
         {
-            if (this.includedVars.ContainsKey(key))
+            if (this.ExistTestVariable(key))
             {
-                this.includedVars[key] = obj.Clone() as PrinterVariable;
+                this.IncludedVariables[key] = obj.Clone() as PrinterVariable;
             }
             else
             {
-                this.includedVars.Add(key, obj.Clone() as PrinterVariable);
+                this.IncludedVariables.Add(key, obj.Clone() as PrinterVariable);
             }
         }
 
@@ -175,16 +190,16 @@ namespace Printer
         /// <param name="val">string value</param>
         public void AddVariable(string key, string val)
         {
-            if (this.includedVars.ContainsKey(key))
+            if (this.ExistTestVariable(key))
             {
-                this.includedVars[key].Value = val;
+                this.IncludedVariables[key].Value = val;
             }
             else
             {
                 PrinterVariable p = new PrinterVariable();
                 p.Name = key;
                 p.Value = val;
-                this.includedVars.Add(key, p);
+                this.IncludedVariables.Add(key, p);
             }
         }
 
@@ -194,9 +209,9 @@ namespace Printer
         /// <param name="key">key name</param>
         public void DeleteVariable(string key)
         {
-            if (this.includedVars.ContainsKey(key))
+            if (this.ExistTestVariable(key))
             {
-                this.includedVars.Remove(key);
+                this.IncludedVariables.Remove(key);
             }
         }
 
@@ -210,10 +225,10 @@ namespace Printer
         /// <param name="dir">directory</param>
         public void Execute(TextWriter w, ref int indentValue, ref string currentLine, Configuration config, string dir)
         {
-            if (shouldIndent) ++indentValue;
-            if (include)
+            if (this.Indent) ++indentValue;
+            if (this.Include)
             {
-                string fileName = config.Execute(this.value);
+                string fileName = config.Execute(this.Value);
                 FileInfo fi = new FileInfo(Path.Combine(dir, fileName));
                 if (fi.Exists)
                 {
@@ -233,13 +248,13 @@ namespace Printer
             }
             else
             {
-                if (!String.IsNullOrEmpty(this.value))
+                if (!String.IsNullOrEmpty(this.Value))
                 {
-                    string val = config.Execute(this.value);
+                    string val = config.Execute(this.Value);
                     PrinterObject.IndentSource(w, indentValue, ref currentLine, val);
                 }
             }
-            if (shouldIndent) --indentValue;
+            if (this.Indent) --indentValue;
         }
 
         /// <summary>
@@ -270,11 +285,11 @@ namespace Printer
         public void ToString(XmlWriter xml)
         {
             xml.WriteStartElement("set");
-            xml.WriteAttributeString("name", this.name);
-            if (this.include)
+            xml.WriteAttributeString("name", this.Name);
+            if (this.Include)
             {
                 xml.WriteAttributeString("include", "true");
-                if (this.shouldIndent)
+                if (this.Indent)
                 {
                     xml.WriteAttributeString("indented", "true");
                 }
@@ -282,7 +297,7 @@ namespace Printer
                 {
                     xml.WriteAttributeString("non-indented", "true");
                 }
-                xml.WriteAttributeString("file", this.value);
+                xml.WriteAttributeString("file", this.Value);
                 xml.WriteStartElement("vars");
                 foreach (PrinterVariable pv in this.Values)
                 {
@@ -293,7 +308,7 @@ namespace Printer
             else
             {
                 xml.WriteAttributeString("include", "false");
-                if (this.shouldIndent)
+                if (this.Indent)
                 {
                     xml.WriteAttributeString("indented", "true");
                 }
@@ -301,9 +316,9 @@ namespace Printer
                 {
                     xml.WriteAttributeString("non-indented", "true");
                 }
-                if (!String.IsNullOrEmpty(this.value))
+                if (!String.IsNullOrEmpty(this.Value))
                 {
-                    string v = this.value.Replace(":", ":dbdot;");
+                    string v = this.Value.Replace(":", ":dbdot;");
                     v = v.Replace("\"", ":dbquot;");
                     xml.WriteString(v);
                 }
@@ -366,11 +381,11 @@ namespace Printer
             pv.Name = this.Name.Clone() as string;
             if (!String.IsNullOrEmpty(this.Value))
                 pv.Value = this.Value.Clone() as string;
-            pv.shouldIndent = this.shouldIndent;
-            pv.include = this.include;
+            pv.Indent = this.Indent;
+            pv.Include = this.Include;
             foreach (PrinterVariable subpv in this.Values)
             {
-                pv.includedVars.Add(subpv.Name, subpv.Clone() as PrinterVariable);
+                pv.IncludedVariables.Add(subpv.Name, subpv.Clone() as PrinterVariable);
             }
             return pv;
         }

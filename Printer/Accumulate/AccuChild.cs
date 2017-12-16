@@ -21,12 +21,13 @@ namespace Accumulate
         /// <summary>
         /// Default constructor
         /// </summary>
+        /// <param name="pv">source</param>
         public AccuChild(PrinterVariable pv)
         {
-            this.name = pv.Name;
-            this.include = pv.Include;
-            this.shouldIndent = pv.Indent;
-            this.value = pv.Value;
+            this.Name = pv.Name;
+            this.Include = pv.Include;
+            this.Indent = pv.Indent;
+            this.Value = pv.Value;
             this.Cast(pv);
         }
 
@@ -44,7 +45,7 @@ namespace Accumulate
             for (int index = 0; index < pv.Values.Count(); ++index)
             {
                 PrinterVariable sub = pv.Values.ElementAt(index);
-                this.includedVars.Add(sub.Name, new AccuChild(sub));
+                this.IncludedVariables.Add(sub.Name, new AccuChild(sub));
             }
         }
 
@@ -78,9 +79,9 @@ namespace Accumulate
         /// <returns>element found</returns>
         public static AccuChild FindByName(AccuChild child, string name)
         {
-            if (child.includedVars.ContainsKey(name))
+            if (child.IncludedVariables.ContainsKey(name))
             {
-                return child.includedVars[name] as AccuChild;
+                return child.IncludedVariables[name] as AccuChild;
             }
             else
             {
@@ -99,7 +100,7 @@ namespace Accumulate
         {
             if (index < seq.Length)
             {
-                AccuChild a = child.includedVars[seq[index]] as AccuChild;
+                AccuChild a = child.IncludedVariables[seq[index]] as AccuChild;
                 return AccuChild.RecursiveFindByName(a, index + 1, seq);
             }
             else

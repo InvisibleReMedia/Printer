@@ -550,6 +550,23 @@
             <param name="list">variable list</param>
             <param name="conf">configuration object</param>
         </member>
+        <member name="F:Editor.Open.components">
+            <summary>
+            Variable nécessaire au concepteur.
+            </summary>
+        </member>
+        <member name="M:Editor.Open.Dispose(System.Boolean)">
+            <summary>
+            Nettoyage des ressources utilisées.
+            </summary>
+            <param name="disposing">true si les ressources managées doivent être supprimées ; sinon, false.</param>
+        </member>
+        <member name="M:Editor.Open.InitializeComponent">
+            <summary>
+            Méthode requise pour la prise en charge du concepteur - ne modifiez pas
+            le contenu de cette méthode avec l'éditeur de code.
+            </summary>
+        </member>
         <member name="M:Editor.Program.Main">
             <summary>
             Point d'entrée principal de l'application.

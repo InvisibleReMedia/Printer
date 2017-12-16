@@ -23,7 +23,7 @@ namespace Printer
                 }
                 else
                 {
-                    po = new PrinterObject();
+                    po = PrinterObject.Create(new PrinterVersion(Path.GetDirectoryName(args[0]), Path.GetFileName(args[0])));
                     po.AddData(@"using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;

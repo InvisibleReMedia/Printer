@@ -485,6 +485,10 @@ namespace Luigi
                 this.copy.RemoveAt(index);
         }
 
+        /// <summary>
+        /// Delete a variable
+        /// </summary>
+        /// <param name="varName">variable name</param>
         public void DeleteCopy(string varName)
         {
             this.DeleteVariable(varName);
