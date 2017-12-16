@@ -19,7 +19,7 @@ namespace Editor
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-            Application.Run(new Open(System.IO.Path.Combine(Printer.PrinterObject.PrinterDirectory, "languages")));
+            Application.Run(new Editor());
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -67,7 +67,10 @@ namespace Printer
         {
             get
             {
-                return Path.Combine(this.path, this.fileName, this.LatestVersion, ".prt");
+                if (currentMajorVersion == 1 && currentMinorVersion == 0)
+                    return Path.Combine(this.path, String.Format("{0}.prt", this.fileName));
+                else
+                    return Path.Combine(this.path, String.Format("{0}-{1}.prt", this.fileName, this.LatestVersion));
             }
         }
 
@@ -78,7 +81,7 @@ namespace Printer
         {
             get
             {
-                return Path.Combine(this.fileName, this.LatestVersion, ".prt");
+                return Path.Combine(String.Format("{0}-{1}.prt", this.fileName, this.LatestVersion));
             }
         }
 
@@ -92,7 +95,7 @@ namespace Printer
                 if (currentMajorVersion == 1 && currentMinorVersion == 0)
                     return "";
                 else
-                    return String.Format("-{0}-{1}", this.currentMajorVersion, this.currentMinorVersion);
+                    return String.Format("{0}-{1}", this.currentMajorVersion, this.currentMinorVersion);
             }
         }
 
@@ -105,7 +108,7 @@ namespace Printer
             {
                 List<string> list = new List<string>();
                 DirectoryInfo di = new DirectoryInfo(this.path);
-                FileInfo first = new FileInfo(Path.Combine(di.FullName, this.fileName, ".prt"));
+                FileInfo first = new FileInfo(Path.Combine(di.FullName, this.fileName + ".prt"));
                 if (first.Exists)
                 {
                     list.Add("1-0");
@@ -207,11 +210,11 @@ namespace Printer
         {
             if (this.currentMinorVersion == 0 && this.currentMajorVersion == 1)
             {
-                PrinterObject.Save(po, Path.Combine(this.path, this.fileName, ".prt"));
+                PrinterObject.Save(po, Path.Combine(this.path, String.Format("{0}.prt", this.fileName)));
             }
             else
             {
-                PrinterObject.Save(po, Path.Combine(this.path, this.fileName, this.LatestVersion, ".prt"));
+                PrinterObject.Save(po, Path.Combine(this.path, String.Format("{0}-{1}.prt", this.fileName, this.LatestVersion)));
             }
             if (this.currentMinorVersion == 9)
             {

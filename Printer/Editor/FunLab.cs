@@ -49,17 +49,12 @@ namespace Editor
         /// <returns>true if loaded</returns>
         public static bool Load(ref string path, ref string fileName, ref PrinterObject po)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.AddExtension = false;
-            ofd.Filter = "Printer (*.prt)|*.prt";
-            ofd.DefaultExt = "prt";
-            ofd.InitialDirectory = path;
-            ofd.FileName = fileName;
-            DialogResult dr = ofd.ShowDialog();
+            Open op = new Open(path);
+            DialogResult dr = op.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                path = Path.GetDirectoryName(ofd.FileName);
-                fileName = Path.GetFileName(ofd.FileName);
+                path = Path.GetDirectoryName(op.FileName);
+                fileName = Path.GetFileName(op.FileName);
                 po = PrinterObject.Load(Path.Combine(path, fileName));
                 alreadyOpen = true;
                 return true;
@@ -138,7 +133,14 @@ namespace Editor
         /// <param name="po">printer object</param>
         public static void New(ref PrinterObject po)
         {
-            po = PrinterObject.Create(new PrinterVersion(po.CurrentDirectory, "new.prt"));
+            if (po != null)
+            {
+                po = PrinterObject.Create(new PrinterVersion(po.CurrentDirectory, "code.prt"));
+            }
+            else
+            {
+                po = PrinterObject.Create(new PrinterVersion(Path.Combine(PrinterObject.PrinterDirectory, "languages"), "code.prt"));
+            }
             alreadyOpen = false;
         }
 

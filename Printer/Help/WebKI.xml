@@ -4,7 +4,6 @@
     <HelpKINode Title="Accu Class" Url="html/b2938509-6624-0ab7-6dae-8b6f0b2b2e23.htm" />
     <HelpKINode Title="about Accu class" Url="html/b2938509-6624-0ab7-6dae-8b6f0b2b2e23.htm" />
     <HelpKINode Title="constructor" Url="html/ef1bf942-dd82-c442-9f99-9d9d07f8ff4c.htm" />
-    <HelpKINode Title="fields" Url="html/6ba9e871-1594-2dfa-b3fc-1d9c6752a1d5.htm" />
     <HelpKINode Title="methods" Url="html/89a5192e-42e8-a8fe-4d72-1a29fcf422d7.htm" />
     <HelpKINode Title="properties" Url="html/3819fb18-1f8e-2366-df29-747dd6945be6.htm" />
   </HelpKINode>
@@ -23,7 +22,6 @@
     <HelpKINode Title="AccuChild Class" Url="html/e7f1ead8-0244-e2d9-ab1c-67bf18ec7ab5.htm" />
     <HelpKINode Title="about AccuChild class" Url="html/e7f1ead8-0244-e2d9-ab1c-67bf18ec7ab5.htm" />
     <HelpKINode Title="constructor" Url="html/365cba63-8419-4784-905c-b542b7f00678.htm" />
-    <HelpKINode Title="fields" Url="html/30e7fbba-9aa2-0164-41f6-61410ea5bfab.htm" />
     <HelpKINode Title="methods" Url="html/a983d44a-ff13-de6a-9b19-2e3aa5528f17.htm" />
     <HelpKINode Title="properties" Url="html/458f86c9-2e74-0666-42ea-0368b3171ff4.htm" />
   </HelpKINode>
@@ -68,7 +66,6 @@
     <HelpKINode Title="methods" Url="html/ca8e5334-42d0-814d-13cd-5f64043bc33b.htm" />
     <HelpKINode Title="properties" Url="html/c073db04-0c98-24a6-628b-7f9aa1b9fe69.htm" />
   </HelpKINode>
-  <HelpKINode Title="config field" Url="html/9473ced6-e385-454b-d93d-8b926f3807f7.htm" />
   <HelpKINode Title="Config.Config constructor" Url="html/e02bd23d-34af-d6b3-288b-93e9704d1374.htm" />
   <HelpKINode Title="Config.Defines property" Url="html/b16125fb-adc9-9507-4330-81881fea2885.htm" />
   <HelpKINode Title="Config.Dispose method" Url="html/63a9dc42-c664-4a62-ae2c-5885bd2d6f80.htm" />
@@ -76,6 +73,7 @@
     <HelpKINode Title="Configuration Class" Url="html/2b219395-d0a0-8997-ea6e-caf1a285b0a2.htm" />
     <HelpKINode Title="about Configuration class" Url="html/2b219395-d0a0-8997-ea6e-caf1a285b0a2.htm" />
     <HelpKINode Title="constructor" Url="html/d6688fe6-7e6a-be9f-448f-f8421029bdaa.htm" />
+    <HelpKINode Title="fields" Url="html/fc785997-0356-e4be-4949-b35b39714a65.htm" />
     <HelpKINode Title="methods" Url="html/54f9c13a-8fb5-6028-d7e8-e419b1d54cb3.htm" />
     <HelpKINode Title="properties" Url="html/40c802bd-284f-08a7-1812-13b926eeacf1.htm" />
   </HelpKINode>
@@ -90,25 +88,31 @@
   <HelpKINode Title="Configuration.Delete method" Url="html/17d99356-d973-3009-7bd4-9da4d1c29a60.htm" />
   <HelpKINode Title="Configuration.Edit method" Url="html/1c51e993-d3bd-1e94-7fe5-bef2da1b39dd.htm" />
   <HelpKINode Title="Configuration.Execute method" Url="html/677ad50d-e6e6-c09b-04de-c4c64e895aef.htm" />
+  <HelpKINode Title="Configuration.ExistKey method" Url="html/af6fc439-e37f-1a5a-481b-ec2b43131271.htm" />
   <HelpKINode Title="Configuration.Find method" Url="html/ccbf4de8-a894-eae5-643b-03ea0672a554.htm" />
   <HelpKINode Title="Configuration.GetEnumerator method" Url="html/a75f699f-d171-b098-f071-4df4dde69ec2.htm" />
   <HelpKINode Title="Configuration.Item property" Url="html/b7de7e47-77d5-f65f-3634-597413579eae.htm" />
   <HelpKINode Title="Configuration.Load method" Url="html/b4fb171e-b875-92d2-187f-5fa2dbb50b3e.htm" />
   <HelpKINode Title="Configuration.Save method" Url="html/2a44e92e-0ecf-8d37-e441-a97b923f04e0.htm" />
   <HelpKINode Title="Configuration.ToString method" Url="html/fd3537a3-408b-2c3f-493f-02ba856c20d7.htm" />
+  <HelpKINode Title="Configuration.Values property" Url="html/c2d9c146-8f77-aa83-a91c-c979d3e0b63a.htm" />
+  <HelpKINode Title="Configuration.valuesName field" Url="html/50ed11c2-8969-212e-4316-d9ee6d7c11d8.htm" />
+  <HelpKINode Title="configurationName field" Url="html/1433870a-d1cf-1e78-f877-dc17fb6c38b6.htm" />
   <HelpKINode Title="copy field" Url="html/a6952a2b-04b3-1176-9511-255fb9725ef8.htm" />
   <HelpKINode Title="Copy property" Url="html/95697165-c717-1841-c009-bc6966957fc5.htm" />
   <HelpKINode Title="Count property" Url="html/f687f470-4b69-76ea-c3d2-f3d75ac97d04.htm" />
   <HelpKINode Title="Counter property" Url="html/7efa7498-e519-2642-f126-d857832778d1.htm" />
-  <HelpKINode Title="CreateInstanceFromType method" Url="html/c3d4887b-513d-8133-3c5e-ecec34a01242.htm" />
-  <HelpKINode Title="currentDirectory field">
-    <HelpKINode Title="LuigiObject.currentDirectory Field" Url="html/964a509b-087a-d666-4dd4-fadf53eb87b4.htm" />
-    <HelpKINode Title="PrinterObject.currentDirectory Field" Url="html/9b6e4e1f-23a7-022e-8c70-65c53e43776e.htm" />
+  <HelpKINode Title="Create method">
+    <HelpKINode Title="PrinterObject.Create Method " Url="html/85bb5f00-2545-621f-264a-81296bf734fe.htm" />
+    <HelpKINode Title="PrinterVersion.Create Method " Url="html/d1d1b63a-1aeb-1ccc-e7e3-44c7429d3b97.htm" />
   </HelpKINode>
+  <HelpKINode Title="CreateInstanceFromType method" Url="html/c3d4887b-513d-8133-3c5e-ecec34a01242.htm" />
+  <HelpKINode Title="currentDirectory field" Url="html/964a509b-087a-d666-4dd4-fadf53eb87b4.htm" />
   <HelpKINode Title="CurrentDirectory property">
     <HelpKINode Title="LuigiObject.CurrentDirectory Property " Url="html/6f487f6a-08bd-19b6-97c0-2fbab2d72edc.htm" />
     <HelpKINode Title="PrinterObject.CurrentDirectory Property " Url="html/911acdbe-b203-19ac-7b85-665c6b510fab.htm" />
   </HelpKINode>
+  <HelpKINode Title="currentDirectoryName field" Url="html/14ed5f45-e343-404f-5b3f-e4af67131873.htm" />
   <HelpKINode Title="Data class">
     <HelpKINode Title="Data Class" Url="html/8ab06d66-cde6-0ae2-52d5-3e6a6a644116.htm" />
     <HelpKINode Title="about Data class" Url="html/8ab06d66-cde6-0ae2-52d5-3e6a6a644116.htm" />
@@ -119,14 +123,14 @@
   </HelpKINode>
   <HelpKINode Title="Data property">
     <HelpKINode Title="LuigiObject.Data Property " Url="html/2dbfe63e-ad08-bd8e-8d25-ffb48d0f108b.htm" />
-    <HelpKINode Title="PrinterObject.Data Property " Url="html/0df11a73-9d09-a0a0-d84c-8641c6d6eeaa.htm" />
+    <HelpKINode Title="PersistentDataObject.Data Property " Url="html/4db3a084-2b93-f44c-1467-ad74168ac87b.htm" />
   </HelpKINode>
   <HelpKINode Title="Data.Data constructor" Url="html/1d4b9b4f-4efa-a4aa-5207-3dce8c786d4e.htm" />
   <HelpKINode Title="Data.Dispose method" Url="html/b23a9c77-2803-f899-8403-d147352e5651.htm" />
-  <HelpKINode Title="datas field">
-    <HelpKINode Title="LuigiObject.datas Field" Url="html/e9048148-6c5b-da8a-5b0a-c103dfb83734.htm" />
-    <HelpKINode Title="PrinterObject.datas Field" Url="html/3935bfe6-7226-616f-52c7-854d4f7cf1d6.htm" />
-  </HelpKINode>
+  <HelpKINode Title="dataName field" Url="html/4bb47a09-7003-f169-0e31-3b8cab485e0f.htm" />
+  <HelpKINode Title="datas field" Url="html/e9048148-6c5b-da8a-5b0a-c103dfb83734.htm" />
+  <HelpKINode Title="Datas property" Url="html/0c1a4008-fb7c-ac44-61b5-01495d7278d6.htm" />
+  <HelpKINode Title="DefaultOutputLanguage field" Url="html/a04baae2-3c01-39d9-da9a-898292e0332e.htm" />
   <HelpKINode Title="Defines property" Url="html/b16125fb-adc9-9507-4330-81881fea2885.htm" />
   <HelpKINode Title="Delete method" Url="html/17d99356-d973-3009-7bd4-9da4d1c29a60.htm" />
   <HelpKINode Title="DeleteCopy method" Url="html/662e36b9-f2cb-4bf2-554c-296d5049df90.htm" />
@@ -181,6 +185,8 @@
     <HelpKINode Title="PrinterObject.Execute Method " Url="html/676ed520-e25f-f127-3f71-04f91bee6cf2.htm" />
     <HelpKINode Title="PrinterVariable.Execute Method " Url="html/09193749-0e4b-2ad3-130b-b84e42759856.htm" />
   </HelpKINode>
+  <HelpKINode Title="ExistKey method" Url="html/af6fc439-e37f-1a5a-481b-ec2b43131271.htm" />
+  <HelpKINode Title="Exists method" Url="html/c916da8c-06e1-76da-79a1-1008ce9a0d35.htm" />
   <HelpKINode Title="ExistTestCopy method" Url="html/c3b1d46b-b1c3-59f8-cdca-395f28e62611.htm" />
   <HelpKINode Title="ExistTestType method" Url="html/20753f76-e90f-8d78-82a2-e1ebae0e089b.htm" />
   <HelpKINode Title="ExistTestVariable method">
@@ -188,11 +194,14 @@
     <HelpKINode Title="PrinterObject.ExistTestVariable Method " Url="html/3419ad0f-c52d-36f4-83be-dcc79024ea09.htm" />
     <HelpKINode Title="PrinterVariable.ExistTestVariable Method " Url="html/763ec9a6-5ff4-c278-cc48-adcdd4aebba9.htm" />
   </HelpKINode>
+  <HelpKINode Title="FileName property" Url="html/397ad9c5-68ec-0c55-0d07-8501f12ad9c3.htm" />
   <HelpKINode Title="Find method" Url="html/ccbf4de8-a894-eae5-643b-03ea0672a554.htm" />
   <HelpKINode Title="FindByName method">
     <HelpKINode Title="Accu.FindByName Method " Url="html/2dc51157-f1b3-b786-68fc-611e936a2c2b.htm" />
     <HelpKINode Title="AccuChild.FindByName Method " Url="html/da46168a-660d-dd92-dccb-cc6a89b03066.htm" />
   </HelpKINode>
+  <HelpKINode Title="FullName property" Url="html/8d4e043a-1362-53f5-a06b-bb3a562990b5.htm" />
+  <HelpKINode Title="Get method" Url="html/2b2f34a0-6a9e-ec64-9899-f35c877d0b33.htm" />
   <HelpKINode Title="GetEnumerator method" Url="html/a75f699f-d171-b098-f071-4df4dde69ec2.htm" />
   <HelpKINode Title="ImportConfiguration method">
     <HelpKINode Title="LuigiObject.ImportConfiguration Method " Url="html/d80904cc-b267-744a-28e3-4e82bf9aeb6a.htm" />
@@ -200,9 +209,10 @@
   </HelpKINode>
   <HelpKINode Title="ImportCopy method" Url="html/a3d78867-0732-3524-c561-dd35296b5429.htm" />
   <HelpKINode Title="ImportTypes method" Url="html/a9f88bdb-7250-13cd-7803-46b636ed0fa9.htm" />
-  <HelpKINode Title="include field" Url="html/fd902fc1-b29d-4fd6-c671-be03d192d4af.htm" />
   <HelpKINode Title="Include property" Url="html/3b7cfb67-4eca-c7aa-6815-e6a39df21cf1.htm" />
-  <HelpKINode Title="includedVars field" Url="html/0ef59b0c-16da-4bf8-f545-c434ddf860e8.htm" />
+  <HelpKINode Title="IncludedVariables property" Url="html/2f504a5d-51f5-e988-fa28-538fe032746f.htm" />
+  <HelpKINode Title="includedVarsName field" Url="html/38fc7197-49b4-bc44-b197-5bb629bbcc43.htm" />
+  <HelpKINode Title="includeName field" Url="html/650297d7-34ba-0642-b7eb-cd0de9adb58a.htm" />
   <HelpKINode Title="IncludePage property" Url="html/76666aab-2e33-bb76-5382-b0e74182a5fe.htm" />
   <HelpKINode Title="Indent property" Url="html/50f0119d-c698-b9d2-6225-e21a384c031e.htm" />
   <HelpKINode Title="IndentSource method">
@@ -231,10 +241,12 @@
   </HelpKINode>
   <HelpKINode Title="IsIndented property" Url="html/0208536a-99a9-9660-3828-8580dda50506.htm" />
   <HelpKINode Title="Item property" Url="html/b7de7e47-77d5-f65f-3634-597413579eae.htm" />
+  <HelpKINode Title="Keys property" Url="html/e3184400-1c24-c90e-65a9-fc772cbea24c.htm" />
   <HelpKINode Title="LatestVersion property" Url="html/358c7552-8db2-7553-31db-3c8618cc2591.htm" />
   <HelpKINode Title="Load method">
     <HelpKINode Title="Configuration.Load Method " Url="html/b4fb171e-b875-92d2-187f-5fa2dbb50b3e.htm" />
     <HelpKINode Title="LuigiObject.Load Method " Url="html/b82acba2-a219-aa63-d3dc-656224cec7d9.htm" />
+    <HelpKINode Title="PersistentDataObject.Load Method " Url="html/4382ba87-431c-1fc9-a729-d7c86eb62785.htm" />
     <HelpKINode Title="PrinterObject.Load Method " Url="html/53c7c255-3115-7ca8-88f8-82b322feccf2.htm" />
   </HelpKINode>
   <HelpKINode Title="Luigi namespace" Url="html/37dce568-6296-51ab-7158-9dc79bf80431.htm" />
@@ -294,14 +306,31 @@
   <HelpKINode Title="LuigiObject.UseVariable method" Url="html/6f41cd4e-698d-7b4a-3f57-d3aeaa28b3c3.htm" />
   <HelpKINode Title="LuigiObject.Values property" Url="html/e982fc27-fd81-8ad2-0f8d-541402207742.htm" />
   <HelpKINode Title="LuigiObject.variables field" Url="html/e184ffd4-78c2-add2-2b7a-22f2378957d1.htm" />
-  <HelpKINode Title="name field" Url="html/d5229f35-bf99-a44f-7289-4f5ab37a68a9.htm" />
   <HelpKINode Title="Name property" Url="html/223cf80b-c6b4-8cc8-57a5-7e1d3bf40705.htm" />
+  <HelpKINode Title="nameName field" Url="html/b6ba2548-4112-0e77-e1d0-2cff48fcc654.htm" />
+  <HelpKINode Title="PersistentDataObject class">
+    <HelpKINode Title="PersistentDataObject Class" Url="html/19c68ab5-258a-929d-0801-1038b6248af1.htm" />
+    <HelpKINode Title="about PersistentDataObject class" Url="html/19c68ab5-258a-929d-0801-1038b6248af1.htm" />
+    <HelpKINode Title="constructor" Url="html/2f2804ab-2162-d3de-1f20-dab041925255.htm" />
+    <HelpKINode Title="methods" Url="html/83821ed5-604d-cd6e-6309-8979d8155569.htm" />
+    <HelpKINode Title="properties" Url="html/0d1d351a-033b-b03c-19c0-35c49301da33.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PersistentDataObject.Data property" Url="html/4db3a084-2b93-f44c-1467-ad74168ac87b.htm" />
+  <HelpKINode Title="PersistentDataObject.Exists method" Url="html/c916da8c-06e1-76da-79a1-1008ce9a0d35.htm" />
+  <HelpKINode Title="PersistentDataObject.Get method" Url="html/2b2f34a0-6a9e-ec64-9899-f35c877d0b33.htm" />
+  <HelpKINode Title="PersistentDataObject.Keys property" Url="html/e3184400-1c24-c90e-65a9-fc772cbea24c.htm" />
+  <HelpKINode Title="PersistentDataObject.Load method" Url="html/4382ba87-431c-1fc9-a729-d7c86eb62785.htm" />
+  <HelpKINode Title="PersistentDataObject.PersistentDataObject constructor" Url="html/2f2804ab-2162-d3de-1f20-dab041925255.htm" />
+  <HelpKINode Title="PersistentDataObject.Remove method" Url="html/f7bba69d-d91e-25a4-bbe1-152f00912444.htm" />
+  <HelpKINode Title="PersistentDataObject.Save method" Url="html/fad49591-534e-e625-0c10-4f62d56c23fe.htm" />
+  <HelpKINode Title="PersistentDataObject.Set method" Url="html/1b379814-d277-5d47-bd0b-f8857d6ccaf5.htm" />
   <HelpKINode Title="PersonalDirectory field">
     <HelpKINode Title="LuigiObject.PersonalDirectory Field" Url="html/2824022d-aada-68b8-e644-56f025b87e0c.htm" />
     <HelpKINode Title="PrinterObject.PersonalDirectory Field" Url="html/ae32cd45-5eff-84eb-94b7-54beaac3fa2e.htm" />
   </HelpKINode>
   <HelpKINode Title="Printer namespace" Url="html/ea135551-7836-83a2-6b3e-77d55d97eae0.htm" />
   <HelpKINode Title="Printer.Configuration class" Url="html/2b219395-d0a0-8997-ea6e-caf1a285b0a2.htm" />
+  <HelpKINode Title="Printer.PersistentDataObject class" Url="html/19c68ab5-258a-929d-0801-1038b6248af1.htm" />
   <HelpKINode Title="Printer.PrinterObject class" Url="html/80224f45-44d7-a22d-ce40-3796ebd9e40a.htm" />
   <HelpKINode Title="Printer.PrinterVariable class" Url="html/0ea81efd-86cb-9b62-d7db-d3253d457579.htm" />
   <HelpKINode Title="Printer.PrinterVersion class" Url="html/a8550fd8-7e43-ef9f-8eff-9840b88bb16e.htm" />
@@ -319,12 +348,14 @@
   <HelpKINode Title="PrinterObject.AddVariable method" Url="html/1aea1909-7423-6bf8-7ff7-48237c663679.htm" />
   <HelpKINode Title="PrinterObject.Clone method" Url="html/a58f3cff-624e-1ae0-dea6-31477ff6197c.htm" />
   <HelpKINode Title="PrinterObject.ComputeNewString method" Url="html/2f367285-33a8-ee00-3dc9-eae00b4edfeb.htm" />
-  <HelpKINode Title="PrinterObject.config field" Url="html/9473ced6-e385-454b-d93d-8b926f3807f7.htm" />
   <HelpKINode Title="PrinterObject.Configuration property" Url="html/aff6215e-b35c-8a45-065e-57b4815090b8.htm" />
-  <HelpKINode Title="PrinterObject.currentDirectory field" Url="html/9b6e4e1f-23a7-022e-8c70-65c53e43776e.htm" />
+  <HelpKINode Title="PrinterObject.configurationName field" Url="html/1433870a-d1cf-1e78-f877-dc17fb6c38b6.htm" />
+  <HelpKINode Title="PrinterObject.Create method" Url="html/85bb5f00-2545-621f-264a-81296bf734fe.htm" />
   <HelpKINode Title="PrinterObject.CurrentDirectory property" Url="html/911acdbe-b203-19ac-7b85-665c6b510fab.htm" />
-  <HelpKINode Title="PrinterObject.Data property" Url="html/0df11a73-9d09-a0a0-d84c-8641c6d6eeaa.htm" />
-  <HelpKINode Title="PrinterObject.datas field" Url="html/3935bfe6-7226-616f-52c7-854d4f7cf1d6.htm" />
+  <HelpKINode Title="PrinterObject.currentDirectoryName field" Url="html/14ed5f45-e343-404f-5b3f-e4af67131873.htm" />
+  <HelpKINode Title="PrinterObject.dataName field" Url="html/4bb47a09-7003-f169-0e31-3b8cab485e0f.htm" />
+  <HelpKINode Title="PrinterObject.Datas property" Url="html/0c1a4008-fb7c-ac44-61b5-01495d7278d6.htm" />
+  <HelpKINode Title="PrinterObject.DefaultOutputLanguage field" Url="html/a04baae2-3c01-39d9-da9a-898292e0332e.htm" />
   <HelpKINode Title="PrinterObject.DeleteData method" Url="html/13aa0af2-b370-28fc-1eac-520b132f96ce.htm" />
   <HelpKINode Title="PrinterObject.DeleteVariable method" Url="html/0fd48bda-7818-06e4-b408-0813d55a69de.htm" />
   <HelpKINode Title="PrinterObject.EditData method" Url="html/ccb0d8ed-5a48-2205-c736-3a187e14d98f.htm" />
@@ -342,12 +373,20 @@
   <HelpKINode Title="PrinterObject.PersonalDirectory field" Url="html/ae32cd45-5eff-84eb-94b7-54beaac3fa2e.htm" />
   <HelpKINode Title="PrinterObject.PrinterDirectory field" Url="html/c450266f-5205-359e-e1af-504e8bafc7a8.htm" />
   <HelpKINode Title="PrinterObject.PrinterObject constructor" Url="html/f025b4bd-5af6-8dba-4034-a4b7c9e7a3c0.htm" />
+  <HelpKINode Title="PrinterObject.Revision property" Url="html/89e0dff8-ba74-8e23-6643-2cb63bbc40be.htm" />
+  <HelpKINode Title="PrinterObject.revisionName field" Url="html/21695692-b721-16e9-b8a9-e6133a32df03.htm" />
   <HelpKINode Title="PrinterObject.Save method" Url="html/c39c40f1-955b-66a3-be1c-9addcbd77005.htm" />
+  <HelpKINode Title="PrinterObject.Strings property" Url="html/b18294a5-4347-1d33-3aa3-e0dfa8de9a6e.htm" />
   <HelpKINode Title="PrinterObject.ToString method" Url="html/0c2f69f1-fd06-2090-0954-61507c4511a2.htm" />
+  <HelpKINode Title="PrinterObject.Unique property" Url="html/f92149a6-8ee9-fb35-5d3d-ee4da128e4dc.htm" />
+  <HelpKINode Title="PrinterObject.uniqueName field" Url="html/75d274ce-0ebd-52df-c7ef-d34906f3d9de.htm" />
   <HelpKINode Title="PrinterObject.UseChangeVariable method" Url="html/22df6a41-3efc-ea6e-885a-181453e12ca7.htm" />
   <HelpKINode Title="PrinterObject.UseVariable method" Url="html/822be4d4-b963-f408-a7fd-8831bd84ff6f.htm" />
   <HelpKINode Title="PrinterObject.Values property" Url="html/660820ea-95b0-a6f9-e9c5-aa14d65a7c6b.htm" />
-  <HelpKINode Title="PrinterObject.variables field" Url="html/b5763cf8-05fd-d35a-729c-d0dbe3790b93.htm" />
+  <HelpKINode Title="PrinterObject.Variables property" Url="html/ddb840e3-aee9-5440-6c7a-5fb8aa6d954b.htm" />
+  <HelpKINode Title="PrinterObject.variablesName field" Url="html/a606d4f7-b862-0f2f-133f-a566b19b006a.htm" />
+  <HelpKINode Title="PrinterObject.Version property" Url="html/1eb0e720-fcb3-65d8-5ed5-05e4afaab3d5.htm" />
+  <HelpKINode Title="PrinterObject.versionName field" Url="html/d01ead50-d895-3f73-bfa4-c5f995a18767.htm" />
   <HelpKINode Title="PrinterVariable class">
     <HelpKINode Title="PrinterVariable Class" Url="html/0ea81efd-86cb-9b62-d7db-d3253d457579.htm" />
     <HelpKINode Title="about PrinterVariable class" Url="html/0ea81efd-86cb-9b62-d7db-d3253d457579.htm" />
@@ -362,17 +401,18 @@
   <HelpKINode Title="PrinterVariable.EditVariable method" Url="html/7e87dfcb-f1a4-ea77-e4fc-2cc6a1fad612.htm" />
   <HelpKINode Title="PrinterVariable.Execute method" Url="html/09193749-0e4b-2ad3-130b-b84e42759856.htm" />
   <HelpKINode Title="PrinterVariable.ExistTestVariable method" Url="html/763ec9a6-5ff4-c278-cc48-adcdd4aebba9.htm" />
-  <HelpKINode Title="PrinterVariable.include field" Url="html/fd902fc1-b29d-4fd6-c671-be03d192d4af.htm" />
   <HelpKINode Title="PrinterVariable.Include property" Url="html/3b7cfb67-4eca-c7aa-6815-e6a39df21cf1.htm" />
-  <HelpKINode Title="PrinterVariable.includedVars field" Url="html/0ef59b0c-16da-4bf8-f545-c434ddf860e8.htm" />
+  <HelpKINode Title="PrinterVariable.IncludedVariables property" Url="html/2f504a5d-51f5-e988-fa28-538fe032746f.htm" />
+  <HelpKINode Title="PrinterVariable.includedVarsName field" Url="html/38fc7197-49b4-bc44-b197-5bb629bbcc43.htm" />
+  <HelpKINode Title="PrinterVariable.includeName field" Url="html/650297d7-34ba-0642-b7eb-cd0de9adb58a.htm" />
   <HelpKINode Title="PrinterVariable.Indent property" Url="html/50f0119d-c698-b9d2-6225-e21a384c031e.htm" />
-  <HelpKINode Title="PrinterVariable.name field" Url="html/d5229f35-bf99-a44f-7289-4f5ab37a68a9.htm" />
   <HelpKINode Title="PrinterVariable.Name property" Url="html/223cf80b-c6b4-8cc8-57a5-7e1d3bf40705.htm" />
+  <HelpKINode Title="PrinterVariable.nameName field" Url="html/b6ba2548-4112-0e77-e1d0-2cff48fcc654.htm" />
   <HelpKINode Title="PrinterVariable.PrinterVariable constructor" Url="html/8f7b9737-538c-050e-51ba-11cd4a41eb4c.htm" />
-  <HelpKINode Title="PrinterVariable.shouldIndent field" Url="html/8436609a-ecfd-de38-7cb3-dc97924011af.htm" />
+  <HelpKINode Title="PrinterVariable.shouldIndentName field" Url="html/2ae8071f-d391-4842-d2da-d60628643964.htm" />
   <HelpKINode Title="PrinterVariable.ToString method" Url="html/678d630f-46c6-3299-16ee-a01f9ab583bd.htm" />
-  <HelpKINode Title="PrinterVariable.value field" Url="html/67c84cdb-5c1e-fe5a-7783-f44bc879b74e.htm" />
   <HelpKINode Title="PrinterVariable.Value property" Url="html/cc97d04b-7224-8dd2-d56d-211acef514c6.htm" />
+  <HelpKINode Title="PrinterVariable.valueName field" Url="html/054311ef-a87c-454a-b20d-5ccb0884ad49.htm" />
   <HelpKINode Title="PrinterVariable.Values property" Url="html/aabb03bd-fd77-4ea7-e4cc-bd51fced02bf.htm" />
   <HelpKINode Title="PrinterVersion class">
     <HelpKINode Title="PrinterVersion Class" Url="html/a8550fd8-7e43-ef9f-8eff-9840b88bb16e.htm" />
@@ -382,6 +422,9 @@
     <HelpKINode Title="properties" Url="html/d95d0b79-d8c5-637a-be4a-41ce7a6f5204.htm" />
   </HelpKINode>
   <HelpKINode Title="PrinterVersion.AddVersion method" Url="html/42a28562-0e84-96d6-96a6-ee74990e4489.htm" />
+  <HelpKINode Title="PrinterVersion.Create method" Url="html/d1d1b63a-1aeb-1ccc-e7e3-44c7429d3b97.htm" />
+  <HelpKINode Title="PrinterVersion.FileName property" Url="html/397ad9c5-68ec-0c55-0d07-8501f12ad9c3.htm" />
+  <HelpKINode Title="PrinterVersion.FullName property" Url="html/8d4e043a-1362-53f5-a06b-bb3a562990b5.htm" />
   <HelpKINode Title="PrinterVersion.LatestVersion property" Url="html/358c7552-8db2-7553-31db-3c8618cc2591.htm" />
   <HelpKINode Title="PrinterVersion.PrinterVersion constructor" Url="html/2d48c6b1-44c1-a03c-6909-10b761f05ac5.htm" />
   <HelpKINode Title="PrinterVersion.Select method" Url="html/4e99504a-cb07-72b4-09f3-63afda380b76.htm" />
@@ -390,14 +433,20 @@
     <HelpKINode Title="Accu.RecursiveFindByName Method " Url="html/8f1f58c1-6ed0-fda0-a0dc-8814c6d93b1e.htm" />
     <HelpKINode Title="AccuChild.RecursiveFindByName Method " Url="html/9eaf488c-c28b-512a-9438-85174c39a423.htm" />
   </HelpKINode>
+  <HelpKINode Title="Remove method" Url="html/f7bba69d-d91e-25a4-bbe1-152f00912444.htm" />
   <HelpKINode Title="Result property" Url="html/bf68c86f-82e1-f982-09cb-1ad90b71ba5d.htm" />
+  <HelpKINode Title="Revision property" Url="html/89e0dff8-ba74-8e23-6643-2cb63bbc40be.htm" />
+  <HelpKINode Title="revisionName field" Url="html/21695692-b721-16e9-b8a9-e6133a32df03.htm" />
   <HelpKINode Title="Save method">
     <HelpKINode Title="Configuration.Save Method " Url="html/2a44e92e-0ecf-8d37-e441-a97b923f04e0.htm" />
     <HelpKINode Title="LuigiObject.Save Method " Url="html/8557c7a8-43c4-1407-3c49-cf0ce4931bd7.htm" />
+    <HelpKINode Title="PersistentDataObject.Save Method " Url="html/fad49591-534e-e625-0c10-4f62d56c23fe.htm" />
     <HelpKINode Title="PrinterObject.Save Method " Url="html/c39c40f1-955b-66a3-be1c-9addcbd77005.htm" />
   </HelpKINode>
   <HelpKINode Title="Select method" Url="html/4e99504a-cb07-72b4-09f3-63afda380b76.htm" />
-  <HelpKINode Title="shouldIndent field" Url="html/8436609a-ecfd-de38-7cb3-dc97924011af.htm" />
+  <HelpKINode Title="Set method" Url="html/1b379814-d277-5d47-bd0b-f8857d6ccaf5.htm" />
+  <HelpKINode Title="shouldIndentName field" Url="html/2ae8071f-d391-4842-d2da-d60628643964.htm" />
+  <HelpKINode Title="Strings property" Url="html/b18294a5-4347-1d33-3aa3-e0dfa8de9a6e.htm" />
   <HelpKINode Title="ToString method">
     <HelpKINode Title="Accu.ToString Method " Url="html/0600dd67-5c06-aa1b-c1e8-65e807ea47c4.htm" />
     <HelpKINode Title="Configuration.ToString Method " Url="html/fd3537a3-408b-2c3f-493f-02ba856c20d7.htm" />
@@ -408,6 +457,8 @@
   <HelpKINode Title="TypeName property" Url="html/f13bfde0-d7c1-b8af-4e8b-de2aaaf74ad5.htm" />
   <HelpKINode Title="types field" Url="html/e38dd00b-0552-b55b-642f-3d00982a0888.htm" />
   <HelpKINode Title="Types property" Url="html/aa472314-c908-08e2-9391-8a0ea6a8c1bf.htm" />
+  <HelpKINode Title="Unique property" Url="html/f92149a6-8ee9-fb35-5d3d-ee4da128e4dc.htm" />
+  <HelpKINode Title="uniqueName field" Url="html/75d274ce-0ebd-52df-c7ef-d34906f3d9de.htm" />
   <HelpKINode Title="UniqueStrings class">
     <HelpKINode Title="UniqueStrings Class" Url="html/0cf31328-3b7a-de72-6cd8-6700a55d1054.htm" />
     <HelpKINode Title="about UniqueStrings class" Url="html/0cf31328-3b7a-de72-6cd8-6700a55d1054.htm" />
@@ -426,15 +477,17 @@
     <HelpKINode Title="LuigiObject.UseVariable Method " Url="html/6f41cd4e-698d-7b4a-3f57-d3aeaa28b3c3.htm" />
     <HelpKINode Title="PrinterObject.UseVariable Method " Url="html/822be4d4-b963-f408-a7fd-8831bd84ff6f.htm" />
   </HelpKINode>
-  <HelpKINode Title="value field" Url="html/67c84cdb-5c1e-fe5a-7783-f44bc879b74e.htm" />
   <HelpKINode Title="Value property" Url="html/cc97d04b-7224-8dd2-d56d-211acef514c6.htm" />
+  <HelpKINode Title="valueName field" Url="html/054311ef-a87c-454a-b20d-5ccb0884ad49.htm" />
   <HelpKINode Title="ValueOrFileName property" Url="html/7d4e4254-955f-579b-fad7-d80a5483b987.htm" />
   <HelpKINode Title="ValuePage property" Url="html/89ef5325-15f3-418c-54a5-a86496ac5a89.htm" />
   <HelpKINode Title="Values property">
+    <HelpKINode Title="Configuration.Values Property " Url="html/c2d9c146-8f77-aa83-a91c-c979d3e0b63a.htm" />
     <HelpKINode Title="LuigiObject.Values Property " Url="html/e982fc27-fd81-8ad2-0f8d-541402207742.htm" />
     <HelpKINode Title="PrinterObject.Values Property " Url="html/660820ea-95b0-a6f9-e9c5-aa14d65a7c6b.htm" />
     <HelpKINode Title="PrinterVariable.Values Property " Url="html/aabb03bd-fd77-4ea7-e4cc-bd51fced02bf.htm" />
   </HelpKINode>
+  <HelpKINode Title="valuesName field" Url="html/50ed11c2-8969-212e-4316-d9ee6d7c11d8.htm" />
   <HelpKINode Title="Variable class">
     <HelpKINode Title="Variable Class" Url="html/7ee046a5-778f-2468-6622-83b7a47721fa.htm" />
     <HelpKINode Title="about Variable class" Url="html/7ee046a5-778f-2468-6622-83b7a47721fa.htm" />
@@ -448,9 +501,10 @@
   <HelpKINode Title="Variable.IsIndented property" Url="html/0208536a-99a9-9660-3828-8580dda50506.htm" />
   <HelpKINode Title="Variable.ValuePage property" Url="html/89ef5325-15f3-418c-54a5-a86496ac5a89.htm" />
   <HelpKINode Title="Variable.Variable constructor" Url="html/d3de1025-77da-b4a5-fba0-add46d7e6b2c.htm" />
-  <HelpKINode Title="variables field">
-    <HelpKINode Title="LuigiObject.variables Field" Url="html/e184ffd4-78c2-add2-2b7a-22f2378957d1.htm" />
-    <HelpKINode Title="PrinterObject.variables Field" Url="html/b5763cf8-05fd-d35a-729c-d0dbe3790b93.htm" />
-  </HelpKINode>
+  <HelpKINode Title="variables field" Url="html/e184ffd4-78c2-add2-2b7a-22f2378957d1.htm" />
+  <HelpKINode Title="Variables property" Url="html/ddb840e3-aee9-5440-6c7a-5fb8aa6d954b.htm" />
+  <HelpKINode Title="variablesName field" Url="html/a606d4f7-b862-0f2f-133f-a566b19b006a.htm" />
+  <HelpKINode Title="Version property" Url="html/1eb0e720-fcb3-65d8-5ed5-05e4afaab3d5.htm" />
+  <HelpKINode Title="versionName field" Url="html/d01ead50-d895-3f73-bfa4-c5f995a18767.htm" />
   <HelpKINode Title="Versions property" Url="html/38109bdb-76ce-1e46-6d85-f977fa47fc6e.htm" />
 </HelpKI>

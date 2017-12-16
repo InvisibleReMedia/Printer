@@ -59,7 +59,7 @@ namespace Editor
         {
             InitializeComponent();
             this.stored = new List<MemoryStream>();
-            this.path = PrinterObject.PrinterDirectory;
+            this.path = Path.Combine(PrinterObject.PrinterDirectory, "languages");
             this.fileName = "code.prt";
             this.confFileName = "code.confprt";
             this.appNewItem_Click(this, new EventArgs());
